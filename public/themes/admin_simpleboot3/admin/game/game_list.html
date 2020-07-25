@@ -1,0 +1,9 @@
+
+<label class="col-sm-2   col-lg-2 control-label" for="exampleInputEmail1"></label>
+<div class="col-sm-6 col-lg-4">
+    <select name="post[game_id]"  class="form-control">
+        <volist name="game_info" id="vv">
+            <option value="{$vv.id}" {$str|default=""}>「游戏ID、{$vv.id}」{$vv.title}</option>
+        </volist>
+    </select>
+</div>

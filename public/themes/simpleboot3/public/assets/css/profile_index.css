@@ -1,0 +1,49 @@
+a{
+    color: black;
+}
+.bar-nav {
+    background: red;
+}
+header .fanhui{
+    color: #fff;
+}
+header .title{
+    color: #fff;
+}
+
+/*主体*/
+/*头部*/
+.content .toubu{
+
+}
+.content .toubu .card{
+    height: 112px;
+}
+.content .toubu .yidenglu .card .yh_yangshi{
+    margin-left: 4.8rem !important;
+}
+.content .toubu .weidenglu .facebook-card .facebook-date {
+    margin-right: 3rem;
+    margin-left: 7.5rem;
+    margin-top: 2rem;
+}
+.content .toubu .weidenglu .facebook-card .facebook-date .button-danger.button-fill{
+    height: 35px;
+    line-height: 35px;
+    font-size: 0.78rem;
+}
+/*列表*/
+.content .liebiao .list-block{
+    margin: 0 0;
+}
+.content .liebiao .list-block ul li{
+    border-bottom: 1px solid #d2cfcf;
+}
+/*按钮*/
+.content .anniu .button-danger.button-fill {
+    color: #fff;
+    background-color: #f6383a;
+    height: 40px;
+    line-height: 40px;
+    font-size: 0.78rem;
+}

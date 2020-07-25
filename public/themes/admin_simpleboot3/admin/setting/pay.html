@@ -1,0 +1,111 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#A" data-toggle="tab">微信支付参数</a></li>
+        <li><a href="#B" data-toggle="tab">支付宝支付参数</a></li>
+    </ul>
+    <form class="form-horizontal js-ajax-form margin-top-20" role="form" action="{:url('setting/payPost')}"
+          method="post">
+        <fieldset>
+            <div class="tabbable">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="A">
+                        <div class="form-group">
+                            <label for="input-site-name" class="col-sm-2 control-label"><span
+                                    class="form-required">*</span>是否开启</label>
+                            <div class="col-md-6 col-sm-10">
+                                <div class="form-check form-check-inline">
+                                    <label class="form-check-label">
+                                        <input type="checkbox" class="form-check-input" name="wxpay[isopen]"  value="1" <in name="1" value="$wxisopen">checked</in> >微信支付
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="input-site-name" class="col-sm-2 control-label"><span
+                                    class="form-required">*</span>appid</label>
+                            <div class="col-md-6 col-sm-10">
+                                <input type="text" class="form-control" id="input-site_seo_title1"
+                                       name="wxpay[appid]" value="{$setting.wxpay.appid|default=''}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="input-site-name" class="col-sm-2 control-label"><span
+                                    class="form-required">*</span>mch_id</label>
+                            <div class="col-md-6 col-sm-10">
+                                <input type="text" class="form-control" id="input-site_seo_title2"
+                                       name="wxpay[mch_id]" value="{$setting.wxpay.mch_id|default=''}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="input-site-name" class="col-sm-2 control-label"><span
+                                    class="form-required">*</span>apikey</label>
+                            <div class="col-md-6 col-sm-10">
+                                <input type="text" class="form-control" id="input-site_seo_title3"
+                                       name="wxpay[apikey]" value="{$setting.wxpay.apikey|default=''}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-primary js-ajax-submit" data-refresh="1">
+                                    {:lang('SAVE')}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="B">
+                        <div class="form-group">
+                            <label for="input-site-name" class="col-sm-2 control-label"><span
+                                    class="form-required">*</span>是否开启</label>
+                            <div class="col-md-6 col-sm-10">
+                                <div class="form-check form-check-inline">
+                                    <label class="form-check-label">
+                                        <input type="checkbox" class="form-check-input" name="alipay[isopen]"  value="1" <in name="1" value="$alisopen">checked</in> >支付宝支付
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="input-site-name" class="col-sm-2 control-label"><span
+                                    class="form-required">*</span>appid</label>
+                            <div class="col-md-6 col-sm-10">
+                                <input type="text" class="form-control" id="input-site_seo_title4"
+                                       name="alipay[appid]" value="{$setting.alipay.appid|default=''}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="input-site-name" class="col-sm-2 control-label"><span
+                                    class="form-required">*</span>应用私钥</label>
+                            <div class="col-md-6 col-sm-10">
+                                <input id="file-1" type="hidden" name="alipay[rsa_private_key]" value="{$setting.alipay.rsa_private_key|default=''}">
+                                <input  id="file-1-name" class="form-control" type="text" name="file_name" title="文件名称" value="{$setting.alipay.rsa_private_key|default=''}">
+                                <a href="javascript:uploadOne('文件上传','#file-1','file');">上传</a>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="input-site-name" class="col-sm-2 control-label"><span
+                                    class="form-required">*</span>支付宝公钥</label>
+                            <div class="col-md-6 col-sm-10">
+                                <input id="file-2" type="hidden" name="alipay[rsa_public_key]" value="{$setting.alipay.rsa_public_key|default=''}">
+                                <input  id="file-2-name" type="text" class="form-control" name="file_name" title="文件名称" value="{$setting.alipay.rsa_public_key|default=''}">
+                                <a href="javascript:uploadOne('文件上传','#file-2','file');">上传</a>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-primary js-ajax-submit" data-refresh="0">
+                                    {:lang('SAVE')}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>
+<script type="text/javascript" src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

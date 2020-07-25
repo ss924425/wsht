@@ -1,0 +1,114 @@
+<include file="public@header"/>
+<link href="__TMPL__/public/assets/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="javascript:;">订单详情</a></li>
+        <li><a href="javascript:history.go(-1);">返回上一层</a></li>
+    </ul>
+    <!-- Tab panes -->
+    <div class="tab-content" style="margin-top:30px;border:1px solid #dddddd;padding:10px 2%;">
+        <div role="tabpanel" class="tab-pane active" id="home">
+            <div class="bg-success" style="padding:10px;margin:5px 0;">基本信息</div>
+            <div class="col-sm-6"><span>订单号：</span>{$order['order_sn']}</div>
+            <div class="col-sm-6"><span>订单状态：</span>
+                <switch name="order.state">
+                    <case value="-2">已关闭</case>
+                    <case value="-1">已取消</case>
+                    <case value="0">未付款</case>
+                    <case value="1">待发货</case>
+                    <case value="2">待收货</case>
+                    <case value="3">已完成</case>
+                </switch>
+            </div>
+            <div class="col-sm-6"><span>购买人ID：</span>[{$order['user_id']}]</div>
+            <div class="col-sm-6"><span>下单时间：</span>{$order['create_time']|date="Y-m-d H:i:s",###}</div>
+            <div class="col-sm-6"><span>付款时间：</span>{$order['paytime']|date="Y-m-d H:i:s",###}</div>
+            <if condition="$order.state gt 0 and $order.is_true eq 1">
+                <form action="" id="fahuokd">
+                    <input type="hidden" name="order_id" value="{$order.order_id}" id="order_id">
+                    <div class="col-sm-12"><span>发货单号：</span>
+                        <select id="AppOrderFahuokd" name="fahuokd">
+                            <option value="0">请选择快递公司</option>
+                            <volist name="express" id="vo">
+                                <option value="{$vo.no}" <eq name="order.fahuokdcode" value="$vo.no">selected</eq>>{$vo.com}</option>
+                            </volist>
+                        </select>
+                        <input type="text" name="fahuokdcode" id="serve_name" value="{$order['fahuokdcode']}" style=""
+                               placeholder="输入快递公司编号">
+                        <input type="text" name="fahuokdno" id="serve_id" value="{$order['fahuokdnum']}" style=""
+                               placeholder="输入订单号">
+                        <button type="button" class="btn btn-primary btn-sm" id="serve_sure" data-loading-text="请稍候...">
+                            确认物流信息
+                        </button>
+                    </div>
+                </form>
+            </if>
+            <div style="clear:both;"></div>
+            <div class="bg-success" style="padding:10px;margin:5px 0;">收货人信息</div>
+            <div class="col-sm-6"><span>姓名：</span>{$order['shouhuoren']}</div>
+            <div class="col-sm-6"><span>手机号：</span>{$order['shouhuomobile']}</div>
+            <div class="col-sm-6"><span>通讯地址：</span>{$order['shouhuoaddress']}</div>
+            <div style="clear:both;"></div>
+            <div class="bg-success" style="padding:10px;margin:5px 0;">商品信息</div>
+            <table class="table table-striped" style="font-size:14px;">
+                <th>商品ID</th>
+                <th>商品名称</th>
+                <th>缩略图</th>
+                <th>单价</th>
+                <th>数量</th>
+                <th>金额</th>
+                <th></th>
+                <volist name="order.items" id="v">
+                    <tr>
+                        <td>{$v.goodsid}</td>
+                        <td>{$v.name}<br>{$v.skuattr}</td>
+                        <td onclick="imagePreviewDialog('{:cmf_get_image_preview_url($v['thumbnail'])}')"><img src="{:cmf_get_image_preview_url($v['thumbnail'])}" width="30px"></td>
+                        <td>￥{$v.price}</td>
+                        <td>{$v.num}</td>
+                        <td>￥{$v.total}</td>
+                    </tr>
+                </volist>
+                <tr>
+                    <td style="color:red">订单总金额 ￥{$order.total_fee}</td>
+                </tr>
+                <tr>
+                    <td style="color:red">实际支付 ￥{$order.payprice}</td>
+                </tr>
+            </table>
+            <div class="bg-success" style="padding:10px;margin:5px 0;">操作信息</div>
+
+        </div>
+
+    </div>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+<script>
+    $('#serve_sure').click(function () {
+        var dtfhkd = $('#AppOrderFahuokd option:selected').text();
+        var data = {
+            order_id:$('#order_id').val(),
+            fahuokd:dtfhkd,
+            fahuokdcode:$('#AppOrderFahuokd').val(),
+            fahuokdnum: $('#serve_id').val()
+        }
+        $.ajax({
+            type: "post",
+            url: "{:url('shop/orderFhkdSave')}",
+            data: data,
+            dataType: "json",
+            async: false,
+            success: function (info) {
+                layer.msg(info['msg']);
+                return false;
+            },
+            error: function (xhr) {
+                layer.msg('通讯失败！请重试！');
+                return false;
+            }
+        });
+    })
+</script>
+</body>
+</html>

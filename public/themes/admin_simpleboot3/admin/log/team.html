@@ -1,0 +1,70 @@
+<include file="public@header" />
+</head>
+<body>
+<div class="wrap js-check-wrap">
+	<ul class="nav nav-tabs">
+		<li class="active"><a href="{:url('user/index')}">会员列表</a></li>
+	</ul>
+	<div class="main-content">
+
+		<div>
+			<!-- Nav tabs -->
+			<ul class="nav nav-tabs" role="tablist">
+				<li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">会员团队</a></li>
+				<li role="presentation"><a href="javascript:void(0);" onclick="history.go(-1);">返回上一页</a></li>
+			</ul>
+
+			<!-- Tab panes -->
+			<div class="tab-content">
+				<div role="tabpanel" class="tab-pane active" id="home">
+
+					<div class="alert alert-info" style="padding:5px 10px;margin:15px 0;line-height:30px;">会员团队人员显示
+
+					</div>
+					<div class="text-center" style="margin-top:10px;background:#f7f7f9;">
+						<empty name="user_info.avatar">
+							<img src="/upload/avatar/default.png" class="img-circle" style="border:1px solid #ccc" width="90px" height="90px">
+							<else/>
+							<img src="{:cmf_get_image_preview_url($user_info['avatar'])}" class="img-circle" style="border:1px solid #ccc" width="90px" height="90px">
+						</empty>
+					</div>
+					<div class="text-center" style="background:#f7f7f9;">{$user_info.mobile}团队</div>
+					<div class="text-center" style="color:#666;background:#f7f7f9;">
+						<div style="color:#666">会员ID：{$user_info.id}</div>
+						<div style="color:#666;font-size:12px;">会员级别：
+							{$user_info.user_type_name}
+						</div>
+						<div style="color:#777;font-size:22px;">团队总人数：{$team_num}</div>
+					</div>
+					<volist name="user_list" id="v" key='k'>
+						<div class="bg-danger" style="padding:10px;margin:5px 0;">{$k}级用户【<?php echo count($v); ?>个】</div>
+						<div style="background:#f7f7f9;padding:10px;border:1px solid #e1e1e8;">
+							<volist name="v" id="vv" empty="无">
+								<div class="col-sm-2 text-center" title="{$vv.mobile}">
+									<div>
+										<empty name="user_info.avatar">
+											<img src="/upload/avatar/default.png" class="img-circle" width="60px" height="60px" style="background:#ccc;">
+											<else/>
+											<img src="{:cmf_get_image_preview_url($vv['avatar'])}" class="img-circle" width="60px" height="60px" style="background:#ccc;">
+										</empty>
+									</div>
+									<div class="mobile" style="color:#666">{$vv.mobile}</div>
+									<div style="color:#666">会员ID：{$vv.id}</div>
+									<div style="color:#666;font-size:12px;">会员级别：
+										{$user_info.user_type_name}
+									</div>
+								</div>
+							</volist>
+							<div style="clear:both"></div>
+						</div>
+					</volist>
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

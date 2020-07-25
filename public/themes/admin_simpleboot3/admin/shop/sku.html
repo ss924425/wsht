@@ -1,0 +1,230 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#">当前SKU属性</a></li>
+        <li><a href="javascript:history.go(-1);">返回上一页</a></li>
+    </ul>
+    <form class="js-ajax-form" action="" method="post">
+        <div class="table-actions">
+            <button class="btn btn-primary btn-sm" type="button" id="App-skuattr-add">添加SKU属性</button>
+            <button class="btn btn-primary btn-sm" type="button" id="App-skuattr-save">保存所有SKU属性</button>
+            <button class="btn btn-primary btn-sm" type="button" id="App-skuattr-makesku">更新生成所有SKU</button>
+        </div>
+        <table class="table table-hover table-bordered table-list" id="App-table-skuattr">
+            <thead>
+            <tr>
+                <th width="200">属性名称</th>
+                <th>属性值</th>
+                <th width="90">操作</th>
+            </tr>
+            </thead>
+            <tbody id="App-sku-findback">
+            <volist name="skuinfo" id="vo">
+                <tr class="App-checktr" data-id='{$vo.attrid}' data-label='{$vo.attrlabel}'>
+                    <td>{$vo.attrlabel}</td>
+                    <td>
+                        <div class="checkbox" style="margin-bottom: 0px; margin-top: 0px;">
+                            <volist name="vo.allitems" id="vo2">
+                                <label>
+                                    <input type="checkbox" class="colored-blue App-check" <notempty name="vo2.checked">checked="checked"</notempty> value="{$vo2.path}" data-label="{$vo2.name}"/>
+                                    <span class="text">{$vo2.name}</span>
+                                </label>
+                            </volist>
+                        </div>
+                    </td>
+                    <td class="center ">
+                        <button class="App-skuattr-del btn btn-xs btn-darkorange">移除此属性</button>
+                    </td>
+                </tr>
+            </volist>
+            </tbody>
+        </table>
+        <ul class="pagination"></ul>
+    </form>
+</div>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="javascript:;">商品SKU：{$goods.good_name}</a></li>
+    </ul>
+    <form class="well form-inline margin-top-20" method="post" action="{:url('shop/sku')}">
+        关键字:
+        <input type="text" class="form-control" name="name" style="width: 200px;"
+               value="{$name|default=''}" placeholder="请输入关键字...">
+        <input type="submit" class="btn btn-primary" value="搜索"/>
+        <a class="btn btn-danger" href="{:url('shop/sku')}">清空</a>
+    </form>
+    <form class="js-ajax-form" action="" method="post">
+        <table class="table table-hover table-bordered table-list" id="App-table">
+            <thead>
+            <tr>
+                <th width="15">
+                    <label>
+                        <input type="checkbox" class="App-checkall js-check-all" data-direction="x" data-checklist="js-check-x">
+                    </label>
+                </th>
+                <th>ID</th>
+                <th>属性名称</th>
+                <th>属性值</th>
+                <th>价格</th>
+                <th>会员价格</th>
+                <th>库存</th>
+                <th>销量</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <volist name="cache" id="vo">
+                <tr id="item{$vo.id}">
+                    <td>
+                        <input type="checkbox" class="js-check App-check" data-yid="js-check-y" data-xid="js-check-x" name="ids[]"
+                               value="{$vo.id}" title="ID:{$vo.id}">
+                    </td>
+                    <td class="">{$vo.id}</td>
+                    <td class=" ">{$vo.sku}</td>
+                    <td class=" ">{$vo.skuattr}</td>
+                    <td class=" ">{$vo.price}</td>
+                    <td class=" ">{$vo.vprice}</td>
+                    <td class=" ">{$vo.num}</td>
+                    <td class=" ">{$vo.sells}</td>
+                    <td class="center "><a href="{:url('Admin/Shop/skuSet',array('id'=>$vo['id']))}" class="btn btn-success btn-xs"><i class="fa fa-edit"></i> 编辑</a></td>
+                </tr>
+            </volist>
+            </tbody>
+        </table>
+        <ul class="pagination">{$page|default=''}</ul>
+    </form>
+</div>
+<a id="App-reloader" href="#" class="hidden">JOELRELOADER</a>
+<script src="__STATIC__/js/admin.js"></script>
+<script src="__TMPL__/public/assets/js/bootbox/bootbox.js"></script>
+<!--商品SKU初始化特效-->
+<script type="text/javascript">
+    var goodsid = "{$goodsid}";
+    var AppLoaderReloader = $('#App-reloader');
+    function initShopSku() {
+        //初始化
+        //全选
+        var checkall = $('#App-table-skuattr .App-checktr');
+        $(checkall).on('click', function () {
+            if ($(this).is(":checked")) {
+                $(checks).prop("checked", "checked");
+            } else {
+                $(checks).removeAttr("checked");
+            }
+        });
+        $('.App-skuattr-del').on('click', function () {
+            $(this).parent().parent("tr").remove();
+        });
+
+    }
+
+    //新增
+    $('#App-skuattr-add').on('click', function () {
+        var trs = $('#App-table-skuattr .App-checktr');
+        var fbid = "App-sku-findback";
+        var ids = "";
+        $(trs).each(function () {
+            var id = $(this).data('id');
+            ids = ids + id + ',';
+        });
+        appSkuloader(ids, fbid);
+        //return false;
+    });
+    //保存
+    $('#App-skuattr-save').on('click', function () {
+        var trs = $('#App-table-skuattr .App-checktr');
+        var data = "";
+        $(trs).each(function () {
+            var id = $(this).data('id');
+            var label = $(this).data('label');
+            var str = '';
+            var checks = $(this).find('.App-check');
+            $(checks).each(function () {
+                if ($(this).is(":checked")) {
+                    str = str + $(this).val() + ":" + $(this).data('label') + ',';
+                }
+            });
+            data = data + id + ":" + label + "-" + str + ";";
+        });
+        var toajax = "{:url('shop/skuattrSave')}";
+        var callok = function (res) {
+            layer.msg(res.msg,function () {
+                $(AppLoaderReloader).trigger('click');
+                return false;
+            })
+        };
+        var callerr = function () {
+            //拦截错误
+            return false;
+        };
+        $.ajax({
+            type:'POST',
+            dataType: 'json',
+            url:toajax,
+            data:{data: data,id:goodsid},
+            success:callok,
+            error:callerr()
+        })
+    });
+
+    //生成SKU
+    $('#App-skuattr-makesku').on('click', function () {
+        var toajax = "{:url('Admin/Shop/skuattrMake')}";
+        var callok = function (res) {
+            layer.msg(res.msg,function () {
+                $(AppLoaderReloader).trigger('click');
+                return false;
+            })
+        };
+        var callerr = function () {
+            //拦截错误
+            return false;
+        };
+        $.ajax({
+            type:'POST',
+            dataType: 'json',
+            url:toajax,
+            data:{id:goodsid},
+            success:callok,
+            error:callerr()
+        })
+    });
+    initShopSku();
+
+    function appSkuloader(ids, fbid) {
+        //ids  已选择的属性
+        //fbid 查找带回的文本框ID,全局唯一
+        $.ajax({
+            type: "post",
+            url: "{:url('Admin/Shop/skuLoader')}",
+            data: {
+                'ids': ids,
+                'fbid': fbid
+            },
+            dataType: "text",
+            //beforeSend:$.App.loading(),
+            success: function(mb) {
+                bootbox.dialog({
+                    message: mb,
+                    title: "商品Sku管理器",
+                    className: "modal-darkorange",
+                    buttons: {
+                        "取消": {
+                            className: "btn-danger",
+                            callback: function() {}
+                        }
+                    }
+                });
+            },
+            error: function(xhr) {
+                layer.msg('通讯失败！请重试！');
+            }
+        });
+        return false;
+    }
+</script>
+<!--/全选特效封装-->
+</body>
+</html>

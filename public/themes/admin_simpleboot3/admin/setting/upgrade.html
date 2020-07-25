@@ -1,0 +1,83 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:url('setting/upgrade')}">升级参数设置</a></li>
+    </ul>
+    <form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('setting/upgradePost')}">
+        <input type="hidden" name="fenxiao_level" value="2">
+        <div class="form-group">
+            <label for="input-from_name" class="col-sm-2 control-label">
+                <span class="form-required">*</span>
+                VIP费用
+            </label>
+            <div class="col-md-6 col-sm-10">
+                <input type="text" class="form-control" name="upgrade_price"
+                       value="{$upgrade_setting.upgrade_price|default=''}">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="input-from_name" class="col-sm-2 control-label">
+                <span class="form-required">*</span>
+                VIP权益说明
+            </label>
+            <div class="col-md-6 col-sm-10">
+                <script type="text/plain" id="content" name="vip_desc">
+                    {$upgrade_setting.vip_desc|htmlspecialchars_decode|default=''}
+                </script>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-from_name" class="col-sm-2 control-label">
+                <span class="form-required">*</span>
+                信誉积分说明
+            </label>
+            <div class="col-md-6 col-sm-10">
+                <script type="text/plain" id="content2" name="credit_score_desc">
+                    {$upgrade_setting.credit_score_desc|htmlspecialchars_decode|default=''}
+
+                </script>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('SAVE')}</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<script src="__STATIC__/js/admin.js"></script>
+<script type="text/javascript">
+    //编辑器路径定义
+    var editorURL = GV.WEB_ROOT;
+</script>
+<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+
+
+        editorcontent1 = new baidu.editor.ui.Editor();
+        editorcontent1.render('content');
+        editorcontent2 = new baidu.editor.ui.Editor();
+        editorcontent2.render('content2');
+        try {
+            editorcontent1.sync();
+            editorcontent2.sync();
+        } catch (err) {
+        }
+
+
+        $('.btn-cancel-thumbnail').click(function () {
+            $('#thumbnail-preview').attr('src', '__TMPL__/public/assets/images/default-thumbnail.png');
+            $('#thumbnail').val('');
+        });
+
+    });
+</script>
+</body>
+</html>

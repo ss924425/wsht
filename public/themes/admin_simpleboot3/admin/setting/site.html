@@ -1,0 +1,164 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#A" data-toggle="tab">{:lang('WEB_SITE_INFOS')}</a></li>
+    </ul>
+    <form class="form-horizontal js-ajax-form margin-top-20" role="form" action="{:url('setting/sitePost')}"
+          method="post">
+        <fieldset>
+            <div class="tabbable">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="A">
+                        <div class="form-group">
+                            <label for="input-site-name" class="col-sm-2 control-label"><span
+                                    class="form-required">*</span>{:lang('WEBSITE_NAME')}</label>
+                            <div class="col-md-6 col-sm-10">
+                                <input type="text" class="form-control" id="input-site-name" name="options[site_name]"
+                                       value="{$site_info.site_name|default=''}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="input-site-name" class="col-sm-2 control-label"><span
+                                    class="form-required">*</span>下载地址</label>
+                            <div class="col-md-6 col-sm-10">
+                                <input type="text" class="form-control"  name="options[site_link]"
+                                       value="{$site_info.site_link}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="input-site-name" class="col-sm-2 control-label"><span
+                                    class="form-required">*</span>官方邮箱</label>
+                            <div class="col-md-6 col-sm-10">
+                                <input type="text" class="form-control"  name="options[site_admin_email]"
+                                       value="{$site_info.site_admin_email}">
+                            </div>
+                        </div>
+                        <!--<div class="form-group">-->
+                            <!--<label for="input-site-name" class="col-sm-2 control-label"><span-->
+                                    <!--class="form-required">*</span>默认头像</label>-->
+                            <!--<div class="col-md-6 col-sm-10">-->
+                                <!--<input type="hidden" name="options[dhead]" id="thumbnail"-->
+                                       <!--value="{$site_info.dhead|default=''}">-->
+                                <!--<a href="javascript:uploadOneImage('图片上传','#thumbnail');">-->
+                                    <!--<if condition="empty($site_info.dhead)">-->
+                                        <!--<img src="__TMPL__/public/assets/images/default-thumbnail.png"-->
+                                             <!--id="thumbnail-preview"-->
+                                             <!--width="135" style="cursor: pointer"/>-->
+                                        <!--<else/>-->
+                                        <!--<img src="{:cmf_get_image_preview_url($site_info.dhead)}"-->
+                                             <!--id="thumbnail-preview"-->
+                                             <!--width="135" style="cursor: pointer"/>-->
+                                    <!--</if>-->
+                                <!--</a>-->
+                                <!--<input type="button" class="btn btn-sm btn-cancel-thumbnail" value="取消图片">-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="form-group">-->
+                            <!--<label for="input-site-name" class="col-sm-2 control-label"><span-->
+                                    <!--class="form-required">*</span>客服二维码</label>-->
+                            <!--<div class="col-md-6 col-sm-10">-->
+                                <!--<input type="hidden" name="options[kefucode]" id="thumbnail1"-->
+                                       <!--value="{$site_info.kefucode|default=''}">-->
+                                <!--<a href="javascript:uploadOneImage('图片上传','#thumbnail1');">-->
+                                    <!--<if condition="empty($site_info.kefucode)">-->
+                                        <!--<img src="__TMPL__/public/assets/images/default-thumbnail.png"-->
+                                             <!--id="thumbnail1-preview"-->
+                                             <!--width="135" style="cursor: pointer"/>-->
+                                        <!--<else/>-->
+                                        <!--<img src="{:cmf_get_image_preview_url($site_info.kefucode)}"-->
+                                             <!--id="thumbnail1-preview"-->
+                                             <!--width="135" style="cursor: pointer"/>-->
+                                    <!--</if>-->
+                                <!--</a>-->
+                                <!--<input type="button" class="btn btn-sm btn-cancel-thumbnail1" value="取消图片">-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="form-group">-->
+                            <!--<label for="input-site-name" class="col-sm-2 control-label"><span-->
+                                    <!--class="form-required">*</span>QQ群二维码</label>-->
+                            <!--<div class="col-md-6 col-sm-10">-->
+                                <!--<input type="hidden" name="options[qqcode]" id="thumbnail2"-->
+                                       <!--value="{$site_info.qqcode|default=''}">-->
+                                <!--<a href="javascript:uploadOneImage('图片上传','#thumbnail2');">-->
+                                    <!--<if condition="empty($site_info.qqcode)">-->
+                                        <!--<img src="__TMPL__/public/assets/images/default-thumbnail.png"-->
+                                                 <!--id="thumbnail2-preview"-->
+                                             <!--width="135" style="cursor: pointer"/>-->
+                                        <!--<else/>-->
+                                        <!--<img src="{:cmf_get_image_preview_url($site_info.qqcode)}"-->
+                                             <!--id="thumbnail2-preview"-->
+                                             <!--width="135" style="cursor: pointer"/>-->
+                                    <!--</if>-->
+                                <!--</a>-->
+                                <!--<input type="button" class="btn btn-sm btn-cancel-thumbnail2" value="取消图片">-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <div class="form-group">
+                            <label for="input-site-name" class="col-sm-2 control-label"><span
+                                    class="form-required">*</span>联系客服:</label>
+                            <div class="col-md-6 col-sm-10">
+                                <script type="text/plain" id="content" name="options[site_kefu]">{$site_info.site_kefu|htmlspecialchars_decode|default=''}</script>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="input-site-name" class="col-sm-2 control-label"><span
+                                    class="form-required">*</span>推荐二维码说明:</label>
+                            <div class="col-md-6 col-sm-10">
+                                <script type="text/plain" id="content1" name="options[qrcode_info]">{$site_info.qrcode_info|htmlspecialchars_decode|default=''}</script>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-primary js-ajax-submit" data-refresh="1">
+                                    {:lang('SAVE')}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+
+</div>
+<script type="text/javascript" src="__STATIC__/js/admin.js"></script>
+<script type="text/javascript">
+    //编辑器路径定义
+    var editorURL = GV.WEB_ROOT;
+</script>
+<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        editorcontent1 = new baidu.editor.ui.Editor();
+        editorcontent1.render('content');
+        editorcontent2 = new baidu.editor.ui.Editor();
+        editorcontent2.render('content1');
+        try {
+            editorcontent1.sync();
+            editorcontent2.sync();
+        } catch (err) {
+        }
+    });
+</script>
+<script type="text/javascript">
+    $(function () {
+        $('.btn-cancel-thumbnail').click(function () {
+            $('#thumbnail-preview').attr('src', '__TMPL__/public/assets/images/default-thumbnail.png');
+            $('#thumbnail').val('');
+        });
+        $('.btn-cancel-thumbnail1').click(function () {
+            $('#thumbnail1-preview').attr('src', '__TMPL__/public/assets/images/default-thumbnail.png');
+            $('#thumbnail1').val('');
+        });
+        $('.btn-cancel-thumbnail2').click(function () {
+            $('#thumbnail2-preview').attr('src', '__TMPL__/public/assets/images/default-thumbnail.png');
+            $('#thumbnail2').val('');
+        });
+    });
+</script>
+</body>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<include file="public@header" />
+</head>
+<body class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:url('cat/index')}">分类列表</a></li>
+    </ul>
+    <form class="well form-inline" method="post" action="">
+        <input type="text" class="form-control" name="cat_name" style="width: 160px;" value="{:input('request.cat_name','')}" placeholder="分类名称">
+        <input type="submit" class="btn btn-primary" value="搜索" />
+        <a class="btn btn-danger" href="{:url('cat/index')}">清空</a>
+    </form>
+    <form action="{:url('Rbac/listorders')}" method="post" class="margin-top-20">
+        <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <th width="40">ID</th>
+                <th width="120">分类名称</th>
+                <th width="160">上级分类</th>
+                <th width="160">创建人</th>
+                <th width="160">创建时间</th>
+
+                <th width="160">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <foreach name="list" item="vo">
+                <tr>
+                    <td>{$vo.id}</td>
+                    <td>{$vo.cat_name}</td>
+                    <td>无</td>
+                    <td>{$vo.user_login}</td>
+                    <td>{:date('Y-m-d H:i:s',$vo.create_time)}</td>
+
+                    <td>
+                        <a href="{:url('cat/edit',array('id'=>$vo['id']))}">编辑</a>
+                        <a href="{:url('cat/delete',array('id'=>$vo['id']))}">删除</a>
+                    </td>
+                </tr>
+            </foreach>
+            </tbody>
+        </table>
+    </form>
+
+<script src="__STATIC__/js/admin.js"></script>
+<script>
+    // 修改弹出框的title, 显示弹框
+    function ShowCreateModal(title,id){
+        $("#createFileTitle").text(title);
+        $("#createFileTitle").attr('data-id',id);
+        $('#createFileMModal').modal('show');
+    }
+    // 关闭弹框， 获取输入值，然后执行逻辑
+    $("#createFileSureBut").click(function (){
+        $("#createFileMModal").modal("hide");
+        var username = $("#username").val();
+        var id = $("#createFileTitle").attr('data-id');
+        var url = '{:url("admin/Custom/alloc")}';
+        $.ajax({
+            url:url,
+            type:'get',
+            data:{'username':username,'id':id},
+            success:function(ret){
+                if(ret.code){
+                    alert(ret.msg);
+                    location.reload();
+                }else{
+                    alert(ret.msg);
+                }
+            }
+        })
+    });
+    $('select[name="track_status"]').each(function(index){
+        $(this).change(function(){
+            var custom_id = $(this).attr('data-id');
+            var track_status = $(this).val();
+            $.ajax({
+                type: 'POST',
+                dataType: 'JSON',
+                url: '{:url("admin/custom/changeTrackStatus")}',
+                data: {custom_id: custom_id, track_status: track_status},
+                success: function (ret) {
+                    if (ret.code) {
+                        alert(ret.msg);
+                        location.reload();
+                    } else {
+                        alert(ret.msg);
+                    }
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>

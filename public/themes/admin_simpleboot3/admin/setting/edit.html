@@ -1,0 +1,78 @@
+<include file="public@header" />
+<link rel="stylesheet" href="__ROOT__/assets/src/css/bootstrap-datepicker.min.css">
+<script src="__ROOT__/assets/src/js/bootstrap-datetimepicker.js"></script>
+<script src="__ROOT__/assets/src/js/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+<style>
+	.WdateDiv {
+		background-color: #FFFFFF;
+		border: 1px solid #BBBBBB;
+		padding: 2px;
+		width: 180px;
+	}
+</style>
+<script type="text/html" id="photos-item-tpl">
+	<li id="saved-image{id}">
+		<input id="photo-{id}" type="hidden" name="photo_urls[]" value="{filepath}">
+		<input class="form-control" id="photo-{id}-name" type="text" name="photo_names[]" value="{name}"
+			   style="width: 200px;" title="图片名称">
+		<img id="photo-{id}-preview" src="{url}" style="height:36px;width: 36px;"
+			 onclick="imagePreviewDialog(this.src);">
+		<a href="javascript:uploadOneImage('图片上传','#photo-{id}');">替换</a>
+		<a href="javascript:(function(){$('#saved-image{id}').remove();})();">移除</a>
+	</li>
+</script>
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li><a href="{:url('setting/hp_img')}">轮播图列表</a></li>
+			<li class="active"><a href="{:url('setting/edit')}">编辑轮播图</a></li>
+		</ul>
+		<form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('setting/edit_img')}">
+
+			<input type="hidden" name="post[id]" value="{$list.id}">
+
+			<div class="form-group">
+				<label for="input-remark" class="col-sm-2 control-label"><span class="form-required">*</span>轮播图</label>
+				<div class="col-md-6 col-sm-10">
+					<input type="hidden" name="post[img]" id="thumbnail" value="{$list.img}">
+					<a href="javascript:uploadOneImage('图片上传','#thumbnail');">
+						<!--<if condition="$list['img'] eq ''">
+							<img src="__TMPL__/public/assets/images/default-thumbnail.png" id="thumbnail-preview" width="135" style="cursor: pointer"/>
+							</else>
+							<img src="{:cmf_get_image_preview_url($list['img'])}" id="thumbnail-preview" width="135" style="cursor: pointer"/>
+						</if>-->
+						<img src="{:cmf_get_image_preview_url($list['img'])}" id="thumbnail-preview" width="135" style="cursor: pointer"/>
+					</a>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">链接地址</label>
+				<div class="col-md-6 col-sm-10">
+					<input type="text" class="form-control" name="post[img_url]" value="{$list.img_url}">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label"><span class="form-required"></span>状态</label>
+				<div class="col-md-6 col-sm-10">
+					<label class="radio-inline">
+						<input value="0" type="radio" name="post[type]" <if condition="$list.type eq 0">checked</if>>启用
+					</label>
+					<label class="radio-inline">
+						<input value="1" type="radio" name="post[type]" <if condition="$list.type eq 1">checked</if>>停用
+					</label>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<button type="submit" class="btn btn-primary js-ajax-submit">添加</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

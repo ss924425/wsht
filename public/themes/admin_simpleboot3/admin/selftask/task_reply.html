@@ -1,0 +1,108 @@
+<include file="public@header" />
+<link rel="stylesheet" href="__ROOT__/assets/src/css/bootstrap-datepicker.min.css">
+<script src="__ROOT__/assets/src/js/bootstrap-datetimepicker.js"></script>
+<script src="__ROOT__/assets/src/js/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:url('selftask/taskReply')}">回复列表</a></li>
+    </ul>
+
+    <form class="well form-inline" method="post" action="{:url('selftask/taskReply')}">
+        <input type="text" class="form-control" name="taskid" style="width: 180px;" placeholder="任务ID"
+               value="{$taskid}">
+        <select name="status" id="status" class="form-control" style="width: 140px;">
+            <option value="" <eq name="status" value="">selected</eq>>回复状态</option>
+            <option value="1" <eq name="status" value="1">selected</eq>>待采纳</option>
+            <option value="2" <eq name="status" value="2">selected</eq>>已采纳</option>
+            <option value="3" <eq name="status" value="3">selected</eq>>被拒绝</option>
+        </select>
+        <select class="form-control" name="puber">
+            <option value=""
+            <eq name="puber" value="">selected</eq>
+            >发布人</option>
+            <option value="user"
+            <eq name="puber" value="user">selected</eq>
+            >会员发布</option>
+            <option value="admin"
+            <eq name="puber" value="admin">selected</eq>
+            >管理员发布</option>
+        </select>
+        <input type="submit" class="btn btn-primary" value="搜索" />
+        <a href="{:url('selftask/taskReply')}" class="btn btn-danger">清空</a>
+    </form>
+
+    <form action="" method="post" class="margin-top-20">
+        <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <th style="text-align: center">编号</th>
+                <th style="text-align: center">会员</th>
+                <th style="text-align: center">任务</th>
+                <th style="text-align: center">数据</th>
+                <th style="text-align: center">回复内容</th>
+                <th style="text-align: center">赏金</th>
+                <th style="text-align: center">状态</th>
+                <th style="text-align: center">回复时间</th>
+                <th style="text-align: center">发布者是否采纳</th>
+                <th style="text-align: center">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <volist name="list" id="vo">
+                <tr>
+                    <td style="text-align: center">{$vo.id}</td>
+                    <td style="text-align: center">用户ID：{$vo.userid}<br>手机号：{$vo.mobile}</td>
+                    <td style="text-align: center">任务ID：{$vo.taskid}<br>标题：{$vo.title|htmlspecialchars_decode}</td>
+                    <td style="text-align: center"><p>任务总量：{$vo['num']}</p>
+                        <p>剩余数量：{$vo['oldnum']}</p>
+                        <p>任务赏金：{$vo['falsemoney']}</p>
+                        <if condition="$adminuser eq 3">
+                            <p>实际赏金：{$vo['money']}</p>
+                        </if>
+                        <p>已抢：{$vo['receive']}</p>
+                        <p>未回复：{$vo['stay']}</p>
+                        <p>待采纳：{$vo['wait']}</p>
+                        <p>已完成：{$vo['comed']}</p>
+                        <p>已拒绝：{$vo['notpass']}</p>
+                    </td>
+                    <td style="text-align: center">{$vo.content}</td>
+                    <td style="text-align: center">{$vo.money}</td>
+                    <td style="text-align: center">
+                        <if condition="$vo['status'] == 1">
+                            <p class="font_ff5f27">待采纳</p>
+                            <elseif condition="$vo['status'] == 2">
+                                已采纳
+                                <elseif condition="$vo['status'] == 3">
+                                    <p class="font_ff5f27">被拒绝</p>
+                                    <p class="font_mini">{$vo['reason']}</p>
+                        </if>
+                    </td>
+                    <td style="text-align: center">
+                        <notempty name="vo.replytime">{$vo.replytime|date='Y-m-d H:i:s',###}</notempty>
+                    </td>
+                    <td style="text-align: center">
+                        <if condition="$vo['dealstatus'] == 1">
+                            <p style="color: green">已采纳</p>
+                            <elseif condition="$vo['status'] == 3">
+                                <p style="color: red">未采纳</p>
+                                <p style="color: red">({$vo.reason})</p>
+                                <else/>
+                                <p style="color: blue">未审核</p>
+                        </if>
+                    </td>
+                    <td style="text-align: center">
+                        <a href="{:url('editReply',array('id'=>$vo['id']))}">编辑</a>
+                        <a href="{:url('taskInfo',array('id'=>$vo['taskid']))}">查看任务</a>
+                    </td>
+                </tr>
+            </volist>
+            </tbody>
+        </table>
+        <div class="pagination">{$page}</div>
+    </form>
+
+    <script src="__STATIC__/js/admin.js"></script>
+
+</body></html>

@@ -1,0 +1,85 @@
+.bar-header-secondary{
+    top:0;
+}
+.bar-header-secondary~.content{
+    top:0;
+}
+/*轮播图*/
+#swiper{
+    height: 250px;
+    margin:5px auto;
+}
+
+
+.swiper-slide img{
+    width: 100%;
+    height: 200px;
+}
+
+
+/*菜单*/
+
+.cust_menu{
+    width: 100%;
+    height: 200px;
+    margin: auto;
+    border-bottom: 1px solid gainsboro;
+}
+
+.cust_menu .col-33{
+    height: 100px;
+    /*background: pink;*/
+    text-align: center;
+    font-size: 16px;
+
+}
+
+.cust_menu .col-33 img{
+    width: 55px;
+    height: 55px;
+    margin: 5px ;
+}
+.cust_menu .col-33 span{
+    display: block;
+    text-align: center;
+    color:black;
+}
+
+/*核心商圈卡片*/
+
+.card-header{
+    font-weight: bold;
+}
+
+.item-inner{
+    font-size: 14px;
+}
+.item-inner span{
+    font-size: 14px;
+    color: red;
+}
+/*核心商圈列表*/
+.item-content{
+
+    border-bottom: 1px solid gainsboro;
+
+}
+/*核心商圈房源图片*/
+.item-media img{
+    width: 70px;
+    height: 70px;
+}
+/*查看更多*/
+.more{
+    width: 100%;
+    height: 30px;
+    background: gainsboro;
+    opacity: .6;
+    text-align: center;
+    margin: 10px auto;
+}
+.more span{
+    font-size: 16px;
+    line-height: 30px;
+    color: black;
+}

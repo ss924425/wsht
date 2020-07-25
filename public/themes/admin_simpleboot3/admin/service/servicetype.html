@@ -1,0 +1,48 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:url('service/servicetype')}">服务类型</a></li>
+        <li><a href="{:url('service/servicetypeAdd')}">新增类型</a></li>
+    </ul>
+    <form class="js-ajax-form" action="{:url('service/listOrder')}" method="post">
+        <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                </th>
+                <th width="60">ID</th>
+                <th>服务类型</th>
+                <th>分类ID/分类名称</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <volist name="list" id="v">
+                <tr>
+                    <td>{$v.id}</td>
+                    <td>
+                       {$v.name}
+                    </td>
+                    <td>
+                        {$v.sortid}/{$v.sname}
+                    </td>
+                    <td>
+                        <a href="{:url('service/servicetypeEdit',['id' => $v.id])}" style="padding-left: 10px">{:lang('EDIT')}</a>
+
+                        <a class="js-ajax-delete"
+                               href="{:url('service/servicetypeDelete',['id' => $v.id])}" style="color: red; padding-left: 10px">{:lang('DELETE')}</a>
+                    </td>
+                </tr>
+            </volist>
+            </tbody>
+        </table>
+        <div class="table-actions">
+            <button type="submit" class="btn btn-primary btn-sm js-ajax-submit">{:lang('SORT')}</button>
+        </div>
+        <ul class="pagination">{$page}</ul>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>个人信息</title>
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+		<link rel="stylesheet" type="text/css" href="__TMPL__/public/assets/css/normalize.css" />
+		
+		<link rel="shortcut icon" href="/favicon.ico">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
+		<link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
+
+	</head>
+
+	<body>
+		<div class="page">
+			<nav class="bar bar-tab">
+				<a class="tab-item " href="#">
+					<span class="icon icon-home"></span>
+					<span class="tab-label">任务</span>
+				</a>
+				<a class="tab-item" href="#">
+					 <span class="icon icon-star"></span>
+					<span class="tab-label">热门</span>
+				</a>
+				<a class="tab-item" href="#">
+					<span class="icon icon-browser"></span>
+					<span class="tab-label">排行</span>
+				</a>
+				<a class="tab-item" href="#">
+					<span class="icon icon-home"></span>
+					<span class="tab-label">商城</span>
+				</a>
+				<a class="tab-item active" href="#">
+					<span class="icon icon-friends"></span>
+					<span class="tab-label">我的</span>
+				</a>
+			</nav>
+			<header class="bar bar-nav" style="background: blueviolet;">
+			  <a class="icon icon-left pull-left back" style=" color: white;"></a>
+			  <h1 class="title" style="color: white;">个人信息</h1>
+			</header>
+			<div class="content">
+				<!-- 这里是页面内容区 -->
+				<div class="list-block" style="margin-top: 10px;">
+					
+				    <ul>
+					    	<li>
+					        <div class="item-content">
+					          <div class="item-media"><i class="icon icon-form-email"></i></div>
+					          <div class="item-inner">
+					            <div class="item-title label">信息修改：</div>
+					          </div>
+					        </div>
+					      </li>
+
+				      <li>
+				        <div class="item-content">
+				          <div class="item-media"><i class="icon icon-form-email"></i></div>
+				          <div class="item-inner">
+				            <div class="item-title label">游戏ID:</div>
+				            <div class="item-input">
+				              <input type="text" value="666888" disabled="disabled">
+				            </div>
+				          </div>
+				        </div>
+				      </li>
+				      <li>
+				        <!--<div class="item-content">
+				          <div class="item-media"><i class="icon icon-form-password"></i></div>
+				          <div class="item-inner row">
+				            <div class="item-title label col-50">头像：</div>
+				            <div class="user_img col-50">
+								<img src="{:cmf_get_image_preview_url($user['avatar'])}" style="width: 80px; height: 80px;float: left;">
+				              <!--<img src="image/user.png" style="width: 80px; height: 80px;float: left;">-->
+				            <!--</div>
+				          </div>
+				        </div>-->
+						  <div class="project_vontent">
+							  <span class="project_namesd">头像 </span>
+							  <input type="file" name="picture" id="x_apply1" class="project_inputs" onchange="uploadFile(this,1)" style="border: 0;width:26%">
+						  </div>
+				      </li>
+				    </ul>
+  			</div>
+	 	<div class="content-block">
+	    <div class="row">
+      		<div class="col-100"><a href="user_index.html" class="button button-big button-fill button-danger">提交</a></div>
+    		</div>
+  </div>
+				
+				
+			</div>
+		</div>
+
+		<script type='text/javascript' src='http://g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+		<script type='text/javascript' src='http://g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
+		<script type='text/javascript' src='http://g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
+		<!--<script type='text/javascript' src="__TMPL__/public/assets/js/jquery-3.3.1.min.js" charset='utf-8'></script>-->
+		<script type='text/javascript' src="__TMPL__/public/assets/js/ajaxfileupload.js" charset='utf-8'></script>
+		<script>
+			function uploadFile(obj, type) {
+				$.ajaxFileUpload({
+					url : "/designtask/pic",
+					secureuri : false,// 一般设置为false
+					fileElementId : "x_apply"+type,// 文件上传表单的id <input type="file" id="fileUpload" name="file" />
+					dataType : 'json',// 返回值类型 一般设置为json
+//            data: {'type': type},
+					success : function(data) // 服务器成功响应处理函数
+					{
+//                $('#pic_cun').append('<div class="releastask_Framecontss" id="pic_del"><input type="file" class="releastask_Uploadingfiles" multiple name="adjunct[]"><a href="" download=""></a><span style="color: red" onclick="del_adjunct(this)">X</span></div>')
+					},
+					error:function(data)
+					{
+						var mes = data.responseText.split(',');
+						console.log(mes);
+						console.log(mes[2]);
+						if(type == 1){
+							$('#adjunct_name').append('<div class="releastask_Framecontss" id="'+mes[2]+'"><input type="hidden" name="ffffff'+mes[2]+'" value="'+data.responseText+'"/><div class="suoyousuj" style="display: none"></div><span>'+mes[1]+'</span><span style="color: red" onclick="del_adjunct('+mes[2]+')">X</span></div>');
+						}else{
+							$('#pic_cun').append('<div class="releastask_Framecontss" id="'+mes[2]+'"><input type="hidden" name="jjjjjj'+mes[2]+'" value="'+data.responseText+'"/><div class="suoyousuj" style="display: none"></div><span>'+mes[1]+'</span><span style="color: red" onclick="del_adjunct('+mes[2]+')">X</span></div>');
+						}
+						$('#x_apply'+type).val('');
+					}
+				});
+				return false;
+			}
+
+		</script>
+	</body>
+
+</html>

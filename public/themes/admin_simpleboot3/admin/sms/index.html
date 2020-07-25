@@ -1,0 +1,61 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:url('sms/index')}">短信设置</a></li>
+        <li><a href="{:url('sms/template')}?template_key=verification_code">数字验证码短信模板</a></li>
+    </ul>
+    <form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('Admin/sms/indexPost')}">
+        <div class="form-group">
+            <label for="input-from_name" class="col-sm-2 control-label">
+                <span class="form-required">*</span>
+                UID
+                <a href="http://www.yqin.cn"
+                   title="查看尧勤短信接口信息"
+                   data-toggle="tooltip"
+                   target="_blank"><i class="fa fa-question-circle"></i></a>
+            </label>
+            <div class="col-md-6 col-sm-10">
+                <input type="text" class="form-control" id="input-from_name" name="userid"
+                       value="{$userid|default=''}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-from" class="col-sm-2 control-label">
+                <span class="form-required">*</span>账号
+            </label>
+            <div class="col-md-6 col-sm-10">
+                <input type="text" class="form-control" id="input-from" name="account" value="{$account|default=''}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-host" class="col-sm-2 control-label">
+                <span class="form-required">*</span>密码
+            </label>
+            <div class="col-md-6 col-sm-10">
+                <input type="password" class="form-control" id="input-password" name="password"
+                       value="{$password|default=''}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-port" class="col-sm-2 control-label">
+                <span class="form-required">*</span>签名
+            </label>
+            <div class="col-md-6 col-sm-10">
+                <input type="text" class="form-control" name="sign" value="{$sign|default=''}"
+                       placeholder="尧勤软件">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('SAVE')}</button>
+                <!--<a class="btn btn-warning"-->
+                   <!--href="javascript:parent.openIframeDialog('{:url('sms/test')}','发送测试短信',{width:'600px',height:'400px'});">测试短信</a>-->
+            </div>
+        </div>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

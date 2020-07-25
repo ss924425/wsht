@@ -1,0 +1,68 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:url('setting/user')}">参数设置</a></li>
+    </ul>
+    <form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('setting/userPost')}">
+        <div class="form-group">
+            <label for="input-from_name" class="col-sm-2 control-label">
+                <span class="form-required">*</span>
+                最小提现金额（元）
+            </label>
+            <div class="col-md-6 col-sm-10">
+                <input type="text" class="form-control" name="minimum"
+                       value="{$user_setting.minimum|default=''}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-from_name" class="col-sm-2 control-label">
+                <span class="form-required">*</span>
+                余额提现费率（%）
+            </label>
+            <div class="col-md-6 col-sm-10">
+                <input type="text" class="form-control" name="balancerate"
+                       value="{$user_setting.balancerate|default='0'}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-from_name" class="col-sm-2 control-label">
+                <span class="form-required">*</span>
+                佣金提现费率（%）
+            </label>
+            <div class="col-md-6 col-sm-10">
+                <input type="text" class="form-control" name="commissionrate"
+                       value="{$user_setting.commissionrate|default='0'}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-from_name" class="col-sm-2 control-label">
+                <span class="form-required">*</span>
+                保证金提现费率（%）
+            </label>
+            <div class="col-md-6 col-sm-10">
+                <input type="text" class="form-control" name="bondrate"
+                       value="{$user_setting.bondrate|default='0'}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-from_name" class="col-sm-2 control-label">
+                <span class="form-required">*</span>
+                提现次数(日)
+            </label>
+            <div class="col-md-6 col-sm-10">
+                <input type="number" class="form-control" name="frequency"
+                       value="{$user_setting.frequency|default='2'}">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('SAVE')}</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+	<link rel="stylesheet" href="__TMPL__/public/assets/css/normalize.css">
+	<link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
+	<link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
+	<script type='text/javascript' src='http://g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+	<script type='text/javascript' src='http://g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
+	<script type='text/javascript' src='http://g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
+	<style>
+		body{
+			background: #e6e6e6;
+		}
+		a{
+			color: black;
+		}
+		a:hover{
+			color: black;
+		}
+		.active{
+			color: blue;
+		}
+
+
+		header .title{
+			background: linear-gradient(#fc8b91 ,#ee404a );
+			color: #fff;
+		}
+
+		.theader:after {
+			background-color: blue;
+		}
+		/*轮播图*/
+		.content{
+			margin-bottom: 2.7rem;
+		}
+		.swiper-container {
+			padding-bottom: 0px;
+		}
+		.swiper-slide{
+			width:100%;
+			height: 250px;
+		}
+		.swiper-slide img{
+			width:100%;
+			height: 250px;
+		}
+		.swiper-pagination{
+			top: 220px;
+		}
+
+		/*客服*/
+		.kefu{
+			width: 100%;
+			height: 25px;
+			line-height: 30px;
+		}
+		.kefu .tu{
+			width: 30px;
+			height: 30px;
+			float: left;
+			margin-left: 20px;
+		}
+		.kefu .tu img{
+			width: 100%;
+			height: 100%;
+			padding-top: 4px;
+		}
+		.kefu .zi{
+			height: 30px;
+			line-height: 37px;
+			padding-left: 57px;
+			font-size: 0.8rem;
+		}
+
+		/*三分均分*/
+		.sandengfen{
+			height: 75px;
+			text-align: center;
+			background: linear-gradient(#fc8b91 ,#ee404a );
+			color: #ffffff;
+		}
+		.sandengfen .row .sdf_ming{
+			height: 40px;
+			line-height: 53px;
+		}
+
+		/*任务列表*/
+		.renwuList{
+			width: 100%;
+			height: auto;
+			margin-top: 0.75rem;
+		}
+		.renwuList .zs_zuo{
+			width: 100%;
+			min-height: 2.2rem;
+			float: left;
+			background: white;
+			margin-bottom: .5rem;
+		}
+		.renwuList .zs_zuo .card .biaotiming{
+			font-size: 0.75rem;
+		}
+		.renwuList .zs_zuo .card .qiang_rw{
+			font-size: 0.65rem;
+		}
+		.renwuList .zs_zuo .card .zs_qianshu{
+			display: inline-block;
+			padding-top: .1rem;
+			padding-left: .2rem;
+			color: red;
+		}
+		.renwuList .zs_you{
+			background: white;
+			width: 25%;
+			height: 100%;
+			float: right;
+			min-height: 2.2rem;
+			text-align: center;
+			margin-top: 1.3rem;
+		}
+		.renwuList .content-block{
+			margin: 0;
+			padding: 0;
+		}
+		.renwuList .zs_zuo .card{
+			margin: 0;
+			box-shadow:0 0 0;
+		}
+		.renwuList .zs_zuo .card .list-block .item-content{
+			padding-left: .5rem;
+		}
+
+		/*提示性信息*/
+		.tishi{
+			clear: both;
+			font-size: 0.65rem;
+			width: 100%;
+			text-align: center;
+		}
+
+
+		.buttons-tab .button.active {
+			border-color: #ec082e;
+		}
+
+		/*尾部*/
+		.bar-tab .tab-item.active, .bar-tab .tab-item:active {
+			color:blue;
+		}
+	</style>
+</head>
+<body>
+<div class="page">
+	<!---头部--->
+	<header class="bar bar-nav theader">
+		<h1 class="title" style="height: 2.2rem;">首页</h1>
+	</header>
+
+	<!---主体--->
+	<div class="content">
+		<!-- 轮播 -->
+		<div class="lunbo">
+			<div class="swiper-container" data-space-between='10'>
+				<div class="swiper-wrapper">
+					<foreach name="img" item="vo">
+						<div class="swiper-slide"><img src="{:cmf_get_image_preview_url($vo['img'])}" alt=""></div>
+					</foreach>
+				</div>
+				<div class="swiper-pagination"></div>
+			</div>
+		</div>
+
+		<!-- 客服qq -->
+		<div class="kefu">
+			<div class="tu">
+				<img src="__TMPL__/public/assets/images/laba.png" width="30"/>
+			</div>
+			<div class="zi" >{$site_info.site_kefu|default=''}</div>
+		</div>
+		<!--{$user_setting.complete|default=''}-->
+		<!-- 三等均分 -->
+		<div class="sandengfen">
+			<div class="content-padded grid-demo">
+				<div class="row">
+					<div class="col-33">
+						<div class="sdf_ming">人气</div>
+						<div class="sdf_zhi">{$num.u|default=''}</div>
+					</div>
+					<div class="col-33">
+						<div class="sdf_ming">已发布</div>
+						<div class="sdf_zhi">{$num.t|default=''}</div>
+					</div>
+					<div class="col-33">
+						<div class="sdf_ming">已完成</div>
+						<div class="sdf_zhi">{$num.r|default=''}</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 任务列表 -->
+		<div class="renwuList">
+			<div class="">
+				<div class="buttons-tab">
+					<a href="#tab1" class="tab-link active button" style="color: red">今日任务</a>
+					<a href="#tab2" class="tab-link button" style="color: red">全部任务</a>
+				</div>
+				<div class="content-block">
+					<div class="tabs">
+
+						<div id="tab1" class="tab active">
+
+							<foreach name="list" item="vo">
+							<div style="width: 100%;background: white;">
+								<a href="{:url('index/index/detail',['id'=>$vo['id']])}">
+									<div class="zs_zuo">
+										<div class="card" style="width: 75%;float: left;">
+											<div class="card-content">
+												<div class="list-block media-list">
+													<ul>
+														<li class="item-content">
+															<div class="item-media">
+																<img src="{:cmf_get_image_preview_url($vo['thumb'])}" width="60">
+															</div>
+															<div class="item-inner">
+																<div class="item-title-row">
+																	<div class="item-title biaotiming" style="color: #5b749d;">{$vo.id}.{$vo.title} {$vo.b_title}</div>
+																</div>
+																<div class="item-subtitle qiang_rw" style="color: #999999;">已抢:{$vo.com_num}/{$vo.rel_num}</div>
+																<div class="item-subtitle">
+																	<div style="float: left;">
+																		<img src="__TMPL__/public/assets/images/jinbi.png" height="30"/>
+																	</div>
+																	<span class="zs_qianshu jinbi">{$vo.b_money}</span>
+																</div>
+															</div>
+														</li>
+													</ul>
+												</div>
+											</div>
+										</div>
+										<div class="zs_you">
+											<div class="">
+												<span class="icon icon-browser" style="color:#e1dd1a;"></span>
+												<span>{$vo.com_num}</span>
+											</div>
+											<div style="font-size: 0.6rem;color:#f45252;">任务进行中</div>
+										</div>
+									</div>
+
+								</a>
+							</div>
+							</foreach>
+						</div>
+
+						<div id="tab2" class="tab">
+
+							<foreach name="list2" item="vo">
+								<div style="width: 100%;background: white;">
+									<a href="{:url('index/index/detail',['id'=>$vo['id']])}">
+										<div class="zs_zuo">
+											<div class="card" style="width: 75%;float: left;">
+												<div class="card-content">
+													<div class="list-block media-list">
+														<ul>
+															<li class="item-content">
+																<div class="item-media">
+																	<img src="{:cmf_get_image_preview_url($vo['thumb'])}" width="60">
+																</div>
+																<div class="item-inner">
+																	<div class="item-title-row">
+																		<div class="item-title biaotiming" style="color: #5b749d;">{$vo.title} {$vo.b_title}</div>
+																	</div>
+																	<div class="item-subtitle qiang_rw" style="color: #999999;">已抢:{$vo.com_num}/{$vo.rel_num}</div>
+																	<div class="item-subtitle">
+																		<div style="float: left;">
+																			<img src="__TMPL__/public/assets/images/jinbi.png" height="30"/>
+																		</div>
+																		<span class="zs_qianshu jinbi">{$vo.b_money}</span>
+																	</div>
+																</div>
+															</li>
+														</ul>
+													</div>
+												</div>
+											</div>
+											<div class="zs_you">
+												<div class="">
+													<span class="icon icon-browser" style="color:#e1dd1a;"></span>
+													<span>{$vo.com_num}</span>
+												</div>
+												<div style="font-size: 0.6rem;color:#f45252;">任务已结束</div>
+											</div>
+										</div>
+
+									</a>
+								</div>
+							</foreach>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 提示性信息 -->
+		<div class="tishi">暂无更多信息...</div>
+
+
+	</div>
+
+	<!---尾部--->
+	<nav class="bar bar-tab">
+		<a class="tab-item active" href="#">
+			<span class="icon icon-browser" style="color: blue"></span>
+			<span class="tab-label" style="color: blue">任务</span>
+		</a>
+		<a class="tab-item" href="{:url('index/hot/index')}">
+			<span class="icon icon-star"></span>
+			<span class="tab-label">热门</span>
+		</a>
+		<a class="tab-item" href="{:url('index/ranking/index')}">
+			<span class="icon icon-menu"></span>
+			<span class="tab-label">排行</span>
+		</a>
+		<a class="tab-item" href="{:url('index/goods/index')}">
+			<span class="icon icon-home"></span>
+			<span class="tab-label">商城</span>
+		</a>
+		<a class="tab-item" href="{:url('index/user/index')}">
+			<span class="icon icon-friends"></span>
+			<span class="tab-label">我的</span>
+		</a>
+	</nav>
+
+</div>
+
+<script type="text/javascript">
+    $.init(
+        function(){
+            $(".swiper-container").swiper(config);
+        }
+    )
+
+</script>
+
+</body>
+</html>

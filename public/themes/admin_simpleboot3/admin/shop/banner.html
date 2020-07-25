@@ -1,0 +1,65 @@
+<include file="public@header"/>
+<link href="__TMPL__/public/assets/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="javascript:;">所有幻灯片</a></li>
+        <li><a href="{:url('shop/addBanner')}">添加幻灯片</a></li>
+    </ul>
+    <form class="js-ajax-form" action="" method="post">
+        <div class="table-actions">
+            <button class="btn btn-danger btn-sm js-ajax-submit" type="submit"
+                    data-action="{:url('shop/deleteGood')}" data-subcheck="true" data-msg="您确定删除吗？">
+                {:lang('DELETE')}
+            </button>
+        </div>
+        <table class="table table-hover table-bordered table-list">
+            <thead>
+            <tr>
+                <th width="15">
+                    <label>
+                        <input type="checkbox" class="js-check-all" data-direction="x" data-checklist="js-check-x">
+                    </label>
+                </th>
+                <th width="50">ID</th>
+                <th>幻灯片标题</th>
+                <th>链接地址</th>
+                <th>链接类型</th>
+                <th>图片位置</th>
+                <th>幻灯片预览</th>
+                <th>添加时间</th>
+                <th width="90">操作</th>
+            </tr>
+            </thead>
+            <foreach name="banner" item="vo">
+                <tr>
+                    <td>
+                        <input type="checkbox" class="js-check" data-yid="js-check-y" data-xid="js-check-x" name="ids[]"
+                               value="{$vo.id}" title="ID:{$vo.id}">
+                    </td>
+                    <td><b>{$vo.id}</b></td>
+                    <td>{$vo.title}</td>
+                    <td>{$vo.url}</td>
+                    <td>{$vo.urltype}</td>
+                    <td>
+                        <switch name="vo.position">
+                            <case value="0">商城首页</case>
+                        </switch>
+                    </td>
+                    <td onclick="imagePreviewDialog('{:cmf_get_image_preview_url($vo.img)}')"><img
+                            src="{:cmf_get_image_preview_url($vo['img'])}" alt="" width="80" height="60"></td>
+                    <td>{$vo.create_time|date='Y-m-d H:i:s',###}</td>
+                    <td>
+                        <a href="{:url('shop/editBanner',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>
+                        <a href="{:url('shop/deleteBanner',array('id'=>$vo['id']))}" class="js-ajax-delete">{:lang('DELETE')}</a>
+                    </td>
+                </tr>
+            </foreach>
+        </table>
+        <ul class="pagination">{$page|default=''}</ul>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

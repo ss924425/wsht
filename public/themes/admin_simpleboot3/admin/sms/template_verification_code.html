@@ -1,0 +1,27 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:url('sms/index')}">短信配置</a></li>
+        <li class="active"><a href="#" data-toggle="tab">数字验证码短信模板</a></li>
+    </ul>
+    <form method="post" class="form-horizontal js-ajax-form margin-top-20" role="form"
+          action="{:url('admin/sms/templatePost')}">
+        <div class="form-group">
+            <label for="input-title" class="col-sm-2 control-label"><span class="form-required">*</span>短信模板</label>
+            <div class="col-md-6 col-sm-12">
+                <textarea name="template" id="" cols="90" rows="10" class="form-control">{$template}</textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="hidden" name="template_key" value="verification_code">
+                <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('SAVE')}</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:url('shop/cate')}">所有项目分类</a></li>
+        <li class="active"><a href="#">添加项目分类</a></li>
+    </ul>
+    <form class="form-horizontal js-ajax-form margin-top-20" action="{:url('shop/addCatePost')}" method="post">
+
+        <div class="form-group">
+            <label class="col-lg-2 control-label">选择父类</label>
+            <div class="col-lg-4">
+                <select class="form-control" name="pid">
+                    <option value="0">顶级分类</option>
+                    <volist name="cate" id="vo">
+                        <option value="{$vo.cate_id}">{$vo.cate_name}</option>
+                        <present name="vo['_child']">
+                        <volist name="vo['_child']" id="vo2">
+                            <option value="{$vo2.cate_id}">&nbsp;&nbsp;└{$vo2.cate_name}</option>
+                            <present name="vo2['_child']">
+                            <foreach name="vo2['_child']" item="vo3">
+                                <option value="{$vo3.cate_id}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└{$vo3.cate_name}</option>
+                                <present name="vo3['_child']">
+                                <foreach name="vo3['_child']" item="vo4">
+                                    <option value="{$vo4.cate_id}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└{$vo4.cate_name}</option>
+                                    <present name="vo4['_child']">
+                                    <foreach name="vo4['_child']" item="vo5">
+                                        <option value="{$vo5.cate_id}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└{$vo5.cate_name}</option>
+                                    </foreach>
+                                    </present>
+                                </foreach>
+                                </present>
+                            </foreach>
+                            </present>
+                        </volist>
+                        </present>
+                    </volist>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-2 control-label"></label>
+            <div class="col-lg-4">
+                <span><sup style="font-size:1em">*最多两层</sup></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-2 control-label">分类名称<sup>*</sup></label>
+            <div class="col-lg-4">
+                <input type="text" class="form-control" name="cate_name" placeholder="必填" data-bv-notempty="true"
+                       data-bv-notempty-message="不能为空" value="">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="js-thumbnail-input" class="col-lg-2 control-label">缩略图</label>
+            <div class="col-lg-4">
+                <input type="hidden" name="pic_url" class="form-control"
+                       id="js-thumbnail-input">
+                <div>
+                    <a href="javascript:uploadOneImage('图片上传','#js-thumbnail-input');">
+                        <img src="__TMPL__/public/assets/images/default-thumbnail.png"
+                             id="js-thumbnail-input-preview"
+                             width="135" style="cursor: pointer"/>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-2 control-label">分类备注</label>
+            <div class="col-lg-4">
+                <textarea class="form-control" name="summary" rows="5"></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-offset-2 col-lg-4">
+                <button class="btn btn-primary btn-lg js-ajax-submit" type="submit">{:lang('ADD')}</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                <a class="btn btn-palegreen btn-lg" href="{:url('shop/cate')}">{:lang('BACK')}</a>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

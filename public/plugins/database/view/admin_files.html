@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+<head>
+    <include file='public/head' />
+    <title>数据库管理</title>
+    <meta name="description" content="数据库管理">
+    <meta name="keywords" content="数据库管理">
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+            <li class=""><a href="{:cmf_url('/plugin/database/admin_index/index')}">数据表</a></li>
+            <li class="active"><a href="{:cmf_url('/plugin/database/admin_index/files')}">备份列表</a></li>
+    </ul>    
+    <div class="common-form">
+        <div class="row">
+            
+        </div>
+        <form method="post" class="js-ajax-form" action="#">
+            <div class="table_list">
+                <table width="100%" class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>备份时间</th>  
+                        <th>卷</th>                 
+                        <th>备份大小</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <foreach name="list" item="vo">
+                        <tr>
+                            <td>{$key}</td>
+                            <td>{$vo.part}</td>
+                            <td>{$vo.size}</td>
+                            <td>
+                                <a class="btn btn-xs btn-success" href="{:cmf_url('/plugin/database/admin_index/files')}?type=download&name={$vo.time}">下载</a>
+                                <button type="button" class="btn btn-xs btn-warning" onclick="handle('restore','{$vo.time}','还原')">还原</button>
+                                <button type="button"  class="btn btn-xs btn-danger" onclick="handle('del','{$vo.time}','删除')">删除</button>
+                            </td>
+                        </tr>
+                    </foreach>
+                    </tbody>
+                </table>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    function handle(type,name,_msg){        
+        if (type){
+            var msg = "你确定要"+ _msg +"吗？";
+            if(confirm(msg) == false) {
+                return false;
+            }
+
+            $.ajax({
+                url:"{:cmf_url('/plugin/database/admin_index/files')}",
+                type:'get',
+                data:{type:type,name:name},
+                success:function(result){
+                    if(result.code == 0) window.location.reload()
+                    else alert(result.data)
+                }
+            }); 
+        }
+    }
+</script>
+<include file='public/scripts' />
+</body>
+</html>

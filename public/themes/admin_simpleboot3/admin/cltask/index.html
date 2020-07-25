@@ -1,0 +1,38 @@
+<include file="public@header" />
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="">{:lang('ADMIN_USER_USERINFO')}</a></li>
+		</ul>
+		<form class="form-horizontal js-ajax-form margin-top-20" role="form" method="post" action="{:url('Cltask/czmoney')}">
+			<div class="form-group">
+				<label for="input-birthday" class="col-sm-2 control-label">后台账号</label>
+				<div class="col-md-6 col-sm-10">
+					<input type="text" class="form-control"  readonly name="" value="{$userinfo.user_login}">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="input-user-nickname" class="col-sm-2 control-label">{:lang('NICKNAME')}</label>
+				<div class="col-md-6 col-sm-10">
+					<input type="text" class="form-control" id="input-user-nickname" name="" readonly value="{$userinfo.user_nickname}">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="input-user_url" class="col-sm-2 control-label">账户余额:</label>
+				<div class="col-md-6 col-sm-10">
+					<input type="text" class="form-control" id="" readonly="" name="" value="{$userinfo.cl_money}">
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<!--<button type="submit" class="btn btn-primary js-ajax-submit">充值余额</button>-->
+					<a href="{:url('Cltask/czmoney')}"  class="btn btn-primary js-ajax-submit">支付宝充值</a>
+					<a href="{:url('native/clwxcz/cz')}"  class="btn btn-primary js-ajax-submit">微信充值</a>
+				</div>
+			</div>
+		</form>
+	</div>
+	<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

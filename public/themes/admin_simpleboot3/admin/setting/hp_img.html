@@ -1,0 +1,54 @@
+<include file="public@header" />
+<link rel="stylesheet" href="__ROOT__/assets/src/css/bootstrap-datepicker.min.css">
+<script src="__ROOT__/assets/src/js/bootstrap-datetimepicker.js"></script>
+<script src="__ROOT__/assets/src/js/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:url('setting/hp_img')}">轮播图列表</a></li>
+    </ul>
+    <form action="" method="post" class="margin-top-20">
+        <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <th width="40">ID</th>
+                <th align="left">轮播图</th>
+                <th>位置</th>
+                <th align="left">链接地址</th>
+                <th align="left">状态</th>
+                <th width="200">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <foreach name="list" item="vo">
+                <tr>
+                    <td>{$vo.id}</td>
+                    <td onclick="imagePreviewDialog('{:cmf_get_image_preview_url($vo['img'])}')"><img src="{:cmf_get_image_preview_url($vo['img'])}" alt="" width="40"></td>
+                    <td>
+                        <if condition="$vo.position == 1">首页</if>
+                        <if condition="$vo.position == 2">任务大厅</if>
+                        <if condition="$vo.position == 3">任务榜</if>
+                        <if condition="$vo.position == 4">团队榜</if>
+                        <if condition="$vo.position == 5">收入榜</if>
+                        <if condition="$vo.position == 6">抢任务</if>
+                        <if condition="$vo.position == 7">小黑屋</if>
+                    </td>
+                    <td>{$vo.img_url}</td>
+                    <td>
+                        <if condition="$vo.type == 0">启用</if>
+                        <if condition="$vo.type == 1">关闭</if>
+                    </td>
+                    <td>
+                        <a href="{:url('setting/edit',array('id'=>$vo['id']))}">编辑</a>
+                        <!--<a href="{:url('setting/delete',array('id'=>$vo['id']))}">删除</a>-->
+                    </td>
+                </tr>
+            </foreach>
+            </tbody>
+        </table>
+    </form>
+
+<script src="__STATIC__/js/admin.js"></script>
+
+</body></html>

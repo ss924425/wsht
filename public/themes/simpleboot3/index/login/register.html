@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>注册</title>
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+		<link rel="stylesheet" type="text/css" href="__TMPL__/public/assets/css/normalize.css" />
+		
+		<link rel="shortcut icon" href="/favicon.ico">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
+		<link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
+		<link type='text/javascript' href="__TMPL__/public/assets/js/jquery-3.3.1.js" charset='utf-8'/>
+		<link type='text/javascript' href="__TMPL__/public/assets/js/jquery-3.3.1.min.js" charset='utf-8'/>
+	</head>
+
+	<body>
+		<div class="page">
+			<header class="bar bar-nav" style="background: linear-gradient(#fc8b91 ,#ee404a );">
+			  <a class="icon icon-left pull-left back" style=" color: white;"></a>
+			  <h1 class="title" style="color: white;">注册</h1>
+			</header>
+			<div class="content">
+				<!-- 这里是页面内容区 -->
+				<form method="post" id="form1" action="{:url('login/register_info')}">
+				<div class="list-block" style="margin-top: 10px;">
+				    <ul>
+				      <!-- Text inputs -->
+				      <li>
+				        <div class="item-content">
+				          <div class="item-media"><i class="icon icon-form-name"></i></div>
+				          <div class="item-inner">
+				            <div class="item-title label">真实姓名</div>
+				            <div class="item-input">
+				              <input type="text" name="user_login" placeholder="请输入你的真实姓名">
+				            </div>
+				          </div>
+				        </div>
+				      </li>
+				      <li>
+				        <div class="item-content">
+				          <div class="item-media"><i class="icon icon-form-email"></i></div>
+				          <div class="item-inner">
+				            <div class="item-title label">手机号</div>
+				            <div class="item-input">
+				              <input type="text" id="mobile" name="mobile" placeholder="请输入您的手机号">
+				            </div>
+				          </div>
+				        </div>
+				      </li>
+				      <li>
+				        <div class="item-content">
+				          <div class="item-media"><i class="icon icon-form-password"></i></div>
+				          <div class="item-inner">
+				            <div class="item-title label">密码</div>
+				            <div class="item-input">
+				              <input type="password" id="input-user_pass" name="user_pass" placeholder="请输入密码" class="">
+				            </div>
+				          </div>
+				        </div>
+				      </li>
+				      <li>
+				        <div class="item-content">
+				          <div class="item-media"><i class="icon icon-form-password"></i></div>
+				          <div class="item-inner">
+				            <div class="item-title label">确认密码</div>
+				            <div class="item-input">
+				              <input type="password" name="password" placeholder="重复输入密码" class="">
+				            </div>
+				          </div>
+				        </div>
+				      </li>
+
+						<li>
+							<div class="item-content">
+								<div class="item-media"><i class="icon icon-form-gender"></i></div>
+								<div class="item-inner">
+									<div class="item-title label">性别</div>
+									<div class="item-input">
+										<select name="sex">
+											<option value="1">男</option>
+											<option value="2">女</option>
+										</select>
+									</div>
+								</div>
+							</div>
+						</li>
+						<li>
+							<div class="item-content">
+								<div class="item-media"><i class="icon icon-form-password"></i></div>
+								<div class="item-inner">
+									<div class="item-title label">省</div>
+									<div class="item-input">
+										<select name="province" id="province">
+											<option value="">请选择</option>
+											<foreach name="$province" item="vo">
+												<option value="{$vo.provinceID}">{$vo.province}</option>
+											</foreach>
+										</select>
+									</div>
+								</div>
+							</div>
+						</li>
+						<li>
+							<div class="item-content">
+								<div class="item-media"><i class="icon icon-form-password"></i></div>
+								<div class="item-inner">
+									<div class="item-title label">市</div>
+									<div class="item-input">
+										<select name="city" id="city">
+											<option value="">请选择</option>
+										</select>
+									</div>
+								</div>
+							</div>
+						</li>
+						<li>
+							<div class="item-content">
+								<div class="item-media"><i class="icon icon-form-password"></i></div>
+								<div class="item-inner">
+									<div class="item-title label">区</div>
+									<div class="item-input">
+										<select name="area" id="area">
+											<option value="">请选择</option>
+										</select>
+									</div>
+								</div>
+							</div>
+						</li>
+				      
+				      <li>
+				        <div class="item-content">
+				          <div class="item-media"><i class="icon icon-form-password"></i></div>
+				          <div class="item-inner">
+				            <div class="item-title label">支付宝姓名</div>
+				            <div class="item-input">
+				              <input type="text" name="apply_name" placeholder="请输入支付宝姓名" class="">
+				            </div>
+				          </div>
+				        </div>
+				      </li>
+				      <li>
+				        <div class="item-content">
+				          <div class="item-media"><i class="icon icon-form-password"></i></div>
+				          <div class="item-inner">
+				            <div class="item-title label">支付宝账号</div>
+				            <div class="item-input">
+				              <input type="text" name="apply_account" placeholder="请输入支付宝账号" class="">
+				            </div>
+				          </div>
+				        </div>
+				      </li>
+				     <!--地区-->
+
+				      <!--验证码-->
+				      <li>
+				        <div class="item-content">
+				          <div class="item-media"><i class="icon icon-form-password"></i></div>
+				          <!--<div class="item-inner row">
+				            <div class="item-input content-block ">
+				            
+				            </div>
+				          </div>-->
+							<input type="text" id="yzm" name="yzm" class="code" placeholder="请输入验证码" required maxlength="6"/>
+				          <p style="margin-right: 20px;"><input type="button" class="button button-fill button-danger code obtain generate_code" value=" 获取验证码" onclick="settime(this),getCode(this);"></p>
+				        </div>
+				      </li>
+				    </ul>
+  			</div>
+  			<div class="content-block">
+		    <div class="row">
+		     
+		      <div class="col-100" ><input type="button" id="button" style="background-color: red;" class="button button-big button-fill button-success" value="注册"></div>
+		    </div>
+  		</div>
+  
+  			<!---------------------------------->
+				</form>
+			</div>
+
+		</div>
+
+		<script type='text/javascript' src='http://g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+		<script type='text/javascript' src='http://g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
+		<script type='text/javascript' src='http://g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
+		<script type="text/javascript">
+			$("#province").change(function(){
+				//根据用户所选择的省份获取市级单位
+				var province = $("#province").val();
+				$.post("{:url('register')}",{province_id:province},function(res){
+					var areas = res.msg;
+					var str = '<option value="">市</option>';
+					$.each(areas,function(index,data){
+						str +='<option value="'+data['cityID']+'">'+data['city']+'</option>';
+					});
+					//移除已有的HTML文本
+					$('#city').empty();
+					//添加新的文本
+					$('#city').append(str)
+				})
+			});
+			$("#city").change(function(){
+				//根据用户所选择的省份获取市级单位
+				var city = $("#city").val();
+				$.post("{:url('register')}",{city_id:city},function(res){
+					var areas = res.msg;
+					var str = '<option value="">区(县)</option>';
+					$.each(areas,function(index,data){
+						str +='<option value="'+data['areaID']+'">'+data['area']+'</option>';
+					});
+					//移除已有的HTML文本
+					$('#area').empty();
+					//添加新的文本
+					$('#area').append(str)
+				})
+			});
+
+
+			var countdown=60;
+			function settime(val) {
+				if (countdown == 0) {
+					val.removeAttribute("disabled");
+					val.value = "获取验证码";
+					countdown = 60;
+					return false;
+				} else {
+					val.setAttribute("disabled", true);
+					val.value = "重新发送(" + countdown + ")";
+					countdown--;
+				}
+				setTimeout(function () {
+					settime(val);
+				}, 1000);
+			}
+			function getCode(){
+				var url = "{:url('user/VerificationCode/send')}";
+				var p_type = 1;
+				var phone = $("#mobile").val();
+				$.ajax({
+					type : 'POST',
+					dataType : 'json',
+					url : url,
+					data : {p_type:p_type,phone:phone},
+					success : function(ret){
+						$.toast(ret.msg)
+					}
+				});
+			}
+
+			$("#button").click(function(){
+				var data = $('#form1').serialize();
+				$.ajax({
+					type : 'POST',
+					dataType : 'json',
+					url : '{:url("register_info")}',
+					data : data,
+					success : function(ret){
+						$.toast(ret.msg);
+						if(ret.code == 1){
+							location.href=ret.url;
+						}
+					}
+				});
+			})
+		</script>
+	</body>
+</html>

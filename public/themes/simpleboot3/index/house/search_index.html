@@ -1,0 +1,76 @@
+<include file="public@header"/>
+<link rel="stylesheet" href="__TMPL__/public/assets/css/search_list.css">
+<script type="text/javascript" src="__TMPL__/public/assets/js/search_list.js"></script>
+</head>
+
+<body>
+<div class="page">
+    <header class="bar bar-nav" id="title">
+        <a class="button button-link button-nav pull-left back" href="index.html" data-transition='slide-out'>
+            <span class="icon icon-left"></span>
+            <!--返回-->
+        </a>
+        <h1 class="title">房源搜索</h1>
+    </header>
+
+    <include file="public@nav"/>
+
+    <!-- 这里是页面内容区 -->
+    <div class="content">
+        <!--下拉复选框-->
+        <div class="search_box">
+            <div class="box">
+                <p id="op">房源类型</p>
+                <ul>
+                    <li>写字楼</li>
+                    <li>商铺</li>
+                </ul>
+                <div class="check">
+                    <img src="__TMPL__/public/assets/images/cust_menu/xiala.png" alt="">
+                </div>
+            </div>
+            <!--关键字输入框-->
+            <div class="ipt">
+                <input type="search" id="search" placeholder="请输入关键字...">
+            </div>
+            <!--搜索按钮-->
+            <div class="search_img">
+                <img id="begin" src="__TMPL__/public/assets/images/cust_menu/search_ico_red.png" alt="">
+            </div>
+        </div>
+        <!-------search-btn--------->
+
+        <!--content_over-->
+    </div>
+</div>
+<script>
+    window.onload = function () {
+        var box = document.getElementsByClassName('box')[0];
+        var ul = box.getElementsByTagName('ul')[0];
+        var onoff = true;
+        box.onclick = function () {
+            if (onoff == true) {
+                ul.style.display = "block";
+                onoff = false;
+            } else {
+                ul.style.display = "none";
+                onoff = true;
+            }
+        }
+        var oli = document.getElementsByTagName("li");
+        var op = document.getElementsByClassName("op")
+        for (var i = 0; i < oli.length; i++) {
+            oli[i].index = i;
+            oli[i].onclick = function () {
+                op.innerHTML = this.innerHTML
+            }
+        }
+    }
+</script>
+<script>
+    $("#begin").click(function(){
+        var search = $('#search').val();
+        window.location.href="{:url('search_info')}?search="+search;
+    })
+</script>
+<include file="public@footer"/>

@@ -1,0 +1,41 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#">SKU属性设置</a></li>
+        <li><a href="{:url('shop/skuattr')}">返回上一页</a></li>
+    </ul>
+    <form class="form-horizontal js-ajax-form margin-top-20" role="form" action="{:url('shop/addSkuattrPost')}"
+          method="post">
+        <div class="form-group">
+            <label class="col-lg-2 control-label">属性名称<sup>*</sup></label>
+            <div class="col-lg-4">
+                <input type="text" class="form-control" name="name" placeholder="必填"
+                       data-bv-notempty="true"
+                       data-bv-notempty-message="不能为空" value="">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-2 control-label">批量添加属性值</label>
+            <div class="col-lg-4">
+                <textarea class="form-control" name="newitem" rows="5" placeholder="批量添加属性值，请使用英文逗号分割。例如：'白色,黑色,蓝色,红色'，原则上SKU属性值全局唯一不可以删除与编辑！"></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-2 control-label">属性值[自动生成]</label>
+            <div class="col-lg-4">
+                <textarea class="form-control" name="items" rows="5" disabled></textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-lg-offset-2 col-lg-4">
+                <button class="btn btn-primary btn-lg js-ajax-submit" type="submit">保存</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                <button class="btn btn-palegreen btn-lg" type="reset">重填</button>
+            </div>
+        </div>
+    </form>
+
+</div>
+<script type="text/javascript" src="__STATIC__/js/admin.js"></script>

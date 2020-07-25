@@ -1,0 +1,73 @@
+<include file="public@header" />
+<link rel="stylesheet" href="__TMPL__/public/assets/css/login_index.css"/>
+</head>
+<body>
+<div class="page">
+    <header class="bar bar-nav">
+        <a class="button button-link button-nav pull-left back" data-transition='slide-out'>
+            <span class="icon icon-left fanhui"></span>
+        </a>
+        <h1 class="title">会员登录</h1>
+    </header>
+
+    <div class="content">
+        <!-- 这里是页面内容区 -->
+
+        <div class="list-block">
+            <ul>
+                <!-- Text inputs -->
+                <li style="border-bottom: 1px #dedbdb solid">
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-name"></i></div>
+                        <div class="item-inner">
+                            <div class="item-input">
+                                <input type="text" placeholder="请输入账号" name="username" id="input_username">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-email"></i></div>
+                        <div class="item-inner">
+                            <div class="item-input">
+                                <input type="password" placeholder="请输入密码" name="password" id="input_password">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+
+            <div class="content-block">
+                <input type="hidden" name="redirect" value="" id="input_redirect">
+                <p class="button button-fill button-danger login">登录</p>
+            </div>
+
+            <div class="content-padded wangjimima">
+                <h5><a href="{:cmf_url('user/Login/findPassword')}" style="color: black;">忘记密码</a></h5>
+            </div>
+
+        </div>
+    </div>
+    <script>
+        $('.login').click(function(){
+            var username = $('#input_username').val();
+            var password = $('#input_password').val();
+            var redirect = $('#input_redirect').val();
+            $.ajax({
+                type:'POST',
+                url:'{:url("user/login/doLogin")}',
+                dataType:'json',
+                data:{'username':username,'password':password,'redirect':redirect},
+                success:function(ret){
+                    $.toast(ret.msg);
+                    if(ret.code){
+                        location.href = redirect;
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

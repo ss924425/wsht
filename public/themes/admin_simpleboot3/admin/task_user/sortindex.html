@@ -1,0 +1,114 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:url('taskUser/index')}">任务会员列表</a></li>
+        <li class="active"><a href="{:url('taskUser/sortindex')}">分类列表</a></li>
+    </ul>
+    <form action="">
+
+    </form>
+    <form class="js-ajax-form" action="{:url('taskUser/sortindex')}" method="post">
+
+        <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <th width="60">ID</th>
+                <th width="80">上级ID</th>
+                <th>分类名称</th>
+                <th>上级分类名称</th>
+                <th>发布价</th>
+                <th>APP价</th>
+                <th width="70">状态</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <volist name="sorts" id="v">
+                <tr>
+                    <td>{$v.id}</td>
+                    <td>{$v.pid}</td>
+                    <td>
+                        <if condition="$v.pid eq 0">
+                            <span style="color: blue">{$v.name}</span>
+                            <else/>
+                            {$v.name}
+                        </if>
+                    </td>
+                    <td>
+                        <if condition="$v.pname eq '' ">
+                            <span style="color: blue">顶级分类</span>
+                            <else/>
+                            {$v.pname}
+                        </if>
+                    </td>
+                    <td>{$v.fabumoney}</td>
+                    <td>{$v.appmoney}</td>
+                    <td>
+                        <notempty name="v.status">
+                            <a data-toggle="tooltip" title="已发布"><i class="fa fa-check"></i></a>
+                            <else/>
+                            <a data-toggle="tooltip" title="未发布"><i class="fa fa-close"></i></a>
+                        </notempty>
+                    </td>
+                    <td style="width: 100px ">
+                        <a href="javascript:;" class="edit_bot ui-button editmoney" data-replyid="{$v['id']}">修改金额</a>
+                    </td>
+                </tr>
+            </volist>
+            </tbody>
+        </table>
+        <ul class="pagination">{$page}</ul>
+    </form>
+</div>
+<div id="test123" style="display: none;">
+    <div class="wrap" style="width: 200px;height: 220px; margin-left: 40px">
+        <div>
+            <div class="col-md-6 col-sm-10" style="width: 150px;height: 80px">
+                <input type="text" name="userid" id="uid" value="{$userid}" hidden>
+                发布价：<input id="dmoney" type="number" name="dmoney" autocomplete="off"/>
+                APP价：<input id="falsemoney" type="number" name="falsemoney" autocomplete="off" />
+            </div>
+        </div>
+        <div class="col-sm-offset-2 col-sm-10" style="margin-top: 20px;margin-left: 8px;">
+            <button id="btnpost" data-id="" onclick="edit(this)" type="submit" class="btn btn-primary" style="border-radius: 2px">提交</button>
+        </div>
+    </div>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+<script>
+    $('.editmoney').click(function () {
+        $("#btnpost").data('id',$(this).data('replyid'))
+        layer.open({
+            type: 1,
+            title: '任务价格修改',
+            shadeClose: true,
+            shade: 0.8,
+            area: ['300px','300px'],
+            content: $("#test123")
+        })
+    })
+
+    function edit(_this)
+    {
+        var uid = $("#uid").val()
+        var sid = ($(_this).data('id'))
+        var dmoney = $("#dmoney").val()
+        var falsemoney = $("#falsemoney").val()
+        $.ajax({
+            url: '{:url("editmoney")}',
+            dataType: 'json',
+            type: 'POST',
+            data: {uid,sid,dmoney,falsemoney},
+            success: function (ret) {
+                layer.msg(ret.msg, function () {
+                    location.reload()
+                })
+            }
+        })
+    }
+
+</script>
+</body>
+</html>

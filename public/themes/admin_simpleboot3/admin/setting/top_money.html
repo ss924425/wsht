@@ -1,0 +1,250 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:url('setting/topMoney')}">发任务设置</a></li>
+    </ul>
+    <form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('setting/topMoneyPost')}">
+        <div class="row">
+           <div class="col-sm-4">
+               <div class="form-group">
+                   <label for="input-from_name" class="col-sm-2 control-label">
+                       <span class="form-required">*</span>
+                       任务榜
+                   </label>
+                   <label for="input-from_name" class="col-sm-2 control-label">
+                       第一名
+                   </label>
+                   <div class="col-md-6 col-sm-10">
+                       <input type="text" class="form-control" name="task[top1]"
+                              value="{$settings['task']['top1']|default='0'}">
+                   </div>
+               </div>
+               <div class="form-group">
+                   <label for="input-from_name" class="col-sm-2 control-label">
+                   </label>
+                   <label for="input-from_name" class="col-sm-2 control-label">
+                       第二名
+                   </label>
+                   <div class="col-md-6 col-sm-10">
+                       <input type="text" class="form-control" name="task[top2]"
+                              value="{$settings['task']['top2']|default='0'}">
+                   </div>
+               </div>
+               <div class="form-group">
+                   <label for="input-from_name" class="col-sm-2 control-label">
+                   </label>
+                   <label for="input-from_name" class="col-sm-2 control-label">
+                       第三名
+                   </label>
+                   <div class="col-md-6 col-sm-10">
+                       <input type="text" class="form-control" name="task[top3]"
+                              value="{$settings['task']['top3']|default='0'}">
+                   </div>
+               </div>
+               <div class="form-group">
+                   <label for="input-from_name" class="col-sm-2 control-label">
+                   </label>
+                   <label for="input-from_name" class="col-sm-2 control-label">
+                       第四名
+                   </label>
+                   <div class="col-md-6 col-sm-10">
+                       <input type="text" class="form-control" name="task[top4]"
+                              value="{$settings['task']['top4']|default='0'}">
+                   </div>
+               </div>
+               <div class="form-group">
+                   <label for="input-from_name" class="col-sm-2 control-label">
+                   </label>
+                   <label for="input-from_name" class="col-sm-2 control-label">
+                       第五名
+                   </label>
+                   <div class="col-md-6 col-sm-10">
+                       <input type="text" class="form-control" name="task[top5]"
+                              value="{$settings['task']['top5']|default='0'}">
+                   </div>
+               </div>
+               <div class="form-group">
+                   <label for="input-from_name" class="col-sm-2 control-label">
+                   </label>
+                   <label for="input-from_name" class="col-sm-2 control-label">
+                       第六名
+                   </label>
+                   <div class="col-md-6 col-sm-10">
+                       <input type="text" class="form-control" name="task[top6]"
+                              value="{$settings['task']['top6']|default='0'}">
+                   </div>
+               </div>
+               <div class="form-group">
+                   <label for="input-from_name" class="col-sm-2 control-label">
+                   </label>
+                   <label for="input-from_name" class="col-sm-2 control-label">
+                       第七名
+                   </label>
+                   <div class="col-md-6 col-sm-10">
+                       <input type="text" class="form-control" name="task[top7]"
+                              value="{$settings['task']['top7']|default='0'}">
+                   </div>
+               </div>
+               <div class="form-group">
+                   <label for="input-from_name" class="col-sm-2 control-label">
+                   </label>
+                   <label for="input-from_name" class="col-sm-2 control-label">
+                       第八名
+                   </label>
+                   <div class="col-md-6 col-sm-10">
+                       <input type="text" class="form-control" name="task[top8]"
+                              value="{$settings['task']['top8']|default='0'}">
+                   </div>
+               </div>
+               <div class="form-group">
+                   <label for="input-from_name" class="col-sm-2 control-label">
+                   </label>
+                   <label for="input-from_name" class="col-sm-2 control-label">
+                       第九名
+                   </label>
+                   <div class="col-md-6 col-sm-10">
+                       <input type="text" class="form-control" name="task[top9]"
+                              value="{$settings['task']['top9']|default='0'}">
+                   </div>
+               </div>
+               <div class="form-group">
+                   <label for="input-from_name" class="col-sm-2 control-label">
+                   </label>
+                   <label for="input-from_name" class="col-sm-2 control-label">
+                       第十名
+                   </label>
+                   <div class="col-md-6 col-sm-10">
+                       <input type="text" class="form-control" name="task[top10]"
+                              value="{$settings['task']['top10']|default='0'}">
+                   </div>
+               </div>
+           </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label for="input-from_name" class="col-sm-2 control-label">
+                        <span class="form-required">*</span>
+                        组队榜
+                    </label>
+                    <label for="input-from_name" class="col-sm-2 control-label">
+                        第一名
+                    </label>
+                    <div class="col-md-6 col-sm-10">
+                        <input type="text" class="form-control" name="team[top1]"
+                               value="{$settings['team']['top1']|default='0'}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="input-from_name" class="col-sm-2 control-label">
+                    </label>
+                    <label for="input-from_name" class="col-sm-2 control-label">
+                        第二名
+                    </label>
+                    <div class="col-md-6 col-sm-10">
+                        <input type="text" class="form-control" name="team[top2]"
+                               value="{$settings['team']['top2']|default='0'}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="input-from_name" class="col-sm-2 control-label">
+                    </label>
+                    <label for="input-from_name" class="col-sm-2 control-label">
+                        第三名
+                    </label>
+                    <div class="col-md-6 col-sm-10">
+                        <input type="text" class="form-control" name="team[top3]"
+                               value="{$settings['team']['top3']|default='0'}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="input-from_name" class="col-sm-2 control-label">
+                    </label>
+                    <label for="input-from_name" class="col-sm-2 control-label">
+                        第四名
+                    </label>
+                    <div class="col-md-6 col-sm-10">
+                        <input type="text" class="form-control" name="team[top4]"
+                               value="{$settings['team']['top4']|default='0'}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="input-from_name" class="col-sm-2 control-label">
+                    </label>
+                    <label for="input-from_name" class="col-sm-2 control-label">
+                        第五名
+                    </label>
+                    <div class="col-md-6 col-sm-10">
+                        <input type="text" class="form-control" name="team[top5]"
+                               value="{$settings['team']['top5']|default='0'}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="input-from_name" class="col-sm-2 control-label">
+                    </label>
+                    <label for="input-from_name" class="col-sm-2 control-label">
+                        第六名
+                    </label>
+                    <div class="col-md-6 col-sm-10">
+                        <input type="text" class="form-control" name="team[top6]"
+                               value="{$settings['team']['top6']|default='0'}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="input-from_name" class="col-sm-2 control-label">
+                    </label>
+                    <label for="input-from_name" class="col-sm-2 control-label">
+                        第七名
+                    </label>
+                    <div class="col-md-6 col-sm-10">
+                        <input type="text" class="form-control" name="team[top7]"
+                               value="{$settings['team']['top7']|default='0'}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="input-from_name" class="col-sm-2 control-label">
+                    </label>
+                    <label for="input-from_name" class="col-sm-2 control-label">
+                        第八名
+                    </label>
+                    <div class="col-md-6 col-sm-10">
+                        <input type="text" class="form-control" name="team[top8]"
+                               value="{$settings['team']['top8']|default='0'}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="input-from_name" class="col-sm-2 control-label">
+                    </label>
+                    <label for="input-from_name" class="col-sm-2 control-label">
+                        第九名
+                    </label>
+                    <div class="col-md-6 col-sm-10">
+                        <input type="text" class="form-control" name="team[top9]"
+                               value="{$settings['team']['top9']|default='0'}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="input-from_name" class="col-sm-2 control-label">
+                    </label>
+                    <label for="input-from_name" class="col-sm-2 control-label">
+                        第十名
+                    </label>
+                    <div class="col-md-6 col-sm-10">
+                        <input type="text" class="form-control" name="team[top10]"
+                               value="{$settings['team']['top10']|default='0'}">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('SAVE')}</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

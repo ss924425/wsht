@@ -1,0 +1,47 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap">
+    <ul class="nav nav-tabs">
+        <li class=""><a href="{:url('Extask/accountlist')}">账号列表</a></li>
+        <li class="active"><a href="{:url('Extask/accountadd')}">添加账号</a></li>
+    </ul>
+    <form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('Admin/Extask/accountadd')}">
+        <div class="form-group">
+            <label for="input-from_name" class="col-sm-2 control-label">
+                <span class="form-required">*</span>
+                业务名称
+            </label>
+            <div class="col-md-6 col-sm-10">
+                <input type="text" class="form-control"  name="account_name"
+                       value="{$account_setting.goods_id|default=''}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-from_name" class="col-sm-2 control-label">
+                <span class="form-required">*</span>
+                业务id
+            </label>
+            <div class="col-md-6 col-sm-10">
+                <input type="text" class="form-control" id="input-from_name" name="account_id"
+                       value="">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-from" class="col-sm-2 control-label">
+                <span class="form-required">*</span>APIKEY
+            </label>
+            <div class="col-md-6 col-sm-10">
+                <input type="text" class="form-control" id="input-from" name="api_key" value="">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('SAVE')}</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

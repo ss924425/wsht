@@ -1,0 +1,62 @@
+<include file="public@header" />
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li><a href="{:url('TaskUser/index')}">任务会员列表</a></li>
+			<li class="active"><a href="{:url('TaskUser/addTaskUser')}">添加任务会员</a></li>
+		</ul>
+		<form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('TaskUser/addTaskUser')}">
+			<div class="form-group">
+				<label for="input-user_login" class="col-sm-2 control-label"><span class="form-required">*</span>{:lang('USERNAME')}</label>
+				<div class="col-md-6 col-sm-10">
+					<input type="text" class="form-control" id="input-user_login" required name="user_login" placeholder="请输入登录账号" autocomplete="off">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="input-user_pass" class="col-sm-2 control-label"><span class="form-required">*</span>{:lang('PASSWORD')}</label>
+				<div class="col-md-6 col-sm-10">
+					<input type="text" class="form-control" id="input-user_pass" required name="user_pass" autocomplete="off" placeholder="请输入登录密码">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="input-mobile" class="col-sm-2 control-label"><span class="form-required">*</span>{:lang('MOBILE')}</label>
+				<div class="col-md-6 col-sm-10">
+					<input type="text" class="form-control" id="input-mobile" required name="mobile" autocomplete="off">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="input-user_nickname" class="col-sm-2 control-label"><span class="form-required"></span>真实姓名</label>
+				<div class="col-md-6 col-sm-10">
+					<input type="text" class="form-control" id="input-user_nickname" name="user_nickname">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="input-user_email" class="col-sm-2 control-label"><span class="form-required"></span>{:lang('EMAIL')}</label>
+				<div class="col-md-6 col-sm-10">
+					<input type="text" class="form-control" id="input-user_email" name="user_email">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="input-user_email" class="col-sm-2 control-label"><span class="form-required">*</span>{:lang('ROLE')}</label>
+				<div class="col-md-6 col-sm-10">
+					<foreach name="roles" item="vo">
+						<label class="checkbox-inline">
+							<if condition="cmf_get_current_admin_id() eq 1 && $vo['id'] eq 37">
+								<input value="{$vo.id}" type="checkbox" name="role_id[]" >{$vo.name}
+							</if>
+						</label>
+					</foreach>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<button type="submit" class="btn btn-primary js-ajax-submit">{:lang('ADD')}</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

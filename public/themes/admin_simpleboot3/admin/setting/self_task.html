@@ -1,0 +1,282 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:url('setting/selfTask')}">发任务设置</a></li>
+    </ul>
+    <form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('setting/selfTaskPost')}">
+        <div class="form-group">
+            <label for="input-from_name" class="col-sm-2 control-label">
+                <span class="form-required">*</span>
+                是否审核任务
+            </label>
+            <div class="col-md-6 col-sm-10">
+                <input type="radio" title="不审核" name="isverifytask" value="0"
+                <eq name="settings.isverifytask" value="0">checked</eq>
+                />
+                <span>不审核</span>
+                <input type="radio" title="审核" name="isverifytask" value="1"
+                <eq name="settings.isverifytask" value="1">checked</eq>
+                />
+                <span>审核</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-from_name" class="col-sm-2 control-label">
+                <span class="form-required">*</span>
+                是否退回扣费
+            </label>
+            <div class="col-md-6 col-sm-10">
+                <input type="radio" title="不审核" name="isbacktm" value="0"
+                <eq name="$settings['isbacktm']" value="0">checked</eq>
+                />
+                <span>不退回</span>
+                <input type="radio" title="审核" name="isbacktm" value="1"
+                <eq name="$settings['isbacktm']" value="1">checked</eq>
+                />
+                <span>退回</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-from_name" class="col-sm-2 control-label">
+                <span class="form-required">*</span>
+                是否恢复已结算的任务
+            </label>
+            <div class="col-md-6 col-sm-10">
+                <input type="radio" title="不审核" name="restart" value="0"
+                <eq name="$settings['restart']" value="0">checked</eq>
+                />
+                <span>不可恢复</span>
+                <input type="radio" title="不审核" name="restart" value="1"
+                <eq name="$settings['restart']" value="1">checked</eq>
+                />
+                <span>可恢复</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-from_name" class="col-sm-2 control-label">
+                <span class="form-required">*</span>
+                抢任务限制
+            </label>
+            <div class="col-md-6 col-sm-10">
+                <input type="radio" title="不审核" name="taketask" value="0"
+                <eq name="$settings['taketask']" value="0">checked</eq>
+                />
+                <span>可同时抢多个人</span>
+                <input type="radio" title="不审核" name="taketask" value="1"
+                <eq name="$settings['taketask']" value="1">checked</eq>
+                />
+                <span>完成已抢任务后才能抢下一个任务</span>
+                <input type="radio" title="不审核" name="taketask" value="2"
+                <eq name="$settings['taketask']" value="2">checked</eq>
+                />
+                <span>回复已抢任务后才能抢下一个任务</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-from_name" class="col-sm-2 control-label">
+                <span class="form-required">*</span>
+                是否交保证金
+            </label>
+            <div class="col-md-6 col-sm-10">
+                <input type="text" class="form-control" name="isdeposit" value="{$settings['isdeposit']}">
+                <p class="help-block">填0是需要交发布任务支出的保证金才能发布任务，填-1是不需要交纳保证金就能发布任务，填大于0的数字是交此数值的保证金才能发布任务</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-from_name" class="col-sm-2 control-label">
+                <span class="form-required">*</span>
+                非VIP每天最多抢任务次数
+            </label>
+            <div class="col-md-6 col-sm-10">
+                <input type="text" class="form-control" name="maxip" value="{$settings['maxip']}">
+                <p class="help-block">填正整数，填0不限制。例：填10，同一个IP每天最多抢10次任务</p>
+            </div>
+        </div>
+        <div class="form-group" style="display: none">
+            <label class="col-sm-2 control-label">
+                <span class="form-required">*</span>
+                赏金差价比例
+            </label>
+            <div class="col-md-6 col-sm-10">
+                <input type="text" class="form-control" name="falseprice" value="{$settings['falseprice']}">
+                <p class="help-block">单位/%。例：填写5，前端展示任务赏金为任务会员发布的任务赏金减去5%之后的价格</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-from_name" class="col-sm-2 control-label">
+                <span class="form-required">*</span>
+                置顶任务费用
+            </label>
+            <div class="col-md-6 col-sm-10">
+                <input type="text" class="form-control" name="topserver" value="{$settings['topserver']}">
+                <p class="help-block">单位/元。例：填写1，置顶任务需要花费1元</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-from_name" class="col-sm-2 control-label">
+                <span class="form-required">*</span>
+                发布任务最低佣金
+            </label>
+            <div class="col-md-6 col-sm-10">
+                <input type="text" class="form-control" name="leastcommoney" value="{$settings['leastcommoney']}">
+                <p class="help-block">单位/元。例：填写1，发布普通任务时，每个回复的赏金至少要设置1元</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-from_name" class="col-sm-2 control-label">
+                <span class="form-required">*</span>
+                投诉警告比例
+            </label>
+            <div class="col-md-6 col-sm-10">
+                <input type="text" class="form-control" name="warn" value="{$settings['warn']}">
+                <p class="help-block">单位/%。例：填写5，任务被投诉数量占任务总量的5%后页面即出现警告信息。填0不出现警告</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-from_name" class="col-sm-2 control-label">
+                <span class="form-required">*</span>
+                回复者平台使用费
+            </label>
+            <div class="col-md-6 col-sm-10">
+                <input type="text" class="form-control" name="replyserver" value="{$settings['replyserver']}">
+                <p class="help-block">单位/%。例：填写5，会员的回复被采纳后，扣除5%做平台使用费。小于0.01不扣</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-from_name" class="col-sm-2 control-label">
+                <span class="form-required">*</span>
+                抢到普通任务后释放时间
+            </label>
+            <div class="col-md-6 col-sm-10">
+                <input type="text" class="form-control" name="endtime" value="{$settings['endtime']}">
+                <p class="help-block">
+                    单位/分钟。粉丝抢到普通任务后，超过此时间不回复，系统释放被占的任务数量。（前端发布任务的停留时间也受这个数值限制，停留时间要求小于这个数值的一半）例：这里填40，那么粉丝抢到任务在40分钟内没有回复，则释放一个任务，发布任务的时候，停留时间必须小于20。</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-from_name" class="col-sm-2 control-label">
+                <span class="form-required">*</span>
+                发布的任务有效时间
+            </label>
+            <div class="col-md-6 col-sm-10">
+                <input type="text" class="form-control" name="autoconfirm" value="{$settings['autoconfirm']}">
+                <p class="help-block">单位/小时。前端发布的任务，在此时间段内雇主没有处理的任务自动结束。</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-from_name" class="col-sm-2 control-label">
+                <span class="form-required">*</span>
+                发布任务服务费率
+            </label>
+            <div class="col-md-6 col-sm-10">
+                <input type="text" class="form-control" name="commonserver" value="{$settings['commonserver']}">
+                <p class="help-block">单位/%。例：填5，那么多收5%的费用。</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-from_name" class="col-sm-2 control-label">
+                <span class="form-required">*</span>
+                发布任务最低服务费
+            </label>
+            <div class="col-md-6 col-sm-10">
+                <input type="text" class="form-control" name="commonserverleast"
+                       value="{$settings['commonserverleast']}">
+                <p class="help-block">单位/元。例：填5，那么通过费率计算小于5，则取5做服务费</p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="input-from_name" class="col-sm-2 control-label">
+                <span class="form-required">*</span>
+                发布任务页默认任务赏金
+            </label>
+            <div class="col-md-6 col-sm-10">
+                <input type="text" class="form-control" name="defmoney" value="{$settings['defmoney']}">
+                <p class="help-block">填0不显示</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-from_name" class="col-sm-2 control-label">
+                <span class="form-required">*</span>
+                发布任务上级提成比率 上级:
+            </label>
+            <div class="col-md-6 col-sm-10">
+                <input type="text" class="form-control" name="pcgive" value="{$settings['pcgive']}">
+                <p class="help-block">
+                    填0或不填则不给提成，单位/%。例：填5，那么从发布任务的服务费(包括置顶等其他费)中给5%的提成。这个是系统给的，不从下级收益中扣，若计算小于0.01也不给。</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-from_name" class="col-sm-2 control-label">
+                <span class="form-required">*</span>
+                任务完成上级提成比率 上级:
+            </label>
+            <div class="col-md-6 col-sm-10">
+                <input type="text" class="form-control" name="commongive" value="{$settings['commongive']}">
+                <p class="help-block">填0或不填则不给提成，单位/%。例：填5，那么给5%的提成。这个是系统给的，不从下级收益中扣，若计算小于0.01也不给</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-from_name" class="col-sm-2 control-label">
+                <span class="form-required">*</span>
+                任务完成上级提成比率 上上级:
+            </label>
+            <div class="col-md-6 col-sm-10">
+                <input type="text" class="form-control" name="commontwogive" value="{$settings['commontwogive']}">
+                <p class="help-block">填0或不填则不给提成，单位/%。例：填5，那么给5%的提成。这个是系统给的，不从下级收益中扣，若计算小于0.01也不给</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-from_name" class="col-sm-2 control-label"><span class="form-required">*</span>抢一个商家的任务最多次数</label>
+            <div class="col-md-6 col-sm-10">
+                <esui-text-box class="ui-ctrl ui-textbox">
+                    <input type="text" class="form-control" name="permaxday" value="{$settings['permaxday']}">
+                </esui-text-box>
+                天内最多抢一个商家的
+                <esui-text-box class="ui-ctrl ui-textbox">
+                    <input type="text" class="form-control" name="permaxre" value="{$settings['permaxre']}">
+                </esui-text-box>
+                项任务<span>
+                <p class="help-block">例：分别设置设置1，2，会员A在1天内抢了会员B发布的2条任务，那么对会员B发布的其他任务就不能回复了。第二个参数填0或不填则不限制</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-from_name" class="col-sm-2 control-label">
+                <span class="form-required"></span>屏蔽关键词
+            </label>
+            <div class="col-md-6 col-sm-10">
+                <textarea class="form-control" name="hidetxt">{$settings['hidetxt']|default=''}</textarea>
+                <p class="help-block">一些高危敏感关键词用用此功能屏蔽掉。所有任务标题里有此关键词的都将被屏蔽成*，不同的关键词用,隔开。设置示例：转发,分享,下载app。</p>
+            </div>
+        </div>
+        <!--<div class="form-group">-->
+            <!--<label for="input-from_name" class="col-sm-2 control-label">-->
+                <!--<span class="form-required">*</span>-->
+                <!--虚拟数据-->
+            <!--</label>-->
+            <!--<div class="col-md-6 col-sm-10">-->
+                <!--<esui-text-box class="ui-ctrl ui-textbox">虚拟人气-->
+                    <!--<input type="number" class="form-control" name="falsetimes" value="{$settings['falsetimes']|default=0}">-->
+                <!--</esui-text-box>-->
+                <!--<esui-text-box class="ui-ctrl ui-textbox">虚拟发布量-->
+                    <!--<input type="number" class="form-control" name="falsepubed" value="{$settings['falsepubed']|default=0}">-->
+                <!--</esui-text-box>-->
+                <!--<esui-text-box class="ui-ctrl ui-textbox">虚拟完成量-->
+                    <!--<input type="number" class="form-control" name="falsecomed" value="{$settings['falsecomed']|default=0}">-->
+                <!--</esui-text-box>-->
+            <!--</div>-->
+        <!--</div>-->
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('SAVE')}</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<include file="public@header" />
+<style>
+    .WdateDiv {
+        background-color: #FFFFFF;
+        border: 1px solid #BBBBBB;
+        padding: 2px;
+        width: 180px;
+    }
+</style>
+</head>
+<body>
+<div class="wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:url('cat/add')}">添加分类</a></li>
+    </ul>
+    <!--
+
+    -->
+    <form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('cat/addpost')}">
+        <div class="form-group">
+            <label class="col-sm-2 control-label"><span class="form-required">*</span>分类名称</label>
+            <div class="col-md-6 col-sm-10">
+                <input type="text" class="form-control" name="cat_name" value="">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary js-ajax-submit">添加</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

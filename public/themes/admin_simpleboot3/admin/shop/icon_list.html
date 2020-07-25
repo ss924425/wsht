@@ -1,0 +1,76 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:url('shop/iconList')}">所有图标</a></li>
+        <li><a href="{:url('setting/icon')}">添加图标</a></li>
+    </ul>
+    <form class="well form-inline" method="post" action="{:url('shop/iconList')}">
+        分类名称:
+        <input type="text" class="form-control" name="title" style="width: 200px;"
+               value="{$title|default=''}" placeholder="请输入关键字...">
+        <input type="submit" class="btn btn-primary" value="搜索"/>
+        <a class="btn btn-danger" href="{:url('shop/iconList')}">清空</a>
+    </form>
+    <form method="post" class="js-ajax-form">
+        <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>图标名称</th>
+                <th>跳转地址</th>
+                <th>图标</th>
+                <th>状态</th>
+                <th>创建时间</th>
+                <th>修改时间</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <volist name="icon" id="vo">
+                <tr>
+                    <td>{$vo.id}</td>
+                    <td>{$vo.title}</td>
+                    <td>{$vo.url}</td>
+                    <td onclick="imagePreviewDialog('{:cmf_get_image_preview_url($vo.img)}')"><img
+                            src="{:cmf_get_image_preview_url($vo.img)}" alt="" width="80" height="60"></td>
+                    <td>
+                        <if condition="$vo.type == 0">禁用</if>
+                        <if condition="$vo.type == 1">启用</if>
+                    </td>
+                    <td>{:date('Y-m-d H:i:s',$vo['create_time'])}</td>
+                    <td>
+                        <if condition="$vo.update_time neq ''">{:date('Y-m-d H:i:s',$vo.update_time)}</if>
+                    </td>
+                    <td>
+                        <a href='{:url("shop/editIcon",["id"=>$vo["id"]])}' class="btn btn-success btn-xs"><i
+                                class="fa fa-edit"></i>编辑</a>
+                        <a href="{:url('shop/deleteIcon',array('id'=>$vo['id']))}" class="js-ajax-dialog-btn" data-msg="确定删除该吗,请谨慎操作？">{:lang('DELETE')}</a>
+                    </td>
+                </tr>
+            </volist>
+            </tbody>
+        </table>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+<script>
+
+    function ajaxUpdateField(obj){
+        var table = $(obj).data('table');
+        var id = $(obj).data('id');
+        var field = $(obj).attr('name').replace(/field_/ig,""); // 字段名字
+        var value = $(obj).val();
+        $.ajax({
+            type:'POST',
+            data:{table:table,id:id, field:field,value:value},
+            url:"{:url('Admin/Index/updateField')}",
+            success:function(data){
+                layer.msg('修改成功');
+            }
+        });
+    }
+</script>
+</body>
+</html>

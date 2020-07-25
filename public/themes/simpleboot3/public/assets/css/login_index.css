@@ -1,0 +1,24 @@
+.bar-nav {
+    background: red;
+}
+header .fanhui{
+    color: #fff;
+}
+header .title{
+    color: #fff;
+}
+
+/*主体*/
+.content .list-block{
+    margin:1.75rem  0.75rem ;
+}
+.content .list-block .content-block .login{
+    height: 35px;
+    line-height: 35px;
+    font-size: 0.9rem;
+}
+.content .list-block .wangjimima{
+    text-align: right;
+    margin-right: 1.8rem;
+    margin-top: -14px;
+}

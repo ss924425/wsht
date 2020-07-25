@@ -1,0 +1,95 @@
+<include file="public@header" />
+<link rel="stylesheet" href="__ROOT__/assets/src/css/bootstrap-datepicker.min.css">
+<script src="__ROOT__/assets/src/js/bootstrap-datetimepicker.js"></script>
+<script src="__ROOT__/assets/src/js/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:url('log/yonglog')}">佣金列表</a></li>
+    </ul>
+
+    <form class="well form-inline" method="post" action="{:url('log/yonglog')}">
+
+        受益人:
+        <input type="text" class="form-control" name="to_user" style="width: 200px;" value="{:input('request.to_user/s','')}" placeholder="请输入受益人用户ID/手机号">
+        来源人:
+        <input type="text" class="form-control" name="from_user" style="width: 200px;" value="{:input('request.from_user/s','')}" placeholder="请输入来源人用户ID/手机号">
+        日志类型
+        <select class="form-control" name="type">
+            <option value="" selected>请选择日志类型</option>
+            <option value="0" <eq name="type" value="0">selected</eq>>分销佣金</option>
+            <option value="1" <eq name="type" value="1">selected</eq>>固定返</option>
+            <!--<option value="2" <eq name="type" value="2">selected</eq>>股东任务返佣</option>-->
+            <option value="3" <eq name="type" value="3">selected</eq>>佣金提现</option>
+        </select>
+        <input type="text" class="form-control js-bootstrap-datetime" name="start_time"
+               value="{$start_time|default=''}"
+               style="width: 140px;" autocomplete="off">-
+        <input type="text" class="form-control js-bootstrap-datetime" name="end_time"
+               value="{$end_time|default=''}"
+               style="width: 140px;" autocomplete="off">
+        <input type="submit" class="btn btn-primary" value="搜索" />
+        <a href="{:url('log/yonglog')}" class="btn btn-danger">清空</a>
+    </form>
+
+    <form action="" method="post" class="margin-top-20" class="js-ajax-form">
+        <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <th width="100">编号</th>
+                <th width="100">订单编号</th>
+                <th align="left">用户名称</th>
+                <th align="left">佣金类型</th>
+                <th align="left">佣金来源用户名</th>
+                <th align="left">时间</th>
+                <th align="left">分销金额</th>
+                <th align="left">分销佣金</th>
+                <th align="left">类型</th>
+                <th align="left">状态</th>
+                <th align="left">备注</th>
+            </tr>
+            </thead>
+            <tbody>
+            <volist name="list" id="v">
+                <tr>
+                    <td>{$v.id}</td>
+                    <td>{$v.order_id}</td>
+                    <td>{$v.user_login}</td>
+                    <td>
+                        <switch name="v.yong_type">
+                            <case value="0">分销</case>
+                            <case value="1">固定返</case>
+                            <case value="2">股东任务返佣</case>
+                            <case value="3">佣金提现</case>
+                        </switch>
+                    </td>
+                    <td>{$v.sup_login}</td>
+                    <td>{:date('Y-m-d H:i:s',$v['create_time'])}</td>
+                    <td>{$v.fxprice}</td>
+                    <td>{$v.fxyj}</td>
+                    <td>
+                        <switch name="v.type">
+                            <case value="0">收入</case>
+                            <case value="1">支出</case>
+                        </switch>
+                    </td>
+                    <td>
+                        <switch name="v.status">
+                            <case value="0">金额</case>
+                            <case value="1">积分</case>
+                        </switch>
+                    </td>
+                    <td>{$v.notes}</td>
+                </tr>
+            </volist>
+            </tbody>
+        </table>
+        <div class="pagination">{$page}</div>
+    </form>
+
+</div>
+    <script src="__STATIC__/js/admin.js"></script>
+
+</body>
+</html>

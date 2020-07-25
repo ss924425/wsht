@@ -1,0 +1,197 @@
+<include file="public@header" />
+<link rel="stylesheet" href="__ROOT__/assets/src/css/bootstrap-datepicker.min.css">
+<script src="__ROOT__/assets/src/js/bootstrap-datetimepicker.js"></script>
+<script src="__ROOT__/assets/src/js/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+<style>
+	.WdateDiv {
+		background-color: #FFFFFF;
+		border: 1px solid #BBBBBB;
+		padding: 2px;
+		width: 180px;
+	}
+</style>
+
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li><a href="{:url('task/branch',array('id'=>$id))}">期数列表</a></li>
+			<li class="active"><a href="{:url('task/bran_add',array('id'=>$id))}">新增期数</a></li>
+		</ul>
+		<form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('task/bran_addpost')}">
+			<div class="form-group">
+				<label class="col-sm-2 control-label"><span class="form-required">*</span>任务标题</label>
+				<div class="col-md-6 col-sm-10">
+					<input type="text" class="form-control" value="{$task.title}" disabled>
+				</div>
+			</div>
+			<input type="hidden" name="post[tid]" value="{$id}">
+			<div class="form-group">
+				<label class="col-sm-2 control-label"><span class="form-required">*</span>分期标题</label>
+				<div class="col-md-6 col-sm-10">
+					<input type="text" class="form-control" name="post[b_title]" value="">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label"><span class="form-required">*</span>任务金额</label>
+				<div class="col-md-6 col-sm-10">
+					<input type="number" class="form-control" name="post[b_money]" value="">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label"><span class="form-required">*</span>官方金额</label>
+				<div class="col-md-6 col-sm-10">
+					<input type="number" class="form-control" name="post[b_official_money]" value="">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label"><span class="form-required">*</span>差价</label>
+				<div class="col-md-6 col-sm-10">
+					<input type="number" class="form-control" name="post[b_brokerage]" value="">
+				</div>
+			</div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">开始时间</label>
+                <div class="col-md-6 col-sm-10">
+					<eq name="thefirst" value="1">
+                    	<input type="text" class="form-control js-bootstrap-datetime" name="post[b_begin_time]" value="{$task.begin_time}" readonly/>
+						<else/>
+						<input type="text" class="form-control js-bootstrap-datetime" name="post[b_begin_time]" value=""/>
+					</eq>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">结束时间</label>
+                <div class="col-md-6 col-sm-10">
+                    <input type="text" class="form-control js-bootstrap-datetime" name="post[b_end_time]" value="">
+                </div>
+            </div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">提交截止小时</label>
+				<div class="col-md-6 col-sm-10">
+					<input type="number" class="form-control" name="post[last_sub_time]" value="">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="input-remark" class="col-sm-2 control-label">图文详情</label>
+				<div class="col-md-6 col-sm-10">
+					<input type="hidden" name="post[b_remark_img]" id="thumbnai5" value="">
+					<a href="javascript:uploadOneImage('图片上传','#thumbnai5');">
+						<img src="__TMPL__/public/assets/images/default-thumbnail.png" id="thumbnai5-preview" width="135" style="cursor: pointer"/>
+					</a>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">发布数量</label>
+				<div class="col-md-6 col-sm-10">
+					<input type="number" class="form-control" name="post[quantity]" value="">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="input-remark" class="col-sm-2 control-label">任务描述</label>
+				<div class="col-md-6 col-sm-10">
+					<script type="text/plain" id="content" name="post[b_remark]"></script>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="input-remark" class="col-sm-2 control-label">验证依据</label>
+				<div class="col-md-6 col-sm-10">
+					<input type="text" class="form-control" name="post[b_validate]" value="">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="input-remark" class="col-sm-2 control-label">手机号依据</label>
+				<div class="col-md-6 col-sm-10">
+					<input type="text" class="form-control" name="post[submit_phone]" value="">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="input-remark" class="col-sm-2 control-label">订单号依据</label>
+				<div class="col-md-6 col-sm-10">
+					<input type="text" class="form-control" name="post[submit_order]" value="">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="input-remark" class="col-sm-2 control-label">图片依据一</label>
+				<div class="col-md-6 col-sm-10">
+					<!--图片说明：<input type="text" name="post[explain1]" value="">-->
+					<textarea class="form-control" name="post[explain1]" style="resize:none" placeholder="图片说明"></textarea>
+					<input type="hidden" name="post[e_photo1]" id="thumbnai1" value="">
+					<a href="javascript:uploadOneImage('图片上传','#thumbnai1');">
+						<img src="__TMPL__/public/assets/images/default-thumbnail.png" id="thumbnai1-preview" width="135" style="cursor: pointer"/>
+					</a>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="input-remark" class="col-sm-2 control-label">图片依据二</label>
+				<div class="col-md-6 col-sm-10">
+					<textarea class="form-control" name="post[explain2]" style="resize:none" placeholder="图片说明"></textarea>
+					<input type="hidden" name="post[e_photo2]" id="thumbnai2" value="">
+					<a href="javascript:uploadOneImage('图片上传','#thumbnai2');">
+						<img src="__TMPL__/public/assets/images/default-thumbnail.png" id="thumbnai2-preview" width="135" style="cursor: pointer"/>
+					</a>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="input-remark" class="col-sm-2 control-label">图片依据三</label>
+				<div class="col-md-6 col-sm-10">
+					<textarea class="form-control" name="post[explain3]" style="resize:none" placeholder="图片说明"></textarea>
+					<input type="hidden" name="post[e_photo3]" id="thumbnai3" value="">
+					<a href="javascript:uploadOneImage('图片上传','#thumbnai3');">
+						<img src="__TMPL__/public/assets/images/default-thumbnail.png" id="thumbnai3-preview" width="135" style="cursor: pointer"/>
+					</a>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="input-remark" class="col-sm-2 control-label">图片依据四</label>
+				<div class="col-md-6 col-sm-10">
+					<textarea class="form-control" name="post[explain4]" style="resize:none" placeholder="图片说明"></textarea>
+					<input type="hidden" name="post[e_photo4]" id="thumbnai4" value="">
+					<a href="javascript:uploadOneImage('图片上传','#thumbnai4');">
+						<img src="__TMPL__/public/assets/images/default-thumbnail.png" id="thumbnai4-preview" width="135" style="cursor: pointer"/>
+					</a>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<button type="submit" class="btn btn-primary js-ajax-submit">添加</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<script src="__STATIC__/js/admin.js"></script>
+	<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.config.js"></script>
+	<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.all.min.js"></script>
+	<script>
+		//编辑器
+		$(function () {
+			editorcontent = new baidu.editor.ui.Editor();
+			editorcontent.render('content');
+			try {
+				editorcontent.sync();
+			} catch (err) {
+			}
+
+			$('.btn-cancel-thumbnail').click(function () {
+				$('#thumbnail-preview').attr('src', '__TMPL__/public/assets/images/default-thumbnail.png');
+				$('#thumbnail').val('');
+			});
+
+			$('#more-template-select').val("{$post.more.template|default=''}");
+		});
+	</script>
+
+</body>
+</html>

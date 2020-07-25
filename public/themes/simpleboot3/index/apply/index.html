@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>我的预约</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
+    <script type='text/javascript' src='http://g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='http://g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
+    <style>
+        .bar-nav {
+            background: red;
+        }
+        header .fanhui{
+            color: #fff;
+        }
+        header .title{
+            color: #fff;
+        }
+
+        /*主体*/
+        .content .list-block{
+            margin: 0.75rem 0;
+        }
+        .content .list-block ul{
+            padding-bottom: 1rem;
+        }
+
+
+    </style>
+</head>
+
+<body>
+<div class="page">
+    <header class="bar bar-nav">
+        <a class="button button-link button-nav pull-left back" data-transition='slide-out'>
+            <span class="icon icon-left fanhui"></span>
+        </a>
+        <h1 class="title">我的预约</h1>
+    </header>
+
+    <div class="content">
+        <form action="{:url('apply/add')}" method="post">
+        <!-- 这里是页面内容区 -->
+        <div class="list-block">
+            <ul>
+                <!-- 客户姓名 -->
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-name"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">客户姓名</div>
+                            <div class="item-input">
+                                <input type="text"name="truename" placeholder="请输入姓名...">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <!--电话-->
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-email"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">电话</div>
+                            <div class="item-input">
+                                <input type="tel" name="mobile" placeholder="请输入电话...">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <!--备注信息-->
+                <li class="align-top">
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-comment"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">备注</div>
+                            <div class="item-input">
+                                <textarea style="border:1px solid #cccaca;" name="remark" placeholder="请输入备注信息..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="content-block">
+            <div class="row">
+                <div class="col-50"><a href="{:url('index/index')}" class="button button-big button-fill button-danger">取消</a></div>
+                <div class="col-50"><button type="submit" class="button button-big button-fill button-success" style="width: 100%;">提交</button></div>
+            </div>
+        </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:url('setting/user')}">参数设置</a></li>
+    </ul>
+    <form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('setting/score_setting')}">
+        <div class="form-group">
+            <label for="input-from_name" class="col-sm-2 control-label">
+                <span class="form-required">*</span>
+                每日首次完成任务增加（分）
+            </label>
+            <div class="col-md-6 col-sm-10">
+                <input type="number" class="form-control" name="first"
+                       value="{$score_setting.first|default='0'}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-from_name" class="col-sm-2 control-label">
+                <span class="form-required">*</span>
+                每日签到增加（分）
+            </label>
+            <div class="col-md-6 col-sm-10">
+                <input type="number" class="form-control" name="sign"
+                       value="{$score_setting.sign|default='0'}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-from_name" class="col-sm-2 control-label">
+                <span class="form-required">*</span>
+                未在规定时间完成扣除（分）
+            </label>
+            <div class="col-md-6 col-sm-10">
+                <input type="number" class="form-control" name="undone"
+                       value="{$score_setting.undone|default='0'}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-from_name" class="col-sm-2 control-label">
+                <span class="form-required">*</span>
+                恶意传图扣除（分）
+            </label>
+            <div class="col-md-6 col-sm-10">
+                <input type="number" class="form-control" name="spite"
+                       value="{$score_setting.spite|default='0'}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-from_name" class="col-sm-2 control-label">
+                <span class="form-required">*</span>
+                任务未通过扣除(分)
+            </label>
+            <div class="col-md-6 col-sm-10">
+                <input type="number" class="form-control" name="notpass"
+                       value="{$score_setting.notpass|default='0'}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-from_name" class="col-sm-2 control-label"><span class="form-required">*</span>信誉积分低于</label>
+            <div class="col-md-6 col-sm-10">
+                <esui-text-box class="ui-ctrl ui-textbox">
+                    <input type="number" class="form-control" name="minscore" value="{$score_setting.minscore|default='150'}">
+                </esui-text-box>
+                分,不能提现与充值,不能接取和发布任务<span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-from_name" class="col-sm-2 control-label"><span class="form-required">*</span>信誉积分低于</label>
+            <div class="col-md-6 col-sm-10">
+                <esui-text-box class="ui-ctrl ui-textbox">
+                    <input type="number" class="form-control" name="score" value="{$score_setting.score|default='200'}">
+                </esui-text-box>
+               分,每天只能接取
+                <esui-text-box class="ui-ctrl ui-textbox">
+                    <input type="number" class="form-control" name="receivenum" value="{$score_setting.receivenum|default='2'}">
+                </esui-text-box>
+                次任务<span>
+                <p class="help-block">例：分别设置设置200，2，会员A信誉积分低于200分,每天只能接取两个任务</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('SAVE')}</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

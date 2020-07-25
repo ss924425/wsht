@@ -1,0 +1,51 @@
+<include file="public@header"/>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#">商品SKU设置</a></li>
+        <li><a href="javascript:history.go(-1);">返回上一页</a></li>
+    </ul>
+    <form action="{:url('shop/skuSetPost')}" method="post" class="form-horizontal js-ajax-form margin-top-20">
+        <input type="hidden" name="id" value="{$cache.id}">
+        <div class="form-group">
+            <label class="col-lg-2 control-label">此商品SKU属性<sup>*</sup></label>
+            <div class="col-lg-4">
+                <input type="text" class="form-control" disabled="disabled" value="{$cache.skuattr}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-2 control-label">此商品SKU价格<sup>*</sup></label>
+            <div class="col-lg-4">
+                <input type="text" class="form-control" name="price" placeholder="必填"
+                       data-bv-notempty="true"
+                       data-bv-notempty-message="不能为空" value="{$cache.price}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-2 control-label">此商品SKU会员价格<sup>*</sup></label>
+            <div class="col-lg-4">
+                <input type="text" class="form-control" name="vprice" placeholder="必填"
+                       data-bv-notempty="true"
+                       data-bv-notempty-message="不能为空" value="{$cache.vprice}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-2 control-label">此商品SKU库存<sup>*</sup></label>
+            <div class="col-lg-4">
+                <input type="text" class="form-control" name="num" placeholder="必填"
+                       data-bv-notempty="true"
+                       data-bv-notempty-message="不能为空" value="{$cache.num}">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('SAVE')}</button>
+                <button class="btn btn-default" type="reset">重填</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<include file="public@header"/>
+<script src="__STATIC__/js/colorpicker/js/colorpicker.js"></script>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#">添加图标</a></li>
+        <li class=""><a href="{:url('shop/iconList')}">图标列表</a></li>
+    </ul>
+    <form class="form-horizontal js-ajax-form margin-top-20" role="form" action="{:url('setting/iconPost')}"
+          method="post">
+        <div class="form-group">
+            <label for="inputEmail3" class="col-sm-2 col-lg-1 control-label">图标功能</label>
+            <div class="col-sm-6 col-lg-4">
+                <input type="text" class="form-control" id="title" name="title" value="" placeholder="">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputEmail3" class="col-sm-2 col-lg-1 control-label">链接地址</label>
+            <div class="col-sm-6 col-lg-4">
+                <input type="text" class="form-control" id="url" name="url" value="" placeholder="">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputEmail3" class="col-sm-2 col-lg-1 control-label">图标</label>
+            <div class="col-sm-6 col-lg-4">
+                <div style="text-align: center;">
+                    <input type="hidden" name="img" id="thumbnail" value="">
+                    <a href="javascript:uploadOneImage('图片上传','#thumbnail');">
+                        <img src="__TMPL__/public/assets/images/default-thumbnail.png"
+                             id="thumbnail-preview"
+                             width="135" style="cursor: pointer"/>
+                    </a>
+                    <input type="button" class="btn btn-sm btn-cancel-thumbnail" value="取消图片">
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputEmail3" class="col-sm-2 col-lg-1 control-label">是否启用图标</label>
+            <label for="input-from_name" class="col-sm-2 control-label">
+                <input type="radio" title="不审核" name="type" value="0" />
+                <span>禁用</span>
+                <input type="radio" title="审核" name="type" value="1" />
+                <span>启用</span>
+            </label>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary js-ajax-submit" data-refresh="0">
+                    设置
+                </button>
+            </div>
+        </div>
+    </form>
+
+</div>
+<script type="text/javascript" src="__STATIC__/js/admin.js"></script>
+<script type="text/javascript">
+    //编辑器路径定义
+    var editorURL = GV.WEB_ROOT;
+</script>
+<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        editorcontent = new baidu.editor.ui.Editor();
+        editorcontent.render('content');
+        try {
+            editorcontent.sync();
+        } catch (err) {
+        }
+        $('.btn-cancel-thumbnail').click(function () {
+            $('#thumbnail-preview').attr('src', '__TMPL__/public/assets/images/default-thumbnail.png');
+            $('#thumbnail').val('');
+        });
+    });
+    $('#isskubtn').on('click', function() {
+        var value = $(this).prop('checked') ? 1 : 0;
+        $('#issku').val(value);
+    });
+    $('#issellsbtn').on('click', function() {
+        var value;
+        if ($(this).prop('checked')) {
+            value = 1;
+            $('#dissells').slideDown();
+        } else {
+            value = 0;
+            $('#dissells').slideUp();
+        }
+        $('#issells').val(value);
+    });
+</script>
+</body>
+</html>

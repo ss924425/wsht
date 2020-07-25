@@ -1,0 +1,255 @@
+<include file="public@header"/>
+<style type="text/css">
+    .pic-list li {
+        margin-bottom: 5px;
+    }
+</style>
+<script type="text/html" id="photos-item-tpl">
+    <li id="saved-image{id}">
+        <input id="photo-{id}" type="hidden" name="images[]" value="{filepath}">
+        <img id="photo-{id}-preview" src="{url}" style="height:36px;width: 36px;"
+             onclick="imagePreviewDialog(this.src);">
+        <a href="javascript:uploadOneImage('图片上传','#photo-{id}');">替换</a>
+        <a href="javascript:(function(){$('#saved-image{id}').remove();})();">移除</a>
+    </li>
+</script>
+</head>
+<body>
+<div class="wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:url('Extask/notstartorder')}">订单列表</a></li>
+        <li class="active"><a href="{:url('Extask/addtask')}">发布任务</a></li>
+    </ul>
+    <form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('extask/addTaskPost')}">
+        <div class="form-group">
+            <label for="input-device_no" class="col-sm-2 control-label"><span
+                    class="form-required">*</span>所属分类</label>
+            <div class="col-md-6 col-sm-10">
+                <select class="form-control" name="sortid" required id="sortid">
+                    <option value="{$info.id}">{$info.name}</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group" style="display: none">
+            <label for="input-device_no" class="col-sm-2 control-label"><span
+                    class="form-required">*</span>所属业务分类</label>
+            <div class="col-md-6 col-sm-10">
+                <input type="hidden" readonly name="goods_type" autocomplete="off" class="form-control" value="{$orderinfo.goods_type|default=''}">
+            </div>
+        </div>
+        <div class="form-group" style="display: none">>
+            <label for="input-device_no" class="col-sm-2 control-label"><span
+                    class="form-required">*</span>订单id</label>
+            <div class="col-md-6 col-sm-10">
+                <input type="hidden" readonly name="order_id" autocomplete="off" id="orderid" class="form-control" value="{$orderinfo.id|default=''}">
+            </div>
+        </div>
+        <div class="form-group" style="display: none">>
+            <label for="input-device_no" class="col-sm-2 control-label"><span
+                    class="form-required">*</span>订单标题</label>
+            <div class="col-md-6 col-sm-10">
+                <input type="hidden" readonly name="goods_type_title" autocomplete="off" class="form-control" value="{$orderinfo.goods_type_title|default=''}">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="input-user_email" class="col-sm-2 control-label"><span class="form-required">*</span>业务渠道</label>
+            <div class="col-md-6 col-sm-10">
+                <select class="form-control" name="yewuqudao" required id="">
+                    <option value="conglin">从林</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="input-device_no" class="col-sm-2 control-label"><span
+                    class="form-required">*</span>任务标题</label>
+            <div class="col-md-6 col-sm-10">
+                <textarea class="form-control" name="title" required>{$info.title|htmlspecialchars_decode|default=''}</textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-device_no" class="col-sm-2 control-label"><span
+                    class="form-required">*</span>任务类型</label>
+            <div class="col-md-6 col-sm-10">
+                <select class="form-control" name="task_type" required>
+                        <option value="1">推荐任务</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-device_no" class="col-sm-2 control-label"><span
+                    class="form-required"></span>任务图片
+            </label>
+            <div class="col-md-6 col-sm-10">
+                <ul id="photos" class="pic-list list-unstyled form-inline">
+                    <notempty name="info.other.taskimg">
+                        <foreach name="info.other.taskimg" item="vo">
+                            <php>$img_url=cmf_get_image_preview_url($vo);</php>
+                            <li id="saved-image{$key}">
+                                <input id="photo-{$key}" type="hidden" name="images[]"
+                                       value="{$vo}">
+                                <img id="photo-{$key}-preview"
+                                     src="{:cmf_get_image_preview_url($vo)}"
+                                     style="height:36px;width: 36px;"
+                                     onclick="parent.imagePreviewDialog(this.src);">
+                                <a href="javascript:uploadOneImage('图片上传','#photo-{$key}');">替换</a>
+                                <a href="javascript:(function(){$('#saved-image{$key}').remove();})();">移除</a>
+                            </li>
+                        </foreach>
+                    </notempty>
+                </ul>
+                <a href="javascript:uploadMultiImage('图片上传','#photos','photos-item-tpl');"
+                   class="btn btn-sm btn-default">选择图片</a>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label"><span class="form-required">*</span>开始时间</label>
+            <div class="col-md-6 col-sm-10">
+                <input type="text" class="form-control js-bootstrap-datetime" autocomplete="off" name="start"  value="{$orderinfo.start_time|default=''}" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label"><span class="form-required">*</span>结束时间</label>
+            <div class="col-md-6 col-sm-10">
+                <input type="text" class="form-control js-bootstrap-datetime" autocomplete="off" name="end" value="{$orderinfo.end_time|default=''}" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-device_no" class="col-sm-2 control-label"><span
+                    class="form-required">*</span>任务接取有效时间</label>
+            <div class="col-md-6 col-sm-10">
+                <input type="number" name="usetime" autocomplete="off" class="form-control" value="{$info.usetime|default=''}">
+                <p class="help-block">单位(小时),接取任务之后到时间没有完成自动放弃</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-device_no" class="col-sm-2 control-label"><span
+                    class="form-required">*</span>任务总量</label>
+            <div class="col-md-6 col-sm-10">
+                <input type="number" name="num" readonly autocomplete="off" class="form-control" value="{$orderinfo.need_num_0|default=''}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-device_no" class="col-sm-2 control-label"><span
+                    class="form-required">*</span>任务赏金</label>
+            <div class="col-md-6 col-sm-10">
+                <input type="text" name="money" autocomplete="off" class="form-control" readonly value="{$info.dmoney}">
+                <p class="help-block">填入金额数值,每个回复能得到的赏金</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-device_no" class="col-sm-2 control-label"><span
+                    class="form-required">*</span>抢任务次数</label>
+            <div class="col-md-6 col-sm-10">
+                <input type="number" name="limitnum" class="form-control" value="{$info.other.canget|default=1}">
+                <p class="help-block">填入正整数,这是限制每个人最多能抢的次数，填0即任何人都不能抢</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-device_no" class="col-sm-2 control-label"><span
+                    class="form-required"></span>隐藏回复</label>
+            <div class="col-md-6 col-sm-10">
+                <label class="radio-inline"><input type="radio" name="ishide" value="1" <eq name="info.other.hide" value="1">checked</eq>>隐藏</label>
+                <label class="radio-inline"><input type="radio" name="ishide" value="0" <eq name="info.other.hide" value="0">checked</eq>>不隐藏</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-device_no" class="col-sm-2 control-label"><span
+                    class="form-required"></span>置顶任务</label>
+            <div class="col-md-6 col-sm-10">
+                <label class="radio-inline"><input type="radio" name="istop" value="0" checked>不置顶</label>
+                <label class="radio-inline"><input type="radio" name="istop" value="1">置顶</label>
+            </div>
+        </div>
+        <div class="form-group" style="display: none">
+            <label for="input-device_no" class="col-sm-2 control-label"><span
+                    class="form-required"></span>连续发布</label>
+            <div class="col-md-6 col-sm-10">
+                <label class="radio-inline"><input type="radio" name="continue" value="0" checked>不设置</label>
+                <label class="radio-inline"><input type="radio" name="continue" value="1">设置</label>
+            </div>
+        </div>
+        <div class="form-group hidden" id="continue-param">
+            <label for="input-device_no" class="col-sm-2 control-label"><span
+                    class="form-required"></span>连续发布参数</label>
+            <div class="col-md-6 col-sm-10">
+                <label class="radio-inline">天数<input type="text" name="days" value=""></label>
+                <label class="radio-inline">额外奖励<input type="text" name="ewai" value=""></label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-device_no" class="col-sm-2 control-label"><span
+                    class="form-required">*</span>任务超链接</label>
+            <div class="col-md-6 col-sm-10">
+                <input type="text" name="chaolianjie" autocomplete="off" class="form-control" value="{$orderinfo.aa}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-from_name" class="col-sm-2 control-label">
+                <span class="form-required"></span>任务内容
+            </label>
+            <div class="col-md-6 col-sm-10">
+                <textarea name="content" class="form-control" cols="30" rows="10">{$info.content|default=''}</textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-from_name" class="col-sm-2 control-label">
+                <span class="form-required"></span>隐藏内容
+            </label>
+            <div class="col-md-6 col-sm-10">
+                <textarea name="hidecontent" class="form-control" cols="30" rows="10">{$info.other.hcontent|default=''}</textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('ADD')}</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+<script type="text/javascript">
+    //编辑器路径定义
+    var editorURL = GV.WEB_ROOT;
+</script>
+<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+
+        $('.btn-cancel-thumbnail').click(function () {
+            $('#thumbnail-preview').attr('src', '__TMPL__/public/assets/images/default-thumbnail.png');
+            $('#thumbnail').val('');
+        });
+    });
+    // 超链接add_url
+    $('#add_url').click(function () {
+        var html = '<div class="edit_right_item">'
+            + '文字<span class="frm_input_box frm_input_box_150">'
+            + '<input type="text" class="frm_input"  name="urlname[]" value="">'
+            + '</span>链接<span class="frm_input_box frm_input_box_300">'
+            + '<input type="text" class="frm_input"  name="urlurl[]" value="">'
+            + '</span>'
+            + '<a href="javascript:;" class="delete_params"> 删除</a>'
+            + '</div>';
+        $('.group_params_box').append(html);
+    });
+    // 删除属性
+    $('body').on('click', '.delete_params', function () {
+        $(this).parents('.edit_right_item').remove();
+    });
+    $(':input[name="continue"]').change(function () {
+        if ($(this).val() == 1) {
+            $('#continue-param').removeClass('hidden')
+        } else {
+            $('#continue-param').addClass('hidden')
+        }
+    })
+    $('#sortid').change(function () {
+        var sid = $(this).val();
+        location.href = '{:url("addtasknew")}' + "?sid=" + sid;
+    })
+</script>
+</body>
+</html>

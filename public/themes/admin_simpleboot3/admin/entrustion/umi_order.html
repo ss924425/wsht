@@ -1,0 +1,73 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:url('entrustion/umi_order')}">有米订单</a></li>
+    </ul>
+    <form class="well form-inline" method="post" action="{:url('entrustion/umi_order')}">
+        任务名称:
+        <input type="text" class="form-control" name="ad" style="width: 120px;"
+               value="{:input('request.ad/s','')}" placeholder="任务名称">
+        会员昵称:
+        <input type="text" class="form-control" name="user_mobile" style="width: 120px;"
+               value="{:input('request.user_mobile/s','')}" placeholder="会员昵称">
+        <input type="submit" class="btn btn-primary" value="搜索"/>
+        <a class="btn btn-danger" href="{:url('entrustion/umi_order')}">清空</a>
+    </form>
+    <form action="{:url('Rbac/listorders')}" method="post" class="margin-top-20">
+        <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <th width="40">ID</th>
+                <th align="left">订单号</th>
+                <th align="left">开发者应用id</th>
+                <th align="left">会员昵称</th>
+                <th align="left">任务名称</th>
+                <th align="left">任务id</th>
+                <th align="left">渠道号</th>
+                <th align="left">订单创建时间</th>
+                <th align="left">积分值</th>
+                <th align="left">保存时间</th>
+                <th align="left">设备名称</th>
+                <th align="left">应用商店id</th>
+                <th align="left">回调的任务类型</th>
+                <th align="left">参数签名</th>
+                <th align="left">应用包名</th>
+            </tr>
+            </thead>
+            <tbody>
+            <foreach name="list" item="vo">
+                <tr>
+                    <td>{$vo.id}</td>
+                    <td>{$vo.order}</td>
+                    <td>{$vo.app}</td>
+                    <td>{$vo.user_login}</td>
+                    <td>{$vo.ad}</td>
+                    <td>{$vo.adid}</td>
+                    <td>{$vo.chn}</td>
+                    <td>{:date('Y-m-d H:i:s',$vo.time)}</td>
+                    <td>{$vo.points}</td>
+                    <td>{:date('Y-m-d H:i:s',$vo.create_time)}</td>
+                    <td>{$vo.device}</td>
+                    <td>{$vo.storeid}</td>
+                    <td>
+                        <switch name="$vo.trade_type">
+                            <case value="1">主任务</case>
+                            <case value="2">附加任务(附加任务可能会有多个)</case>
+                            <case value="3">分享主任务</case>
+                            <case value="4">深度分享任务</case>
+                        </switch>
+                    </td>
+                    <td>{$vo.sig}</td>
+                    <td>{$vo.pkg}</td>
+                </tr>
+            </foreach>
+            </tbody>
+        </table>
+        <div class="pagination">{$page}</div>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

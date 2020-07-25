@@ -1,0 +1,179 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:url('shop/cate')}">所有项目分类</a></li>
+        <li><a href="{:url('shop/addCate')}">添加项目分类</a></li>
+    </ul>
+    <form class="well form-inline" method="post" action="{:url('shop/cate')}">
+        分类名称:
+        <input type="text" class="form-control" name="cate_name" style="width: 200px;"
+               value="{$cate_name|default=''}" placeholder="请输入关键字...">
+        <input type="submit" class="btn btn-primary" value="搜索"/>
+        <a class="btn btn-danger" href="{:url('shop/cate')}">清空</a>
+    </form>
+    <form method="post" class="js-ajax-form">
+        <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>层级</th>
+                <th>路径</th>
+                <th>分类名称</th>
+                <th>缩略图</th>
+                <th>分类备注</th>
+                <th>排序</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <volist name="cache" id="v">
+                <tr>
+                    <td>{$v.cate_id}</td>
+                    <td>{$v.lv}</td>
+                    <td>{$v.path}</td>
+                    <td>{$v.cate_name}</td>
+                    <td onclick="imagePreviewDialog('{:cmf_get_image_preview_url($v.pic_url)}')"><img
+                            src="{:cmf_get_image_preview_url($v.pic_url)}" alt="" width="80" height="60"></td>
+                    <td onclick="artdialogAlert('{$v.summary}')">{$v.summary|cut_str=###,45}</td>
+                    <td><input class="form-control input-sm" type="text"
+                               onkeyup="this.value=this.value.replace(/[^\d.]/g,'')"
+                               onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onchange="ajaxUpdateField(this);"
+                               name="sorts" size="4" data-table="shop_category" data-id="{$v.cate_id}"
+                               value="{$v.sorts}"></td>
+                    <td>
+                        <a href='{:url("shop/editCate",["cate_id"=>$v["cate_id"]])}' class="btn btn-success btn-xs"><i
+                                class="fa fa-edit"></i>编辑</a>
+                        <a href="{:url('shop/deleteCate',array('cate_id'=>$v['cate_id']))}" class="js-ajax-dialog-btn" data-msg="确定删除该分类及其所有子分类吗,请谨慎操作？">{:lang('DELETE')}</a>
+                    </td>
+                </tr>
+                <present name="v['_child']">
+                    <volist name="v['_child']" id="vo2">
+                        <tr>
+                            <td>{$vo2.cate_id}</td>
+                            <td>{$vo2.lv}</td>
+                            <td>{$vo2.path}</td>
+                            <td>{$vo2.cate_name}</td>
+                            <td onclick="imagePreviewDialog('{:cmf_get_image_preview_url($vo2.pic_url)}')"><img
+                                    src="{:cmf_get_image_preview_url($vo2.pic_url)}" alt="" width="80" height="60"></td>
+                            <td onclick="artdialogAlert('{$vo2.summary}')">{$vo2.summary|cut_str=###,45}</td>
+                            <td><input class="form-control input-sm" type="text"
+                                       onkeyup="this.value=this.value.replace(/[^\d.]/g,'')"
+                                       onpaste="this.value=this.value.replace(/[^\d.]/g,'')"
+                                       onchange="ajaxUpdateField(this);" name="sorts" size="4"
+                                       data-table="shop_category" data-id="{$vo2.cate_id}" value="{$vo2.sorts}"></td>
+                            <td>
+                                <a href='{:url("shop/editCate",["cate_id"=>$vo2["cate_id"]])}'
+                                   class="btn btn-success btn-xs"><i class="fa fa-edit"></i>编辑</a>
+                                <a href="{:url('shop/deleteCate',array('cate_id'=>$vo2['cate_id']))}"
+                                   class="js-ajax-dialog-btn" data-msg="确定删除该分类及其所有子分类吗,请谨慎操作？">{:lang('DELETE')}</a>
+                            </td>
+                        </tr>
+                        <present name="vo2['_child']">
+                            <foreach name="vo2['_child']" item="vo3">
+                                <tr>
+                                    <td>{$vo3.cate_id}</td>
+                                    <td>{$vo3.lv}</td>
+                                    <td>{$vo3.path}</td>
+                                    <td>{$vo3.cate_name}</td>
+                                    <td onclick="imagePreviewDialog('{:cmf_get_image_preview_url($vo3.pic_url)}')"><img
+                                            src="{:cmf_get_image_preview_url($vo3.pic_url)}" alt="" width="80" height="60"></td>
+                                    <td onclick="artdialogAlert('{$vo3.summary}')">{$vo3.summary|cut_str=###,45}</td>
+                                    <td><input class="form-control input-sm" type="text"
+                                               onkeyup="this.value=this.value.replace(/[^\d.]/g,'')"
+                                               onpaste="this.value=this.value.replace(/[^\d.]/g,'')"
+                                               onchange="ajaxUpdateField(this);" name="sorts" size="4"
+                                               data-table="shop_category" data-id="{$vo3.cate_id}"
+                                               value="{$vo3.sorts}"></td>
+                                    <td>
+                                        <a href='{:url("shop/editCate",["cate_id"=>$vo3["cate_id"]])}'
+                                           class="btn btn-success btn-xs"><i class="fa fa-edit"></i>编辑</a>
+                                        <a href="{:url('shop/deleteCate',array('cate_id'=>$vo3['cate_id']))}"
+                                           class="js-ajax-dialog-btn" data-msg="确定删除该分类及其所有子分类吗,请谨慎操作？">{:lang('DELETE')}</a>
+                                    </td>
+                                </tr>
+                                <present name="vo3['_child']">
+                                    <foreach name="vo3['_child']" item="vo4">
+                                        <tr>
+                                            <td>{$vo4.cate_id}</td>
+                                            <td>{$vo4.lv}</td>
+                                            <td>{$vo4.path}</td>
+                                            <td>{$vo4.cate_name}</td>
+                                            <td onclick="imagePreviewDialog('{:cmf_get_image_preview_url($vo4.pic_url)}')"><img
+                                                    src="{:cmf_get_image_preview_url($vo4.pic_url)}" alt="" width="80" height="60"></td>
+                                            <td onclick="artdialogAlert('{$vo4.summary}')">
+                                                {$vo4.summary|cut_str=###,45}
+                                            </td>
+                                            <td><input class="form-control input-sm" type="text"
+                                                       onkeyup="this.value=this.value.replace(/[^\d.]/g,'')"
+                                                       onpaste="this.value=this.value.replace(/[^\d.]/g,'')"
+                                                       onchange="ajaxUpdateField(this);" name="sorts" size="4"
+                                                       data-table="shop_category" data-id="{$vo4.cate_id}"
+                                                       value="{$vo4.sorts}"></td>
+                                            <td>
+                                                <a href='{:url("shop/editCate",["cate_id"=>$vo4["cate_id"]])}'
+                                                   class="btn btn-success btn-xs"><i class="fa fa-edit"></i>编辑</a>
+                                                <a href="{:url('shop/deleteCate',array('cate_id'=>$vo4['cate_id']))}"
+                                                   class="js-ajax-dialog-btn" data-msg="确定删除该分类及其所有子分类吗,请谨慎操作？">{:lang('DELETE')}</a>
+                                            </td>
+                                        </tr>
+                                        <present name="vo4['_child']">
+                                            <foreach name="vo4['_child']" item="vo5">
+                                                <tr>
+                                                    <td>{$vo5.cate_id}</td>
+                                                    <td>{$vo5.lv}</td>
+                                                    <td>{$vo5.path}</td>
+                                                    <td>{$vo5.cate_name}</td>
+                                                    <td onclick="imagePreviewDialog('{:cmf_get_image_preview_url($vo5.pic_url)}')"><img
+                                                            src="{:cmf_get_image_preview_url($vo5.pic_url)}" alt="" width="80" height="60"></td>
+                                                    <td onclick="artdialogAlert('{$vo5.summary}')">
+                                                        {$vo5.summary|cut_str=###,45}
+                                                    </td>
+                                                    <td><input class="form-control input-sm" type="text"
+                                                               onkeyup="this.value=this.value.replace(/[^\d.]/g,'')"
+                                                               onpaste="this.value=this.value.replace(/[^\d.]/g,'')"
+                                                               onchange="ajaxUpdateField(this);" name="sorts" size="4"
+                                                               data-table="shop_category" data-id="{$vo5.cate_id}"
+                                                               value="{$vo5.sorts}"></td>
+                                                    <td>
+                                                        <a href='{:url("shop/editCate",["cate_id"=>$vo5["cate_id"]])}'
+                                                           class="btn btn-success btn-xs"><i
+                                                                class="fa fa-edit"></i>编辑</a>
+                                                        <a href="{:url('shop/deleteCate',array('cate_id'=>$vo5['cate_id']))}"
+                                                           class="js-ajax-dialog-btn" data-msg="确定删除该分类及其所有子分类吗,请谨慎操作？">{:lang('DELETE')}</a>
+                                                    </td>
+                                                </tr>
+                                            </foreach>
+                                        </present>
+                                    </foreach>
+                                </present>
+                            </foreach>
+                        </present>
+                    </volist>
+                </present>
+            </volist>
+            </tbody>
+        </table>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+<script>
+
+    function ajaxUpdateField(obj){
+        var table = $(obj).data('table');
+        var id = $(obj).data('id');
+        var field = $(obj).attr('name').replace(/field_/ig,""); // 字段名字
+        var value = $(obj).val();
+        $.ajax({
+            type:'POST',
+            data:{table:table,id:id, field:field,value:value},
+            url:"{:url('Admin/Index/updateField')}",
+            success:function(data){
+                layer.msg('修改成功');
+            }
+        });
+    }
+</script>
+</body>
+</html>

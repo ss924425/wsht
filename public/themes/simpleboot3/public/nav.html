@@ -1,0 +1,21 @@
+<nav class="bar bar-tab">
+    <if condition="session('user')">
+        <a class="tab-item <if condition="$actname eq 'home'">active</if>" href="{:cmf_url('index/index/index2')}">
+            <span class="icon icon-home"></span>
+            <span class="tab-label">首页</span>
+        </a>
+    <else/>
+        <a class="tab-item <if condition="$actname eq 'home'">active</if>" href="{:cmf_url('index/index/index')}">
+        <span class="icon icon-home"></span>
+        <span class="tab-label">首页</span>
+        </a>
+    </if>
+    <a class="tab-item <if condition="$actname eq 'house'">active</if>" href="{:cmf_url('index/House/index')}">
+        <span class="icon icon-emoji"></span>
+        <span class="tab-label">房源</span>
+    </a>
+    <a class="tab-item <if condition="$actname eq 'profile'">active</if>" href="{:cmf_url('user/Profile/index')}">
+        <span class="icon icon-settings"></span>
+        <span class="tab-label">设置</span>
+    </a>
+</nav>

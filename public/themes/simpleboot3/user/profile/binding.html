@@ -1,0 +1,123 @@
+<include file="public@header"/>
+<title>手机号验证</title>
+    <style>
+        .bar-nav {
+            background: red;
+        }
+
+        header .fanhui {
+            color: #fff;
+        }
+
+        header .title {
+            color: #fff;
+        }
+
+        /*主体*/
+        .content .list-block {
+            margin: 1.75rem 0.75rem;
+        }
+
+        .content .list-block .anniu {
+            height: 35px;
+            line-height: 35px;
+            font-size: 0.9rem;
+        }
+
+        .content .list-block .item-content {
+            height: 48px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="page">
+    <div class="content">
+        <!-- 这里是页面内容区 -->
+        <div class="list-block">
+            <empty name="user.mobile">
+            <ul>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-name"></i></div>
+                        <div class="item-inner">
+                            <div class="item-input">
+                                <input type="tel" placeholder="请输入手机号" name="username" id="username">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-email"></i></div>
+                        <div class="item-inner">
+                            <div class="item-input">
+                                <input type="text" placeholder="请输入验证码" name="verification_code" id="verification_code">
+                            </div>
+                        </div>
+                        <h6 style="width: 130px;height: 25px;line-height: 25px;color: red;" onclick="getCode()">获取验证码</h6>
+                    </div>
+                </li>
+            </ul>
+            <else/>
+                <ul>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-name"></i></div>
+                            <div class="item-inner">
+                                <div class="item-input">
+                                    <input type="tel" placeholder="" name="username" value="{$user.mobile}">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </empty>
+            <div class="content-block">
+                <p class="button button-fill button-danger anniu" onclick="binding()">确定</p>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function getCode(){
+        var url = "{:url('user/VerificationCode/send')}";
+        var username = $('#username').val();
+        if(!username){
+            $.toast('请输入手机号');
+        }
+        $.ajax({
+            type : 'POST',
+            dataType : 'json',
+            url : url,
+            data : {username:username},
+            success : function(ret){
+                $.toast(ret.msg)
+            }
+        });
+    }
+
+    function binding(){
+        var username = $('#username').val();
+        var verification_code = $('#verification_code').val();
+        if(!username){
+            $.toast('手机号不能为空');
+        }
+        if(!checkMobile(username)){
+            $.toast('请输入正确的手机号');
+        }
+        if(!verification_code){
+            $.toast('请输入短信验证码');
+        }
+        $.ajax({
+            type : 'POST',
+            dataType : 'json',
+            url : "{:url('profile/bindingMobile')}",
+            data : {username:username,verification_code:verification_code},
+            success : function(ret){
+                $.toast(ret.msg)
+            }
+        });
+    }
+</script>
+<include file="public@footer"/>

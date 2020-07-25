@@ -1,0 +1,131 @@
+<include file="public@header" />
+</head>
+<style type="text/css">
+    #aa>p{
+        width: 200px;
+        align : center;
+        color: red;
+        word-wrap:break-word;
+    }
+</style>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="">未开始订单</a></li>
+    </ul>
+    <form class="well form-inline margin-top-20" method="post" action="{:url('Extask/notstartorder')}">
+        从林业务:
+        <select class="form-control" name="aid">
+            <option value="" <eq name="aid" value="">selected</eq> >选择业务</option>
+            <volist name="names" id="vo">
+                <option value="{$vo.id}" <eq name="sortid" value="$vo.id">selected</eq>>{$vo.account_name}</option>
+            </volist>
+        </select>
+        <input type="submit" class="btn btn-primary" value="搜索" />
+    </form>
+    <form class="js-ajax-form" action="" method="post">
+        <!--<div class="table-actions">-->
+            <!--<button class="btn btn-primary btn-sm js-ajax-submit" type="submit"-->
+            <!--data-action="{:url('Extask/actionorder')}" data-subcheck="true">批量开始任务-->
+            <!--</button>-->
+        <!--</div>-->
+
+        <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <!--<th width="15">-->
+                    <!--<label>-->
+                        <!--<input type="checkbox" class="js-check-all" data-direction="x" data-checklist="js-check-x">-->
+                    <!--</label>-->
+                <!--</th>-->
+                <th width="15">订单号</th>
+                <!--<th>用户备注</th>-->
+                <th >下单账号</th>
+                <th>下单量：点</th>
+                <th>开始量</th>
+                <th>当前量</th>
+                <th>结束量</th>
+                <th>订单状态</th>
+                <th>订单账户/卡密</th>
+                <th>下单时间</th>
+                <th>订单消费</th>
+                <th>商品分类id</th>
+                <th>商品分类标题</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <volist name="list" id="v">
+                <tr>
+                    <!--<td>-->
+                        <!--<input type="checkbox" class="js-check" data-yid="js-check-y" data-xid="js-check-x" name="ids[]"-->
+                               <!--value="{$v.id}" title="ID:{$v.id}">-->
+                    <!--</td>-->
+                    <td>{$v.id}</td>
+                    <td id="aa"><p>{$v.aa}</p></td>
+                    <td>{$v.need_num_0}</td>
+                    <td>{$v.start_num}</td>
+                    <td>{$v.now_num}</td>
+                    <td>{$v.end_num}</td>
+                    <td>
+                        <if condition="$v['order_state'] == 1">
+                             未开始
+                            <elseif condition="$v['order_state'] == 0"}
+
+                            <else/>
+
+                        </if>
+                    </td>
+                    <td><p style="color: blue;">用户id：{$v.user_id}</p></td>
+                    <td>{$v.add_time}</td>
+                    <td>
+                        <p style="color:red;">{$v.order_amount}</p>
+                    </td>
+                    <td>{$v.goods_type}</td>
+                    <td>{$v.goods_type_title}</td>
+                    <td>
+                        <!--<a href="javascript:;" onclick="action({$v.id})">开始此任务</a>-->
+                        <if condition="$adminuser neq ''">
+                            <a href='{:url("extask/addtask",array("id"=>$v["id"],"aid"=>$aid,"aa"=>$v["aa"]))}'>发布任务</a>
+                            <else/>
+
+                        </if>
+
+                        <!--<a href='{:url("extask/orderinfo",array("id"=>$v["id"]))}'>详情</a>-->
+                    </td>
+                </tr>
+            </volist>
+            </tbody>
+        </table>
+        <ul class="pagination">{$page|default=''}</ul>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+<script src="__STATIC__/layer/layer.js"></script>
+<script>
+    function action(id) {
+        var id = id;
+        layer.confirm('确定开始此任务吗?', function (index) {
+            $.ajax({
+                url: '{:url("extask/actionorder")}',
+                data: {'id': id},
+                type: 'post',
+                dataType: 'json',
+                success: function (res) {
+                    if (res.code == 1) {
+                        layer.msg(res.msg, {
+                            icon: 6,
+                            time: 1000
+                        }, function () {
+                            location.reload();
+                        });
+                    } else {
+                        layer.msg(res.msg, {icon: 5});
+                    }
+                }
+            })
+        })
+    }
+</script>
+</body>
+</html>

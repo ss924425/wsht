@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<title>业主委托</title>
+		<link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
+		<script type='text/javascript' src='http://g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+		<script type='text/javascript' src='http://g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
+		<style type="text/css">
+			.bar-nav {
+				background: red;
+			}
+			
+			.bar-nav a span {
+				color: white;
+			}
+			
+			.bar-nav h1 {
+				color: white;
+			}
+			.list-block{
+				margin-top: 0px;
+			}
+			.item-input textarea{
+				/*box-shadow: gainsboro 1px 1px 1px 1px;*/
+				border: 1px solid gainsboro;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="page">
+			<header class="bar bar-nav">
+				<a class="button button-link button-nav pull-left back" href="index.html" data-transition='slide-out'>
+					<span class="icon icon-left"></span>
+				</a>
+				<h1 class="title">业主委托</h1>
+			</header>
+
+			<div class="content">
+				<!-- 这里是页面内容区 -->
+				<form action="{:url('entrustion/add')}" method="post" id="addform">
+				<div class="content">
+					<div class="list-block">
+						<ul>
+							<!-- Text inputs -->
+							<li>
+								<div class="item-content">
+									<div class="item-media"><i class="icon icon-form-password"></i></div>
+									<div class="item-inner">
+										<div class="item-title label">房源名称</div>
+										<div class="item-input">
+											<input type="text" name="housetitle" id="housetitle" placeholder="房源名称" class="">
+										</div>
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="item-content">
+									<div class="item-media"><i class="icon icon-form-password"></i></div>
+									<div class="item-inner">
+										<div class="item-title label">楼栋</div>
+										<div class="item-input">
+											<input type="text" name="loudong" id="loudong" placeholder="楼栋信息" class="">
+										</div>
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="item-content">
+									<div class="item-media"><i class="icon icon-form-password"></i></div>
+									<div class="item-inner">
+										<div class="item-title label">单元</div>
+										<div class="item-input">
+											<input type="text" name="danyuan" id="danyuan" placeholder="单元信息" class="">
+										</div>
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="item-content">
+									<div class="item-media"><i class="icon icon-form-password"></i></div>
+									<div class="item-inner">
+										<div class="item-title label">房间号</div>
+										<div class="item-input">
+											<input type="text" name="fangjian" id="fangjian" placeholder="房间号信息" class="">
+										</div>
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="item-content">
+									<div class="item-media"><i class="icon icon-form-name"></i></div>
+									<div class="item-inner">
+										<div class="item-title label">姓名</div>
+										<div class="item-input">
+											<input type="text" name="truename" id="truename" placeholder="姓名">
+										</div>
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="item-content">
+									<div class="item-media"><i class="icon icon-form-email"></i></div>
+									<div class="item-inner">
+										<div class="item-title label">电话</div>
+										<div class="item-input">
+											<input type="tel" name="mobile" id="mobile" placeholder="11位电话号码">
+										</div>
+									</div>
+								</div>
+							</li>
+							<li class="align-top">
+								<div class="item-content">
+									<div class="item-media"><i class="icon icon-form-comment"></i></div>
+									<div class="item-inner">
+										<div class="item-title label">备注信息</div>
+										<div class="item-input">
+											<textarea name="remark" id="remark"></textarea>
+										</div>
+									</div>
+								</div>
+							</li>
+							<!-- Switch (Checkbox) -->
+							<li>
+								<div class="item-content">
+									<div class="item-media"><i class="icon icon-form-toggle"></i></div>
+									<div class="item-inner">
+										<div class="item-title label">确认无误</div>
+										<div class="item-input">
+											<label class="label-switch">
+								                <input type="checkbox">
+								                <div class="checkbox"></div>
+											</label>
+										</div>
+									</div>
+								</div>
+							</li>
+						</ul>
+					</div>
+					<div class="content-block">
+						<div class="row">
+							<div class="col-50">
+								<a href="{:url('index/index')}" class="button button-big button-fill button-danger">取消</a>
+							</div>
+							<div class="col-50">
+								<button id="commit" type="submit" class="button button-big button-fill button-success" style="width: 100%">提交</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				</form>
+			</div>
+		</div>
+	</body>
+
+</html>

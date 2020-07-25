@@ -1,0 +1,61 @@
+<include file="public@header" />
+<link rel="stylesheet" href="__ROOT__/assets/src/css/bootstrap-datepicker.min.css">
+<script src="__ROOT__/assets/src/js/bootstrap-datetimepicker.js"></script>
+<script src="__ROOT__/assets/src/js/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:url('order/mine')}">我的预约</a></li>
+        <li class="active"><a href="#">记录日志</a></li>
+    </ul>
+    <div class="container">
+        <h2 style="color: #69806a">房源跟进日志</h2>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>预约人姓名</th>
+                    <th>员工姓名</th>
+                    <th>日志内容</th>
+                    <th>跟进时间</th>
+                </tr>
+            </thead>
+            <tbody>
+                <foreach name="logs" item="vo">
+                    <tr>
+                        <td>{$vo.id}</td>
+                        <td>{$vo.truename}</td>
+                        <td>{$vo.user_login}</td>
+                        <td>{$vo.remark}</td>
+                        <td>{:date('Y-m-d H:i:s',$vo.create_time)}</td>
+                    </tr>
+                </foreach>
+            </tbody>
+        </table>
+        <h2 style="color: #69806a">添加跟进日志</h2>
+        <table class="table table-hover">
+            <thead>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <form action="{:url('order/update_log')}" method="post">
+                        <div class="col-lg-6">
+                            <div class="input-group">
+                                <input type="text" name="remark" placeholder="填写日志内容" class="form-control">
+                                <input type="hidden" name="order_id" value="{$order_id}">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="submit">添加!</button>
+                                </span>
+                            </div>
+                        </div>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+</body></html>

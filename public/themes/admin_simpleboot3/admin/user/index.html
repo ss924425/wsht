@@ -1,0 +1,346 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:url('user/index')}">会员列表</a></li>
+    </ul>
+    <form class="well form-inline" method="post" action="{:url('User/index')}">
+        会员ID:
+        <input type="text" id="user_id" class="form-control" name="user_id" style="width: 120px;"
+               value="{:input('request.user_id/s','')}" placeholder="请输入会员ID">
+        用户名:
+        <input type="text" id="user_login" class="form-control" name="user_login" style="width: 120px;"
+               value="{:input('request.user_login/s','')}" placeholder="请输入{:lang('USERNAME')}">
+        手机号:
+        <input type="text" id="mobile" class="form-control" name="mobile" style="width: 120px;"
+               value="{:input('request.mobile/s','')}" placeholder="请输入手机号">
+        <input type="submit" class="btn btn-primary" value="搜索"/>
+        <a class="btn btn-danger" href="{:url('User/index')}">清空</a>
+    </form>
+    <table class="table table-hover table-bordered">
+        <div class="table-actions">
+            <span style="color: green;font-size: 18px">当前在线人数为:{$nowsum}人</span>
+        </div>
+        <div class="table-actions">
+            <button class="btn btn-primary btn-sm" onclick="exportUserlistExcel()">导出Excel表格</button>
+        </div>
+        <thead>
+        <tr>
+            <th>序号</th>
+            <th width="50">ID</th>
+            <th>{:lang('USERNAME')}</th>
+            <th>{:lang('MOBILE')}</th>
+            <th>是否为VIP</th>
+            <th>创建时间</th>
+            <th>{:lang('LAST_LOGIN_IP')}</th>
+            <th>{:lang('LAST_LOGIN_TIME')}</th>
+            <th>账户余额</th>
+            <th>保证金</th>
+            <th>佣金收入</th>
+            <th>信用积分</th>
+            <th>支付宝姓名</th>
+            <th>支付宝账号</th>
+            <th>上级昵称(ID)</th>
+            <th>{:lang('STATUS')}</th>
+            <th width="130">{:lang('ACTIONS')}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <php>
+            $user_statuses=array("0"=>lang('USER_STATUS_BLOCKED'),"1"=>lang('USER_STATUS_ACTIVATED'),"2"=>lang('USER_STATUS_UNVERIFIED'));
+        </php>
+        <foreach name="users" item="vo" key="k">
+            <tr>
+                <td>{$num * $limit + $k - ($limit - 1)}</td>
+                <td>
+                    <if condition="$vo.important eq 1"><span style="color:red;">{$vo.id}</span>
+                        <else/>
+                        {$vo.id}
+                    </if>
+                </td>
+                <td>
+                    <if condition="$vo['user_url']"><a href="{$vo.user_url}" target="_blank" title="{$vo.signature}">{$vo.user_login}</a>
+                        <else/>
+                        {$vo.user_login}
+                    </if>
+                </td>
+                <td>{$vo.mobile}</td>
+                <td>
+                    <if condition="$vo.vip_type eq 1"><span style="color:blue;">普通用户</span>
+                        <else/>
+                        <span style="color: red;">VIP</span>
+                    </if>
+                </td>
+                <td>{:date('Y-m-d H:i:s',$vo['create_time'])}</td>
+                <td>{$vo.last_login_ip}</td>
+                <td>
+                    <if condition="$vo['last_login_time'] eq 0">
+                        {:lang('USER_HAVE_NOT_LOGIN')}
+                        <else/>
+                        {:date('Y-m-d H:i:s',$vo['last_login_time'])}
+                    </if>
+                </td>
+                <td>{$vo.user_money}</td>
+                <td>{$vo.deposit}</td>
+                <td style="cursor: pointer; color: red;" onclick="ShowCountModal(this,'{$vo.id}')">点击查看</td>
+                <td>
+                    <if condition="$vo['credit_score'] lt 300">
+                        <span style="color: red">{$vo.credit_score}</span>
+                        <elseif condition="$vo['credit_score'] egt 300"/>
+                        <span style="color: green">{$vo.credit_score}</span>
+                    </if>
+                </td>
+                <td>{$vo.apply_name}</td>
+                <td>{$vo.apply_account}</td>
+                <td>
+                    <if condition="$vo['pid'] neq 0">
+                        {$vo.up_name}({$vo.pid})
+                    </if>
+                </td>
+                <td>
+                    <switch name="$vo.user_status">
+                        <case value="0"><span style="color: red">禁用</span></case>
+                        <case value="1"><span style="color: green">正常</span></case>
+                        <case value="2"><span>未验证</span></case>
+                        <case value="3"><span style="color: orangered">待审核</span></case>
+                    </switch>
+                </td>
+                <td>
+                    <if condition="$vo['id'] eq 1">
+                        <font color="#cccccc">{:lang('EDIT')}</font> <font color="#cccccc">{:lang('DELETE')}</font>
+                        <if condition="$vo['user_status'] eq 1">
+                            <font color="#cccccc">{:lang('BLOCK_USER')}</font>
+                            <else/>
+                            <font color="#cccccc">{:lang('ACTIVATE_USER')}</font>
+                        </if>
+                        <else/>
+
+                            <a class="btn btn-xs btn-primary" href='{:url("user/edit",array("id"=>$vo["id"]))}'>{:lang('EDIT')}</a>
+                            <if condition="$vo['user_status'] eq 1">
+                                <a class="btn btn-xs btn-primary" href="javascript:userBanOperation('{$vo.id}',1);"
+                                   data-msg="{:lang('BLOCK_USER_CONFIRM_MESSAGE')}">{:lang('BLOCK_USER')}</a>
+                                <else/>
+                                <a class="btn btn-xs btn-primary" href="javascript:userBanOperation('{$vo.id}',2);"
+                                   data-msg="{:lang('ACTIVATE_USER_CONFIRM_MESSAGE')}">{:lang('ACTIVATE_USER')}</a>
+                            </if>
+                            <br>
+
+                    </if>
+
+                </td>
+            </tr>
+        </foreach>
+        </tbody>
+    </table>
+    <div class="pagination">{$page}</div>
+</div>
+<div class="modal fade" id="createFileMModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createFileTitle" data-id="">会员升级</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label class="col-form-label">会员等级:</label>
+                        <span id="vip_two">
+							<input type="radio" name="vip_type" value="2">VIP会员
+						</span>
+                        <span id="vip_three">
+							<input type="radio" name="vip_type" value="3">代理商
+						</span>
+                        <input type="radio" name="vip_type" value="4">股东
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="createFileSureBut">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="viewPicture" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" data-id="">收益统计</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="height:200px;">
+                <table>
+                    <tr>
+                        <td style="font-size:35px;padding-left: 200px;padding-top: 30px;"><span id="receive"
+                                                                                                style="color:#e84949;">0</span>
+                            元
+                        </td>
+                    </tr>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="__STATIC__/js/admin.js"></script>
+<script type="text/javascript">
+    function selectAll() {
+        var isCheck = $("#sel_1").is(':checked');  //获得全选复选框是否选中
+        $("input[type='checkbox']").each(function () {
+            this.checked = isCheck;       //循环赋值给每个复选框是否选中
+        });
+    }
+
+    //导出excel
+    function exportUserlistExcel() {
+        var id = $("#user_id").val();
+        var user_login = $("#user_login").val();
+        var mobile = $("#mobile").val();
+        var agentId = $("#agentId").val();
+        var vip_type = $("#vip_type").val();
+        var important = $("#important").val();
+        var repeat = $("#repeat").val();
+
+        window.location.href = "{:url('User/exportUserlistExcel')}?user_id=" + id + "&user_login=" + user_login + "&mobile=" + mobile + "&agentId=" + agentId + "&vip_type=" + vip_type + "&important=" + important + "&repeat=" + repeat;
+    }
+
+    // 修改弹出框的title, 显示弹框
+    function ShowCreateModal(title, id, vip) {
+        if (vip == 2) {
+            $("#vip_two").hide();
+        } else {
+            $("#vip_two").show();
+        }
+        if (vip == 3) {
+            $("#vip_three").hide();
+            $("#vip_two").hide();
+        } else {
+            $("#vip_three").show();
+        }
+        $("#createFileTitle").text(title);
+        $("#createFileTitle").attr('data-id', id);
+        $('#createFileMModal').modal('show');
+    }
+
+    $("#createFileSureBut").click(function () {
+        var uid = $("#createFileTitle").attr('data-id');
+        var vip_type = $("input[name='vip_type']:checked").val();
+        if (!vip_type) {
+            alert('请选择提升的等级');
+            return false;
+        }
+
+
+        var url = '{:url("user/top_vip")}';
+        $.ajax({
+            url: url,
+            type: "post",
+            data: {'uid': uid, 'vip_type': vip_type},
+            dataType: 'json',
+            success: function (ret) {
+                alert(ret.msg);
+                location.reload();
+            }
+        })
+
+    })
+
+    function userBanOperation(id, type) {
+        if (type == 1) {
+            var url = '{:url("user/ban")}';
+        }
+        if (type == 2) {
+            var url = '{:url("user/cancelban")}';
+        }
+        $.ajax({
+            url: url,
+            type: "post",
+            data: {'id': id},
+            dataType: 'json',
+            success: function (ret) {
+                if (ret.code) {
+                    alert(ret.msg);
+                    location.reload();
+                } else {
+                    alert(ret.msg);
+                }
+            }
+        })
+    }
+
+    //重要客户标记
+    function userImportant(id, type) {
+        var url = '{:url("user/postImportant")}';
+        $.ajax({
+            url: url,
+            type: "post",
+            data: {'id': id, 'type': type},
+            dataType: 'json',
+            success: function (ret) {
+                if (ret.code) {
+                    alert(ret.msg);
+                    location.reload();
+                } else {
+                    alert(ret.msg);
+                }
+            }
+        })
+
+    }
+
+    function number_format(number, decimals, dec_point, thousands_sep) {
+        /*
+        　　 * 参数说明：
+        　　 * number：要格式化的数字
+        　　 * decimals：保留几位小数
+        　　 * dec_point：小数点符号
+        　　 * thousands_sep：千分位符号
+        　　 * */
+        number = (number + '').replace(/[^0-9+-Ee.]/g, '');
+        var n = !isFinite(+number) ? 0 : +number,
+            prec = !isFinite(+decimals) ? 2 : Math.abs(decimals),
+            sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+            dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+            s = '',
+            toFixedFix = function (n, prec) {
+                var k = Math.pow(10, prec);
+                return '' + Math.ceil(n * k) / k;
+            };
+
+        s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+        var re = /(-?\d+)(\d{3})/;
+        while (re.test(s[0])) {
+            s[0] = s[0].replace(re, "$1" + sep + "$2");
+        }
+
+        if ((s[1] || '').length < prec) {
+            s[1] = s[1] || '';
+            s[1] += new Array(prec - s[1].length + 1).join('0');
+        }
+        return s.join(dec);
+    }
+
+    // 修改弹出框的title, 显示收益统计弹框
+    function ShowCountModal(obj, id) {
+        var url = '{:url("user/count_money")}';
+        var _this = obj;
+        $.ajax({
+            url: url,
+            type: "post",
+            data: {'uid': id},
+            dataType: 'json',
+            success: function (ret) {
+                $(_this).text(number_format(ret, 2));
+            }
+        })
+    }
+</script>
+</body>
+</html>

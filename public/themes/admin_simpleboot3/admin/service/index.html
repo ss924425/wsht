@@ -1,0 +1,169 @@
+<include file="public@header" />
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:url('service/index')}">服务列表</a></li>
+        <li><a href="{:url('service/addService')}">发布服务</a></li>
+    </ul>
+    <form class="well form-inline margin-top-20" method="post" action="{:url('selftask/index')}">
+        <input type="text" class="form-control" name="userid" style="width: 180px;" placeholder="用户ID"  value="{$userid}">
+        <input type="text" class="form-control" name="taskid" style="width: 180px;" placeholder="服务ID"  value="{$taskid}">
+        <input type="text" class="form-control" name="title" style="width: 180px;" placeholder="服务标题"  value="{$title}">
+        <input type="text" class="form-control" name="orderid" style="width: 180px;" placeholder="订单ID"  value="{$orderid}">
+        <select class="form-control" name="sortid">
+            <option value="" <eq name="sortid" value="">selected</eq> >选择分类</option>
+            <volist name="sorts" id="vo">
+            <option value="{$vo.id}" <eq name="sortid" value="$vo.id">selected</eq>>{$vo.name}</option>
+            </volist>
+        </select>
+        <select class="form-control" name="status">
+            <option value="">请选择状态</option>
+            <option value="3">上架中</option>
+            <option value="1">审核中</option>
+            <option value="2">下架</option>
+        </select>
+        创建时间:
+        <input type="text" class="form-control js-bootstrap-datetime" style="width: 125px" name="start_time" value="<notempty name="start_time">{:date('Y-m-d H:i',$start_time)}</notempty>">
+        -
+        <input type="text" class="form-control js-bootstrap-datetime" style="width: 125px" name="end_time" value="<notempty name="end_time">{:date('Y-m-d H:i',$end_time)}</notempty>">
+
+        <input type="submit" class="btn btn-primary" value="搜索" />
+        <a class="btn btn-danger" href="{:url('selftask/index')}">清空</a>
+    </form>
+    <form class="js-ajax-form" action="" method="post">
+        <div class="table-actions">
+            <button class="btn btn-warning btn-sm js-ajax-submit" type="submit"
+                    data-action="{:url('selftask/upTask')}" data-subcheck="true" data-msg="您确定上架吗？">
+                批量上架
+            </button>
+            <button class="btn btn-warning btn-sm js-ajax-submit" type="submit"
+                    data-action="{:url('selftask/downTask')}" data-subcheck="true" data-msg="您确定下架吗？">
+                批量下架
+            </button>
+            <button class="btn btn-danger btn-sm js-ajax-submit" type="submit"
+                    data-action="{:url('selftask/deleteHardTask')}" data-subcheck="true" data-msg="相关用户数据也会被清空！您确定删除吗？">
+                完全删除
+            </button>
+        </div>
+        <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <th width="15">
+                    <label>
+                        <input type="checkbox" class="js-check-all" data-direction="x" data-checklist="js-check-x">
+                    </label>
+                </th>
+                <th width="15">编号</th>
+                <th>标题</th>
+                <th>数据</th>
+                <th>类型</th>
+                <th>发布者</th>
+                <th>创建时间</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <volist name="list" id="v">
+                <tr>
+                    <td>
+                        <input type="checkbox" class="js-check" data-yid="js-check-y" data-xid="js-check-x" name="ids[]"
+                               value="{$v.id}" title="ID:{$v.id}">
+                    </td>
+                    <td>{$v.id}</td>
+                    <td style="width: 30%">
+                        {$v.title|htmlspecialchars_decode}
+                        <if condition="$v.order_aa neq ''">
+                            <span>({$v.orderid}/{$v.order_aa})</span>
+                        </if>
+                    </td>
+                    <td style="width: 15%"><p>服务总量：{$v['num']}</p>
+                        <p>剩余数量：{$v['oldnum']}</p>
+                        <p>服务赏金：{$v['falsemoney']}</p>
+                        <if condition="$adminuser eq 3">
+                            <p>实际赏金：{$v['money']}</p>
+                        </if>
+                        <p>已抢：{$v['receive']}</p>
+                        <p>未回复：{$v['stay']}</p>
+                        <p>待采纳：{$v['wait']}</p>
+                        <p>已完成：{$v['comed']}</p>
+                        <p>已拒绝：{$v['notpass']}</p>
+                        <if condition="$v['order_aa'] neq ''">
+                            <p>初始量：{$v['start_num']}</p>
+                            <!--<p>当前量：{$v['now_num']}</p>-->
+                            <p>结束量：{$v['end_num']}</p>
+                        </if>
+                    </td>
+                    <td>{$v.sort_name}</td>
+                    <td>
+                        <notempty name="v.userid">
+                            <a target="_blank" href="{:url('user/edit',['id'=>$v['userid']])}">
+                                {$v.mobile}
+                                <p>ID:{$v.userid}</p>
+                            </a>
+                            <else/>管理员
+                        </notempty>
+                    </td>
+                    <td>{:date('Y-m-d H:i:s',$v['createtime'])}</td>
+                    <td>
+                        <if condition="$v['cl_is_back'] neq 0">
+                            <span>(已退单)</span>
+                        </if>
+                        <if condition="$v['status'] == 0">
+                            <if condition="$v['isstart'] == 1">
+                                未开始
+                            <else/>
+                                <if condition="$v['ispause'] == 1"}
+                                已关闭
+                                <else/>
+                                <p class="font_green">正常</p>
+                                </if>
+                            </if>
+                        <elseif condition="$v['status'] == 1">
+                            <p class="font_ff5f27">审核中</p>
+                        <elseif condition="$v['status'] == 2">
+                            被下架
+                        </if>
+                        <if condition="$v['iscount'] == 1">
+                            <p>已结算<span class="font_mini">(退回{$v['backmoney']})</span></p>
+                        <else/>
+                            <p class="">未结算</p>
+                        </if>
+                    </td>
+                    <td>
+
+                        <a href='{:url("selftask/editTask",array("id"=>$v["id"]))}'>{:lang('EDIT')}</a>
+
+                        <a href='{:url("selftask/taskInfo",array("id"=>$v["id"]))}'>详情</a>
+
+                        <if condition="$user['user_type'] != 4">
+                            <if condition="$v['status'] == 1">
+                                <a class="js-ajax-delete" data-subcheck="true" href="{:url('selftask/deleteHardTask',array('id'=>$v['id']))}" data-msg="删除不能恢复，且服务的相关图片资源也会被删除，确定要删除吗？">完全删除</a>
+                                <a href="{:url('selftask/downTask',array('id'=>$v['id']))}" class="js-ajax-dialog-btn" data-msg="确定下架吗？">下架</a>
+                                <a href="{:url('selftask/upTask',array('id'=>$v['id']))}" class="js-ajax-dialog-btn" data-msg="确定通过吗？">通过</a>
+                                <a href="{:url('selftask/noupTask',array('id'=>$v['id']))}" class="js-ajax-dialog-btn" data-msg="确定驳回吗？">驳回</a>
+                            </if>
+                        </if>
+
+
+                        <if condition="$v['status'] == 0">
+                        <a href="{:url('selftask/downTask',array('id'=>$v['id']))}" class="js-ajax-dialog-btn" data-msg="确定下架吗？">下架</a>
+                        </if>
+                        <if condition="$v['status'] == 2">
+                        <a href="{:url('selftask/upTask',array('id'=>$v['id']))}" class="js-ajax-dialog-btn" data-msg="确定上架吗？">上架</a>
+                        </if>
+                        <if $v['iscount'] == 1>
+                        <a href="{:url('selftask/restartTask',array('id'=>$v['id']))}" class="js-ajax-dialog-btn" data-msg="确定恢复并扣除用户费用吗？">恢复服务</a>
+                        </if>
+                    </td>
+                </tr>
+            </volist>
+            </tbody>
+        </table>
+        <ul class="pagination">{$page|default=''}</ul>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

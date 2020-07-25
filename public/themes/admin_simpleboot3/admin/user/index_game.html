@@ -1,0 +1,40 @@
+<include file="public@header" />
+</head>
+<body>
+<div class="wrap js-check-wrap">
+	<ul class="nav nav-tabs">
+		<li class="active"><a href="{:url('user/index_game')}">游戏收益</a></li>
+		<li class=""><a href="{:url('user/index')}">返回上一页</a></li>
+	</ul>
+	<form class="well form-inline margin-top-20" method="post" action="{:url('User/index')}">
+		会员ID:{$user.id}
+		会员手机号:{$user.mobile}
+
+		<a style="background: green;border-color: green;float: right;" class="btn btn-danger" href="{:url('user/exportUserGameExcel')}">导出Excel表格</a>
+	</form>
+	<table class="table table-hover table-bordered">
+		<thead>
+		<tr>
+			<th>游戏ID</th>
+			<th>游戏名称</th>
+			<th>官方金额合计</th>
+			<th>任务金额合计</th>
+		</tr>
+		</thead>
+		<tbody>
+		<php>$user_statuses=array("0"=>lang('USER_STATUS_BLOCKED'),"1"=>lang('USER_STATUS_ACTIVATED'),"2"=>lang('USER_STATUS_UNVERIFIED'));</php>
+		<foreach name="list.data" item="vo">
+			<tr>
+				<td>{$vo.id}</td>
+				<td>{$vo.title}</td>
+				<td>{$vo.official}</td>
+				<td>{$vo.platform}</td>
+			</tr>
+		</foreach>
+		</tbody>
+	</table>
+
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

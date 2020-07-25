@@ -1,0 +1,57 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+	<form class="well form-inline" method="post" action="{:url('shop/skuattr')}">
+		关键字:
+		<input type="text" class="form-control" name="name" style="width: 200px;"
+			   value="{$name|default=''}" placeholder="请输入关键字...">
+		<input type="submit" class="btn btn-primary" value="搜索"/>
+		<a class="btn btn-danger" href="{:url('shop/skuattr')}">清空</a>
+	</form>
+	<form class="js-ajax-form" action="" method="post">
+		<div class="table-actions">
+			<a class="btn btn-primary btn-sm" href="{:url('shop/addSkuattr')}">新增SKU属性</a>
+			<button class="btn btn-danger btn-sm js-ajax-submit" type="submit"
+					data-action="{:url('shop/skuattrDel')}" data-subcheck="true" data-msg="您确定删除吗？">
+				{:lang('DELETE')}
+			</button>
+		</div>
+		<table class="table table-hover table-bordered table-list">
+			<thead>
+			<tr>
+				<th width="15">
+					<label>
+						<input type="checkbox" class="js-check-all" data-direction="x" data-checklist="js-check-x">
+					</label>
+				</th>
+				<th>ID</th>
+				<th>属性名称</th>
+				<th>属性值</th>
+				<th>操作</th>
+			</tr>
+			</thead>
+			<tbody>
+				<volist name="cache" id="vo">
+					<tr>
+						<td>
+							<input type="checkbox" class="js-check" data-yid="js-check-y" data-xid="js-check-x" name="ids[]"
+								   value="{$vo.id}" title="ID:{$vo.id}">
+						</td>
+						<td class=" sorting_1">{$vo.id}</td>
+						<td class=" ">{$vo.name}</td>
+						<td class=" ">{$vo.items}</td>
+						<td class="center ">
+							<a href="{:url('Admin/Shop/editSkuattr',array('id'=>$vo['id']))}" class="btn btn-success btn-xs"><i class="fa fa-edit"></i> 编辑</a>&nbsp;&nbsp;
+							<a href="{:url('Admin/Shop/skuattrDel',array('id'=>$vo['id']))}" class="btn btn-danger btn-xs js-ajax-delete"><i class="fa fa-trash-o"></i> 删除</a>
+						</td>
+					</tr>
+				</volist>
+			</tbody>
+		</table>
+		<ul class="pagination">{$page|default=''}</ul>
+	</form>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+<head>
+    <include file='public/head' />
+    <title>数据库管理</title>
+    <meta name="description" content="数据库管理">
+    <meta name="keywords" content="数据库管理">
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:cmf_url('/plugin/database/admin_index/index')}">数据表</a></li>        
+        <li class=""><a href="{:cmf_url('/plugin/database/admin_index/files')}">备份列表</a></li>        
+    </ul>    
+    <div class="common-form">
+        <div class="row">
+                <div  style="margin-top: 5px;" class="col-md-4">
+                    <button type="button" class="btn btn-info" onclick="handle('backup',null,'备份数据库')">添加备份</button>
+                    <button class="btn btn-primary" onclick="handle('repair',null,'修复表')">修复表</button>
+                    <button class="btn btn-primary" onclick="handle('optimize',null,'优化表')">优化表</button>
+                </div>
+        </div>
+        <div>
+            <div class="table_list">
+                <table width="100%" class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th class="text-center"><input class="check-all" checked type="checkbox"></th>
+                        <th width="60" class="text-center">序号</th>
+                        <th>表名</th>
+                        <th>大小</th>                     
+                        <th>描述</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <foreach name="list" item="vo">
+                        <tr>
+                            <td class="text-center"><input type="checkbox" checked class="check-item" value="{$vo.TABLE_NAME}"></td>
+                            <td class="text-center">{$key+1}</td>
+                            <td>{$vo.TABLE_NAME}</td>                            
+                            <td>{$vo.DATA_LENGTH} </td>
+                            <td>{$vo.TABLE_COMMENT} </td>
+                            <td>
+                                <button class="btn btn-xs btn-primary" onclick="handle('repair','{$vo.TABLE_NAME}','修复表')">修复表</button>
+                                <button class="btn btn-xs btn-info" onclick="handle('optimize','{$vo.TABLE_NAME}','优化表')">优化表</button>
+                            </td>
+                        </tr>
+                    </foreach>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function handle(type,name,_msg){
+        name = name ? name : getTableNames()
+        if (type){
+            var msg = "你确定要"+ _msg +"吗？";
+            if(confirm(msg) == false) {
+                return false;
+            }
+            $('button').prop('disabled',true);
+            $.ajax({
+                url:"{:cmf_url('/plugin/database/admin_index/index')}",
+                type:'post',
+                data:{type:type,name:name},
+                success:function(result){
+                    $('button').removeAttr('disabled');
+                    if(result.code == 0) alert(result.data) //window.location.reload()
+                    else alert(result.data)
+                }
+            }); 
+        }
+    }
+    function getTableNames(){
+        var names = []
+        $('.check-item').each(function(){
+            names.push($(this).val())
+        })
+        return names.join(',')
+    }
+    window.onload = function(){
+        $('.check-all').click(function(){
+            if(this.checked){                
+                $('.check-item').prop('checked',true)
+            }else {
+                $('.check-item').removeAttr('checked')
+            }
+        })
+    }
+</script>
+<include file='public/scripts' />
+</body>
+</html>

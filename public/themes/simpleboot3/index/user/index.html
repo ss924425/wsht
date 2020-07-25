@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>我的</title>
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" type="text/css" href="__TMPL__/public/assets/css/normalize.css" />
+		<link rel="stylesheet" type="text/css" href="__TMPL__/public/assets/css/user_index.css" />
+		<link rel="stylesheet" type="text/css" href="__TMPL__/public/assets/css/global.css" />
+		<link rel="shortcut icon" href="/favicon.ico">
+
+		<script type='text/javascript' src="__TMPL__/public/assets/js/jquery-3.3.1.min.js" charset='utf-8'></script>
+		<script type='text/javascript' src="__TMPL__/public/assets/js/ajaxfileupload.js" charset='utf-8'></script>
+
+		<link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
+		<link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
+		<script type='text/javascript' src='http://g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+		<script type='text/javascript' src='http://g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
+		<script type='text/javascript' src='http://g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
+
+		<style>
+			.window-masking{
+				z-index: 999999;
+			}
+			.success, .window-container{
+				z-index: 99999999;
+				width: 65%;
+				top: 35%;
+				margin-left: -32.5%;
+			}
+			.success .window-content, .window-container .window-content{
+				padding: 1px 5%;
+			}
+			.window-container h2{
+				font-size: 20px;
+			}
+
+		</style>
+	</head>
+
+	<body>
+		<div class="page">
+			<nav class="bar bar-tab">
+				<a class="tab-item " href="{:url('index/index')}">
+					<span class="icon icon-browser"></span>
+					<span class="tab-label">任务</span>
+				</a>
+				<a class="tab-item" href="{:url('index/hot/index')}">
+					 <span class="icon icon-star"></span>
+					<span class="tab-label">热门</span>
+				</a>
+				<a class="tab-item" href="{:url('index/ranking/index')}">
+					<span class="icon icon-menu"></span>
+					<span class="tab-label">排行</span>
+				</a>
+				<a class="tab-item" href="{:url('index/goods/index')}">
+					<span class="icon icon-home"></span>
+					<span class="tab-label">商城</span>
+				</a>
+				<a class="tab-item active" href="{:url('index/user/index')}">
+					<span class="icon icon-friends"></span>
+					<span class="tab-label">我的</span>
+				</a>
+			</nav>
+			<div class="content">
+				<!-- 这里是页面内容区 -->
+				<!--头部-->
+				<div class="top" style="background: linear-gradient(#ff6c87 ,#ee404a );">
+					<div style="width: 100%;height: 2.5rem;">
+						<a href="{:url('setting')}">
+							<span class="icon icon-settings" style="width: 2.5rem;height: 2.5rem;float: right;"></span>
+						</a>
+					</div>
+					<div class="user_img">
+						<if condition="$user['avatar'] eq ''">
+							<img src="__TMPL__/public/assets/images/user.png" alt="" onclick="document.getElementById('avatar_uploder').click()" id="avatar"/>
+							<else/>
+							<img src="{:cmf_get_image_preview_url($user['avatar'])}" alt="" onclick="document.getElementById('avatar_uploder').click()" id="avatar"/>
+						</if>
+						<if condition="$uid neq 0">
+							<input type="file" name="file" id="avatar_uploder" accept="image/*" style="opacity: 0;position: absolute;top: 90px;left: 15px;">
+						</if>
+					</div>
+					<div class="user_infor" id="">
+						<a href="{:url('user_details')}">
+							<if condition="$uid neq 0">
+								<span>会员ID：{$user.id}</span>
+								<p style="color:white;font-size: 14px;">手机号：{$user.mobile}</p>
+								<p style="color:white;font-size: 14px;">vip到期时间：{:date('Y-m-d',$user.vip_end_time)}</p>
+								<p style="color:white;font-size: 14px;">VIP等级：玩家</p>
+								<else/>
+								<span>{$rand}</span>
+							</if>
+						</a>
+					</div>
+				</div>
+				<!---->
+				<!--信息列表-->
+
+				<div class="list-block" style="margin-top: 10px;">
+					<ul>
+						<a href="{:url('balance')}" style="color:black;"><li class="item-content item-link" id="balance">
+							<div class="item-media"><i class="icon icon-f7"></i></div>
+							<div class="item-inner">
+								<div class="item-title content-padded docs-icons"><span class="icon icon-app"></span>账户余额</div>
+								<div class="item-after">￥{$user.user_money}</div>
+							</div>
+						</li></a>
+						<a href="{:url('cash')}" style="color:black;"><li class="item-content item-link" id="cash">
+							<div class="item-media"><i class="icon icon-f7"></i></div>
+							<div class="item-inner">
+								<div class="item-title content-padded docs-icons"><span class="icon icon-card"></span>余额提现</div>
+								<div class="item-after"></div>
+							</div>
+						</li></a>
+						<a href="{:url('task_manger')}" style="color:black;"><li class="item-content item-link" id="task">
+							<div class="item-media"><i class="icon icon-f7"></i></div>
+							<div class="item-inner">
+								<div class="item-title content-padded docs-icons"> <span class="icon icon-star"></span>任务查看</div>
+								<div class="item-after"></div>
+							</div>
+						</li></a>
+						<a href="{:url('massage')}" style="color:black;"><li class="item-content item-link" id="massage">
+							<div class="item-media"><i class="icon icon-f7"></i></div>
+							<div class="item-inner">
+								<div class="item-title content-padded docs-icons"><span class="icon icon-message"></span>通知</div>
+								<div class="item-after">{$news_num}</div>
+							</div>
+						</li></a>
+						<a href="{:url('r_password')}" style="color:black;"><li class="item-content item-link" id="rpassword">
+							<div class="item-media"><i class="icon icon-f7"></i></div>
+							<div class="item-inner">
+								<div class="item-title content-padded docs-icons"> <span class="icon icon-edit"></span>修改密码</div>
+								<div class="item-after"></div>
+							</div>
+						</li></a>
+					</ul>
+				</div>
+				<!---->
+				<!--注销按钮-->
+				<div class="content-block">
+					<if condition="$uid eq 0">
+						<p><a href="{:url('login/login')}" class="button button-danger button-fill button-big">登录</a></p>
+						<else/>
+			    		<p><a href="{:url('login/login_out')}" id="dangers" class="button button-danger button-fill button-big open-window">注销</a></p>
+					</if>
+			 	</div>
+
+			</div>
+		</div>
+
+		<!--<script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>-->
+		<script type='text/javascript' src="__TMPL__/public/assets/js/windowOpen.js" charset='utf-8'></script>
+		<script type="text/javascript">
+            var setTitle = '';
+            var setContents = '';
+            var setButton = '';
+            $('#dangers').on('click',function(){
+                setTitle = '确认';
+                setContents = '确认退出此账号？';
+                setButton = '["取消","确定"]';
+                $(this).openWindow(setTitle,setContents,setButton);
+
+                thismodal.find('a.confirm-button').click(function(){
+                    console.log('点击是确定的')
+                    $.post("{:url('index/login/login_out')}",{type:0},function(res){
+                        if(res.code == 1){
+                            location.href=res.url;
+                        }
+                    })
+                })
+            });
+
+			$("#avatar_uploder").change(function(){
+				$.ajaxFileUpload({
+						url: "{:url('user/Profile/avatarUpload')}",
+						secureuri: false,
+						fileElementId: "avatar_uploder",
+						dataType: 'json',
+						data: {},
+						success: function (data, status) {
+							if (data.code == 1) {
+								location.reload();
+							}
+						},
+						error:function(data){
+//							console.log(456)
+//							console.log(data)
+						}
+					});
+				});
+		</script>
+	</body>
+
+</html>

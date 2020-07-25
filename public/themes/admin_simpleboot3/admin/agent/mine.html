@@ -1,0 +1,170 @@
+<include file="public@header"/>
+<link rel="stylesheet" href="__ROOT__/assets/src/css/bootstrap-datepicker.min.css">
+<script src="__ROOT__/assets/src/js/bootstrap-datetimepicker.js"></script>
+<script src="__ROOT__/assets/src/js/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:url('agent/mine')}">审核列表</a></li>
+    </ul>
+    <form class="well form-inline margin-top-20" method="post" action="{:url('agent/mine')}">
+        <input type="text" class="form-control" name="batchNumber" style="width: 160px;"
+               value="{:input('request.batchNumber/s','')}" placeholder="批次号">
+        <input type="text" class="form-control" name="name" style="width: 160px;" value="{:input('request.name/s','')}"
+               placeholder="姓名">
+        <input type="text" class="form-control" name="mobile" style="width: 160px;"
+               value="{:input('request.mobile/s','')}" placeholder="手机号">
+        <input type="text" class="form-control" name="agentid" style="width: 160px;"
+               value="{:input('request.agentid/s','')}" placeholder="代理商ID">
+        <input type="submit" class="btn btn-primary" value="搜索"/>
+        <a class="btn btn-danger" href="{:url('agent/mine')}">清空</a>
+    </form>
+    <form action="{:url('Rbac/listorders')}" method="post" class="margin-top-20">
+        <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <th width="left">ID</th>
+                <th width="left">订单号</th>
+                <th width="left">批次号</th>
+                <th width="left">姓名</th>
+                <th width="left">手机号</th>
+                <th width="left">身份证</th>
+                <th width="left">授权人数</th>
+                <th width="left">创建时间</th>
+                <th width="left">支付宝账号</th>
+                <th width="left">支付宝姓名</th>
+                <th width="left">银行卡号</th>
+                <th width="left">开户行</th>
+                <th width="left">开户行地址</th>
+                <th width="left">代理商</th>
+                <th width="left">代理商电话</th>
+                <th width="left">状态</th>
+                <th width="left">原因</th>
+                <th width="left">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <foreach name="list" item="vo">
+                <tr>
+                    <td>{$vo.id}</td>
+                    <td>{$vo.orderid}</td>
+                    <td>{$vo.batchNumber}</td>
+                    <td>{$vo.name}</td>
+                    <td>{$vo.mobile}</td>
+                    <td>{$vo.idno}</td>
+                    <td>{$vo.requestNum}</td>
+                    <td>{:date('Y-m-d H:i:s',$vo.createTime)}</td>
+                    <td>{$vo.aliCard}</td>
+                    <td>{$vo.aliName}</td>
+                    <td>{$vo.bankCard}</td>
+                    <td>{$vo.bank}</td>
+                    <td>{$vo.bankAddress}</td>
+                    <td>{$vo.comp_name}</td>
+                    <td>{$vo.cont_phone}</td>
+                    <td>
+                        <switch name="$vo.status">
+                            <case value="0">待审核</case>
+                            <case value="1">已通过</case>
+                            <case value="2">已驳回</case>
+                        </switch>
+                    </td>
+                    <td>{$vo.reject}</td>
+                    <td>
+                        <if condition="$vo.status eq 0">
+                            <!--<a href="{:url('agent/mine_edit',array('id'=>$vo['id'],'type' => 1))}">通过</a>-->
+                            <a href="javascript:;" onclick="ShowCreateModal('通过',1,{$vo.id})">通过</a>
+                            <a href="javascript:;" onclick="ShowCreateModal('驳回原因',2,{$vo.id})">驳回</a>
+                            <else/>
+                            <font color="#cccccc">通过</font>
+                            <font color="#cccccc">驳回</font>
+                        </if>
+                    </td>
+                </tr>
+            </foreach>
+            </tbody>
+        </table>
+    </form>
+    <div class="modal fade" id="createFileMModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createFileTitle" data-id="">驳回原因</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="reason">
+                        <div class="form-group">
+                            <label for="cash_notes" class="col-form-label">原因:</label>
+                            <input type="text" autofocus class="form-control" id="cash_notes">
+                        </div>
+                    </form>
+
+                    <div id="tips">确定通过审核么？</div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="createFileSureBut">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pagination">{$page}</div>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+<script>
+    function selectAll() {
+        var isCheck = $("#sel_1").is(':checked');  //获得全选复选框是否选中
+        $("input[type='checkbox']").each(function () {
+            this.checked = isCheck;       //循环赋值给每个复选框是否选中
+        });
+    }
+
+    // 修改弹出框的title, 显示弹框
+    function ShowCreateModal(title, type, id) {
+        $("#createFileTitle").text(title);
+        $("#createFileTitle").attr('data-id', id);
+        $("#createFileTitle").attr('data-type', type);
+        $('#createFileMModal').modal('show');
+
+        if (type == 1) {
+            $('#tips').css('display', 'block');
+            $('#reason').css('display', 'none');
+        } else {
+            $('#tips').css('display', 'none');
+            $('#reason').css('display', 'block');
+        }
+    }
+
+    // 关闭弹框， 获取输入值，然后执行逻辑
+    $("#createFileSureBut").click(function () {
+        $("#createFileMModal").modal("hide");
+        var cash_notes = $("#cash_notes").val();
+        var type = $("#createFileTitle").attr('data-type');
+        if (type == 2) {
+            if (cash_notes == '' || cash_notes == null) {
+                alert('请填写原因');
+                return false;
+            }
+        }
+
+        var id = $("#createFileTitle").attr('data-id');
+        var url = '{:url("agent/mine_edit")}';
+        $.ajax({
+            url: url,
+            data: {'id': id, 'keyword': cash_notes, 'type': type},
+            dataType: 'json',
+            success: function (ret) {
+                if (ret.code) {
+                    alert(ret.msg);
+                    location.reload();
+                } else {
+                    alert(ret.msg);
+                }
+            }
+        });
+    });
+
+</script>
+</body></html>

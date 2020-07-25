@@ -1,0 +1,97 @@
+<include file="public@header"/>
+<title>信息修改</title>
+	<style>
+		.bar-nav {
+			background: red;
+		}
+		header .fanhui{
+			color: #fff;
+		}
+		header .title{
+			color: #fff;
+		}
+	</style>
+</head>
+
+<body>
+<div class="page">
+	<div class="content">
+		<!-- 这里是页面内容区 -->
+		<form action="" id="userEdit">
+			<div class="list-block">
+				<ul>
+					<!-- Text inputs -->
+					<li>
+						<div class="item-content">
+							<div class="item-media"><i class="icon icon-form-name"></i></div>
+							<div class="item-inner">
+								<div class="item-title label">姓名</div>
+								<div class="item-input">
+									<input type="text" name="user_nickname" placeholder="请输入姓名..." value="{$user.user_nickname}">
+								</div>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="item-content">
+							<div class="item-media"><i class="icon icon-form-gender"></i></div>
+							<div class="item-inner">
+								<div class="item-title label">性别</div>
+								<div class="item-input">
+									<select name="sex">
+										<option <eq name="user.sex" value="1">selected</eq> value="1">男</option>
+										<option <eq name="user.sex" value="2">selected</eq>> value="2"女</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</li>
+					<!-- Date -->
+					<li>
+						<div class="item-content">
+							<div class="item-media"><i class="icon icon-form-calendar"></i></div>
+							<div class="item-inner">
+								<div class="item-title label">生日</div>
+								<div class="item-input">
+									<input type="date" name="birthday" placeholder="" value="{:date('Y-m-d')}">
+								</div>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="item-content">
+							<div class="item-media"><i class="icon icon-form-calendar"></i></div>
+							<div class="item-inner">
+								<div class="item-title label">签名</div>
+								<div class="item-input">
+									<textarea name="signature" maxlength=”128” cols="30" rows="10">{$user.signature}</textarea>
+								</div>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</form>
+
+		<div class="content-block">
+			<div class="row">
+				<div class="col-100"><a href="javascript:;" class="button button-big button-fill button-success" onclick="go()">提交</a></div>
+			</div>
+		</div>
+	</div>
+
+</div>
+<script>
+	function go(){
+		$.ajax({
+			type     : 'POST',
+			dataType : 'json',
+			url		 : '{:url("profile/editPost")}',
+			data	 : $('#userEdit').serialize(),
+			success  : function(ret){
+                $.toast(ret.msg);
+			}
+		});
+	}
+</script>
+<include file="public@footer"/>

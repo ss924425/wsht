@@ -1,0 +1,347 @@
+<include file="public@header"/>
+<title>房源上传</title>
+    <style>
+        .bar-nav {
+            background: red;
+        }
+        header .fanhui{
+            color: #fff;
+        }
+        header .title{
+            color: #fff;
+        }
+
+        /*主体*/
+        .content .list-block{
+            margin: 0.75rem 0;
+        }
+        .content .list-block ul{
+            padding-bottom: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+    <div class="content">
+        <form action="" id="form1">
+        <!-- 这里是页面内容区 -->
+        <div class="list-block">
+            <ul>
+                <!-- 业主姓名 -->
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-name"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">业主姓名</div>
+                            <div class="item-input">
+                                <input name="truename" id="truename" type="text" placeholder="请输入姓名.." value="">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <!--业主电话-->
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-email"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">电话</div>
+                            <div class="item-input">
+                                <input name="mobile" id="mobile" type="tel" placeholder="请输入电话..." value="">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <!--房子用途-->
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-gender"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">用途</div>
+                            <div class="item-input">
+                                <select name="type" id="type">
+                                    <option value="1">写字楼</option>
+                                    <option value="2">商铺</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <!--房子所在区域-->
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-gender"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">区域</div>
+                            <div class="item-input">
+                                <select name="areaid" id="area">
+                                    <foreach name="areas" item="v">
+                                        <option value="{$v.areaid}">{$v.area}</option>
+                                    </foreach>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <!--房子所属商业圈（对应区）-->
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-gender"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">商圈</div>
+                            <div class="item-input">
+                                <select name="shangquanid" id="shangquan">
+
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <!--房子交易类型-->
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-gender"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">交易类型</div>
+                            <div class="item-input">
+                                <select name="pay_type" id="pay_type">
+                                    <option value="1">出租</option>
+                                    <option value="2">出售</option>
+                                    <option value="3">租售</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <!--房子价格-->
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-email"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">价格</div>
+                            <div class="item-input">
+                                <input name="money" id="money" type="number" placeholder="请输入金额..." value="">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+
+                <!--房子状态-->
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-gender"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">状态</div>
+                            <div class="item-input">
+                                <select name="status" id="status">
+                                    <option value="1">在租</option>
+                                    <option value="3">在售</option>
+                                    <option value="2">已租</option>
+                                    <option value="4">已售</option>
+                                    <!--<option value="">无效</option>-->
+                                    <!--<option value="">暂缓</option>-->
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <!--名称（可能是小区名称）-->
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-name"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">名称</div>
+                            <div class="item-input">
+                                <input name="title" id="title" type="text" placeholder="请输入名称...">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <!--选择面积-->
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-gender"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">面积</div>
+                            <div class="item-input">
+                                <select name="range" id="range">
+                                    <option value="0-100">0-100</option>
+                                    <option value="100-200">100-200</option>
+                                    <option value="200-300">200-300</option>
+                                    <option value="300-400">300-400</option>
+                                    <option value="400-500">400-500</option>
+                                    <option value="500-">500-</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <!--楼房号-->
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-name"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">楼栋</div>
+                            <div class="item-input">
+                                <input name="loudong" id="loudong" type="text" placeholder="请输入楼栋号...">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <!--单元号-->
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-name"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">单元号</div>
+                            <div class="item-input">
+                                <input name="danyuan" id="danyuan" type="text" placeholder="请输入单元号...">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <!--房号-->
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-name"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">房号</div>
+                            <div class="item-input">
+                                <input name="fanghao" id="fanghao" type="text" placeholder="请输入房间号...">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <!--建造日期-->
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-email"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">建成年份</div>
+                            <div class="item-input">
+                                <input name="buildtime" id="buildtime" type="text" placeholder="请输入年份..." value="">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <!--所属部门-->
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-email"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">所属部门</div>
+                            <div class="item-input">
+                                <input name="department" id="department" type="text" placeholder="请输入所属部门..." value="">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <!--所属盘方-->
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-email"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">房源盘方</div>
+                            <div class="item-input">
+                                <input name="atyle" id="atyle" type="text" placeholder="请输入房源盘方..." value="">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <!--图片-->
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-name"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">图片上传</div>
+                            <div class="item-input">
+                                <input id="file" type="file" name="file">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+
+                <!--备注信息-->
+                <li class="align-top">
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-comment"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">备注</div>
+                            <div class="item-input">
+                                <textarea name="remark" id="remark" style="border:1px solid #cccaca;" placeholder="请输入备注信息..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="content-block">
+            <div class="row">
+                <div class="col-50"><a href="#" class="button button-big button-fill button-danger">取消</a></div>
+                <div class="col-50"><a href="#" id="button" class="button button-big button-fill button-success">提交</a></div>
+            </div>
+        </div>
+    </div>
+    </form>
+</div>
+<script>
+    $("#area").change(function(){
+        //根据用户所选择的区域获取商圈
+        var area = $("#area").val();
+        $.post("{:url('fy_add')}",{area:area},function(res){
+            var areas = res.msg;
+            var str = '';
+            $.each(areas,function(index,data){
+                str +='<option value="'+data['shangquanid']+'">'+data['shangquan']+'</option>';
+            });
+            //移除已有的HTML文本
+            $('#shangquan').empty();
+            //添加新的文本
+            $('#shangquan').append(str)
+        })
+    })
+
+    //ajax上传图片
+//    $('input[type="file"]').on('change',doupload);
+//    function doupload(){
+//        var file = this.files[0];
+//        if(!/image\/\w+/.test(file.type)){
+//            $.toast('请选择图片');
+//            return false;
+//        }
+//        var formData = new FormData($(""))
+//    }
+
+    $('#button').click(function(){
+        var data = $('#form1').serialize();
+        $.ajax({
+            type : 'POST',
+            dataType : 'json',
+            url : '{:url("house/add_info")}',
+            data : data,
+            success : function(ret){
+                $.toast(ret.msg);
+                if(ret.code){
+                    history.go(-1);
+                }
+            }
+        });
+    })
+</script>
+<include file="public@footer" />

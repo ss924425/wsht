@@ -1,0 +1,55 @@
+<include file="public@header" />
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li><a href="{:url('agent/index')}">代理商列表</a></li>
+			<!--<li><a href="{:url('user/add')}">添加会员</a></li>-->
+			<li class="active"><a>编辑代理商</a></li>
+		</ul>
+		<form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('agent/edit')}">
+
+			<div class="form-group">
+				<label for="input-comp_name" class="col-sm-2 control-label"><span class="form-required">*</span>公司名称</label>
+				<div class="col-md-6 col-sm-10">
+					<input type="text" class="form-control" id="input-comp_name" name="comp_name" value="{$agent.comp_name}">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="input-address" class="col-sm-2 control-label"><span class="form-required"></span>公司地址</label>
+				<div class="col-md-6 col-sm-10">
+					<input type="text" class="form-control" id="input-address" name="address" value="{$agent.address}">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="input-contacts" class="col-sm-2 control-label"><span class="form-required">*</span>联系人</label>
+				<div class="col-md-6 col-sm-10">
+					<input type="text" class="form-control" id="input-contacts" name="contacts" value="{$agent.contacts}">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="input-cont_phone" class="col-sm-2 control-label"><span class="form-required"></span>联系人电话</label>
+				<div class="col-md-6 col-sm-10">
+					<input type="text" class="form-control" id="input-cont_phone" name="cont_phone" value="{$agent.cont_phone}">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="input-max_num" class="col-sm-2 control-label"><span class="form-required">*</span>授权数量</label>
+				<div class="col-md-6 col-sm-10">
+					<input type="text" class="form-control" id="input-max_num" name="max_num" value="{$agent.max_num}">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<input type="hidden" name="id" value="{$agent.id}" />
+					<button type="submit" class="btn btn-primary js-ajax-submit">{:lang('SAVE')}</button>
+					<a class="btn btn-default" href="javascript:history.back(-1);">{:lang('BACK')}</a>
+				</div>
+			</div>
+		</form>
+	</div>
+	<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

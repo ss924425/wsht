@@ -1,0 +1,228 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>上传信息</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
+    <script type='text/javascript' src='http://g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='http://g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
+    <style>
+        .bar-nav {
+            background: red;
+        }
+        header .fanhui{
+            color: #fff;
+        }
+        header .title{
+            color: #fff;
+        }
+
+        /*主体*/
+        .content .list-block{
+            margin: 0.75rem 0;
+        }
+        .content .list-block ul{
+            padding-bottom: 0.8rem;
+        }
+
+    </style>
+</head>
+
+<body>
+<div class="page">
+    <header class="bar bar-nav">
+        <a class="button button-link button-nav pull-left back" data-transition='slide-out'>
+            <span class="icon icon-left fanhui"></span>
+        </a>
+        <h1 class="title">客户上传</h1>
+    </header>
+
+    <div class="content">
+        <!-- 这里是页面内容区 -->
+        <div class="list-block">
+            <ul>
+                <!-- 姓名 -->
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-name"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">姓名</div>
+                            <div class="item-input">
+                                <input type="text" placeholder="请输入姓名..." value="">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <!--电话-->
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-email"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">电话1</div>
+                            <div class="item-input">
+                                <input type="tel" placeholder="请输入电话..">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-email"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">电话2</div>
+                            <div class="item-input">
+                                <input type="tel" placeholder="请输入电话...">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <!--需求类型-->
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-gender"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">需求范围</div>
+                            <div class="item-input">
+                                <select>
+                                    <option>写字楼</option>
+                                    <option>商铺</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <!--面积-->
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-gender"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">面积</div>
+                            <div class="item-input">
+                                <select>
+                                    <option value="">0-100㎡</option>
+                                    <option value="">100-200㎡</option>
+                                    <option value="">200-300㎡</option>
+                                    <option value="">300-400㎡</option>
+                                    <option value="">400-500㎡</option>
+                                    <option value="">500㎡以上</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <!--心里价位-->
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-gender"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">价位(总价)</div>
+                            <div class="item-input">
+                                <select>
+                                    <option value="">不限</option>
+                                    <option value="">0~0.5W</option>
+                                    <option value="">0.5~1W</option>
+                                    <option value="">1~1.5w</option>
+                                    <option value="">1.5~2W</option>
+                                    <option value="">2~3W</option>
+                                    <option value="">3~5W</option>
+                                    <option value="">5W/月以上</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-gender"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">价位(单价)</div>
+                            <div class="item-input">
+                                <select>
+                                    <option value="">不限</option>
+                                    <option value="">0~2/㎡</option>
+                                    <option value="">2~2.5/㎡</option>
+                                    <option value="">2.5~3/㎡</option>
+                                    <option value="">3~3.5/㎡</option>
+                                    <option value="">3.5~4/㎡</option>
+                                    <option value="">4~5/㎡</option>
+                                    <option value="">5元以上/㎡</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <!--装修要求-->
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-gender"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">装修要求</div>
+                            <div class="item-input">
+                                <select>
+                                    <option value="">全部</option>
+                                    <option value="">毛坯房</option>
+                                    <option value="">简装</option>
+                                    <option value="">中等装修</option>
+                                    <option value="">精装修</option>
+                                    <option value="">豪华装饰</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <!--新增渠道-->
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-gender"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">渠道</div>
+                            <div class="item-input">
+                                <select>
+                                    <option value="">网络</option>
+                                    <option value="">客户</option>
+                                    <option value="">转介绍</option>
+                                    <option value="">朋友介绍</option>
+                                    <option value="">陌拜</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <!--备注信息-->
+                <li class="align-top">
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-comment"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">备注</div>
+                            <div class="item-input">
+                                <textarea style="border:1px solid #cccaca;" placeholder="请输入备注信息..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="content-block">
+            <div class="row">
+                <div class="col-50"><a href="#" class="button button-big button-fill button-danger">取消</a></div>
+                <div class="col-50"><a href="#" class="button button-big button-fill button-success">提交</a></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+
+</html>

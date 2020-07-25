@@ -1,0 +1,61 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:url('setting/youmi')}">有米广告设置</a></li>
+    </ul>
+    <form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('setting/youmiPost')}">
+        <div class="form-group">
+            <label class="col-sm-2   col-lg-2 control-label" for="exampleInputEmail1">是否打开有米广告</label>
+            <div class="switch has-switch col-sm-6 col-lg-4" style="height:30px">
+                <input name="options[isOpen]" value="1" type="checkbox"
+                <if condition="$youmi_setting['isOpen'] eq 1">checked</if> />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-site-name" class="col-sm-2 control-label"><span
+                    class="form-required">*</span>appId</label>
+            <div class="col-md-6 col-sm-10">
+                <input type="text" class="form-control" id="input-site-name" name="options[appId]"
+                       value="{$youmi_setting.appId|default=''}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-site-name" class="col-sm-2 control-label"><span
+                    class="form-required">*</span>appSecret</label>
+            <div class="col-md-6 col-sm-10">
+                <input type="text" class="form-control" name="options[appSecret]"
+                       value="{$youmi_setting.appSecret|default=''}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2   col-lg-2 control-label" for="exampleInputEmail1">是否打开测试模式</label>
+            <div class="switch has-switch col-sm-6 col-lg-4" style="height:30px">
+                <input name="options[isTestModel]" value="1" type="checkbox"
+                <if condition="$youmi_setting['isTestModel'] eq 1">checked</if> />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary js-ajax-submit" data-refresh="1">
+                    {:lang('SAVE')}
+                </button>
+            </div>
+        </div>
+    </form>
+
+</div>
+<script type="text/javascript" src="__STATIC__/js/admin.js"></script>
+<script>
+    $('#switch1').change(function () {
+        $(this).is(':checked') ? $(this).val(1) : $(this).val(0)
+        console.log($(this).val())
+    })
+    $('#switch2').change(function () {
+        $(this).is(':checked') ? $(this).val(1) : $(this).val(0)
+        console.log($(this).val())
+    })
+</script>
+</body>
+</html>

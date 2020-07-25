@@ -1,0 +1,235 @@
+<include file="public@header" />
+<link rel="stylesheet" href="__ROOT__/assets/src/css/bootstrap-datepicker.min.css">
+<script src="__ROOT__/assets/src/js/bootstrap-datetimepicker.js"></script>
+<script src="__ROOT__/assets/src/js/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+<style>
+	.WdateDiv {
+		background-color: #FFFFFF;
+		border: 1px solid #BBBBBB;
+		padding: 2px;
+		width: 180px;
+	}
+</style>
+
+<script type="text/html" id="photos-item-tpl">
+	<li id="saved-image{id}">
+		<input id="photo-{id}" type="hidden" name="photo_urls[]" value="{filepath}">
+		<input class="form-control" id="photo-{id}-name" type="text" name="photo_names[]" value="{name}"
+			   style="width: 200px;" title="图片名称">
+		<img id="photo-{id}-preview" src="{url}" style="height:36px;width: 36px;"
+			 onclick="imagePreviewDialog(this.src);">
+		<a href="javascript:uploadOneImage('图片上传','#photo-{id}');">替换</a>
+		<a href="javascript:(function(){$('#saved-image{id}').remove();})();">移除</a>
+	</li>
+</script>
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li><a href="{:url('task/index')}">任务列表</a></li>
+			<li><a href="{:url('task/add')}">新增任务</a></li>
+			<li class="active"><a href="{:url('task/edit',['id'=>request()->param('id')])}">编辑任务</a></li>
+		</ul>
+		<form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('task/editPost')}">
+			<div class="form-group">
+				<label class="col-sm-2 control-label"><span class="form-required">*</span>任务标题</label>
+				<div class="col-md-6 col-sm-10">
+					<input type="text" class="form-control" name="post[title]" value="{$task.title}">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="input-remark" class="col-sm-2 control-label">任务图像</label>
+				<div class="col-md-6 col-sm-10">
+					<input type="hidden" name="post[thumb]" id="thumbnail" value="">
+					<a href="javascript:uploadOneImage('图片上传','#thumbnail');">
+						<img src="{:cmf_get_image_preview_url($task['thumb'])}" id="thumbnail-preview" width="135" style="cursor: pointer"/>
+					</a>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="input-parent_id" class="col-sm-2 control-label"><span class="form-required">*</span>任务分类</label>
+				<div class="col-md-6 col-sm-10">
+					<select class="form-control" name="post[catid]" id="input-parent_id">
+						<foreach name="cat" item="vo">
+							<option value="{$vo.id}" <if condition="$task.catid eq $vo.id">selected</if>>{$vo.cat_name}</option>
+						</foreach>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2   col-lg-2 control-label" for="exampleInputEmail1">所属游戏</label>
+				<div class="col-sm-5 col-lg-3" style="margin-bottom:10px;">
+					<div class="input-group">
+						<input type="text" class="form-control" id="game_title" name="" value="" placeholder="输入游戏名称进行查询，支持模糊查询">
+						<span class="input-group-addon btn btn-info" style="background:#5bc0de;color:#fff;" onclick="search()">搜索游戏库</span>
+					</div>
+				</div>
+			</div>
+			<div class="form-group has-warning" id="game_list">
+
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label"><span class="form-required">*</span>游戏平台</label>
+				<div class="col-md-6 col-sm-10">
+					<input type="text" class="form-control" name="post[platform]" value="{$task.platform}">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label"><span class="form-required">*</span>任务金额</label>
+				<div class="col-md-6 col-sm-10">
+					<input type="text" class="form-control" name="post[task_money]" value="{$task.task_money}">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label"><span class="form-required"></span>任务类型</label>
+				<div class="col-md-6 col-sm-10">
+					<label class="radio-inline">
+						<input value="1" type="radio" class="recharge" name="post[recharge]" id="recharge1" <if condition="$task.recharge eq 0">checked</if>>分期任务
+					</label>
+					<label class="radio-inline">
+						<input value="2" type="radio" class="recharge" name="post[recharge]" id="recharge2" <if condition="$task.recharge eq 1">checked</if>>充值任务
+					</label>
+					<label class="radio-inline">
+						<input value="3" type="radio" class="recharge" name="post[recharge]" id="recharge3" <if condition="$task.recharge eq 2">checked</if>>应用任务
+					</label>
+				</div>
+			</div>
+			<div class="form-group" id="settle_type">
+				<label class="col-sm-2 control-label"><span class="form-required"></span>结算方式</label>
+				<div class="col-md-6 col-sm-10">
+					<label class="radio-inline">
+						<input value="1" type="radio" name="post[settle_type]" <if condition="$task.settle_type eq 1">checked</if>>每期结算
+					</label>
+					<label class="radio-inline">
+						<input value="2" type="radio" name="post[settle_type]" <if condition="$task.settle_type eq 2">checked</if>>期满结算
+					</label>
+				</div>
+			</div>
+			<div class="form-group" id="garea">
+				<label class="col-sm-2 control-label"><span class="form-required">*</span>游戏区服</label>
+				<div class="col-md-6 col-sm-10">
+					<input type="text" class="form-control" name="post[garea]" value="{$task.garea}">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label"><span class="form-required">*</span>下载地址</label>
+				<div class="col-md-6 col-sm-10">
+					<input type="text" class="form-control" name="post[task_link]" value="{$task.task_link}">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">包名</label>
+				<div class="col-md-6 col-sm-10">
+					<input type="text" class="form-control" name="post[package]" value="{$task.package}">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">开始时间</label>
+				<div class="col-md-6 col-sm-10">
+					<input type="text" class="form-control js-bootstrap-datetime" name="post[begin_time]" value="{$task.begin_time}">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">结束时间</label>
+				<div class="col-md-6 col-sm-10">
+					<input type="text" class="form-control js-bootstrap-datetime" name="post[end_time]" value="{$task.end_time}">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">展示数量</label>
+				<div class="col-md-6 col-sm-10">
+					<input type="text" class="form-control" name="post[display_num]" value="{$task.display_num}">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="input-remark" class="col-sm-2 control-label">任务描述</label>
+				<div class="col-md-6 col-sm-10">
+
+					<script type="text/plain" id="content" name="post[remark]">{:html_entity_decode($task.remark)}</script>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<input type="hidden" name="post[id]" value="{$task.id}">
+					<button type="submit" class="btn btn-primary js-ajax-submit">修改</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<script>
+        $('.form_date').datetimepicker({
+            format: 'yyyy-mm-dd',
+            language: 'zh-CN',
+            weekStart: 1,
+            todayBtn: 1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            forceParse: 0
+        });
+	</script>
+	<script src="__STATIC__/js/admin.js"></script>
+	<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.config.js"></script>
+	<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.all.min.js"></script>
+	<script>
+
+		$(function () {
+			editorcontent = new baidu.editor.ui.Editor();
+			editorcontent.render('content');
+			try {
+				editorcontent.sync();
+			} catch (err) {
+			}
+
+			$('.btn-cancel-thumbnail').click(function () {
+				$('#thumbnail-preview').attr('src', '__TMPL__/public/assets/images/default-thumbnail.png');
+				$('#thumbnail').val('');
+			});
+
+			$('#more-template-select').val("{$post.more.template|default=''}");
+		});
+
+        search("{$task['game_id']}");
+        function search(game_id){
+            if(game_id == null){
+                var keyword = $('#game_title').val();
+                var game_id = '';
+            }
+            $('#game_list').html('<div style="text-align:center;margin-top:30px;"><img src="__STATIC__/images/loading.gif" width="60px" ></div>');
+            $("#game_list").load(
+                "{:url('game/gameList')}?keyword="+keyword+"&game_id="+game_id,
+                function() {}
+            );
+        }
+		var recharge = {$task.recharge};
+//		console.log(recharge);
+		if(recharge == 0){
+			$("#settle_type").show();
+			$("#garea").show();
+		}else if(recharge == 1){
+			$("#settle_type").hide();
+			$("#garea").show();
+		}else{
+			$("#settle_type").hide();
+			$("#garea").hide();
+		}
+
+
+		$("#recharge1").click(function(){
+			$("#settle_type").show();
+			$("#garea").show();
+		});
+		$("#recharge2").click(function(){
+			$("#settle_type").hide();
+			$("#garea").show();
+		});
+		$("#recharge3").click(function(){
+			$("#settle_type").hide();
+			$("#garea").hide();
+		})
+	</script>
+</body>
+</html>

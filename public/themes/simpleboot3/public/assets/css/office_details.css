@@ -1,0 +1,260 @@
+header{
+    background: red;
+}
+header a span{
+    color: #ffffff;
+}
+/*轮播图*/
+#swiper{
+    overflow: hidden;
+}
+
+.details{
+    width: 95%;
+    margin: 0px auto;
+    height: 300px;
+    background: white;
+}
+.details_title{
+    width: 95%;
+    height: 100px;
+    margin: 0 auto;
+    /*background: red;*/
+    border-bottom: 1px solid gainsboro;
+}
+.details_title b{
+    font-size: 16px;
+    line-height: 50px;
+    text-align: center;
+    color: red;
+}
+
+
+/*简述*/
+.details_list{
+    width: 100%;
+    height: 50px;
+    overflow: hidden;
+    margin: 5px 0px;
+    padding: 0;
+    opacity: .7;
+}
+.details_list li{
+    float: left;
+    list-style: none;
+    background: gainsboro;
+    height: 30px;
+    font-size: 12px;
+    line-height: 20px;
+    margin: 0 5px;
+    padding: 5px;
+    border-radius: 5px;
+}
+/*价格描述*/
+.describe{
+    width: 95%;
+    height: auto;
+    margin: 0 auto;
+    /*background: white;*/
+    font-size: 14px;
+    color: grey;
+
+}
+.describe p span{
+    font-size: 14px;
+    color: red;
+}
+/*楼盘详情*/
+.describe_more{
+	width: 100%;
+	height: auto;
+	background: white;
+	margin: 10px auto;	
+}
+.describe_more_content{
+	width: 95%;
+	height: 100%;
+	/*background:red;*/
+	margin:0 auto;
+}
+.describe_more_content h4{
+	line-height: 50px;
+}
+.describe_more .describe_more_content p{
+	font-size: 14px;
+	line-height: 20px;
+	color: gray;
+}
+/*底部联系方式*/
+#footer{
+	background: grey;
+    opacity: .9;
+}
+/*手机号*/
+.cellphone{
+	width: 30%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	margin-left: 3%;
+	padding: 0;
+	/*background: gold;*/
+}
+
+.cellphone span{
+	color: white;
+	font-size: 12px;
+	line-height: 12px;
+}
+
+
+/*电话咨询&团购报名*/
+#footer .content{
+    width: 67%;
+    height: 100%;
+    margin-left: 33%;
+    overflow: hidden;
+}
+#footer .content a{
+    width: 45%;
+    height: 100%;
+    float: left;
+    line-height: 40px;
+    margin-right: 5%;
+}
+
+/*备注*/
+#remarks{
+    width: 100%;
+    color: red;
+    /*text-align: center;*/
+    float: left;
+    line-height: 20px;
+    /*border: 1px solid gainsboro;*/
+    background: white;
+}
+
+header{
+    background: red;
+}
+header a span{
+    color: #ffffff;
+}
+/*轮播图*/
+#swiper{
+    overflow: hidden;
+}
+
+.details{
+    width: 95%;
+    margin: 0px auto;
+    height: 300px;
+    background: white;
+}
+.details_title{
+    width: 95%;
+    height: 100px;
+    margin: 0 auto;
+    /*background: red;*/
+    border-bottom: 1px solid gainsboro;
+}
+.details_title b{
+    font-size: 16px;
+    line-height: 50px;
+    text-align: center;
+    color: red;
+}
+
+
+/*简述*/
+.details_list{
+    width: 100%;
+    height: 50px;
+    overflow: hidden;
+    margin: 5px 0px;
+    padding: 0;
+    opacity: .7;
+}
+.details_list li{
+    float: left;
+    list-style: none;
+    background: gainsboro;
+    height: 30px;
+    font-size: 12px;
+    line-height: 20px;
+    margin: 0 5px;
+    padding: 5px;
+    border-radius: 5px;
+}
+/*价格描述*/
+.describe{
+    width: 95%;
+    height: auto;
+    margin: 0 auto;
+    /*background: white;*/
+    font-size: 14px;
+    color: grey;
+
+}
+.describe p span{
+    font-size: 14px;
+    color: red;
+}
+/*楼盘详情*/
+.describe_more{
+	width: 100%;
+	height: auto;
+	background: white;
+	margin: 10px auto;	
+}
+.describe_more_content{
+	width: 95%;
+	height: 100%;
+	/*background:red;*/
+	margin:0 auto;
+}
+.describe_more_content h4{
+	line-height: 50px;
+}
+.describe_more .describe_more_content p{
+	font-size: 14px;
+	line-height: 20px;
+	color: gray;
+}
+/*底部联系方式*/
+#footer{
+	background: grey;
+    opacity: .9;
+}
+/*手机号*/
+.cellphone{
+	width: 30%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	margin-left: 3%;
+	padding: 0;
+	/*background: gold;*/
+}
+
+.cellphone span{
+	color: white;
+	font-size: 12px;
+	line-height: 12px;
+}
+
+
+/*电话咨询&团购报名*/
+#footer .content{
+    width: 67%;
+    height: 100%;
+    margin-left: 33%;
+    overflow: hidden;
+}
+#footer .content a{
+    width: 45%;
+    height: 100%;
+    float: left;
+    line-height: 40px;
+    margin-right: 5%;
+}

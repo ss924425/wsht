@@ -1,0 +1,113 @@
+<include file="public@header">
+<link rel="stylesheet" href="__TMPL__/public/assets/css/office_details.css">
+</head>
+	<title>房源详情</title>
+<body>
+<div class="page">
+	<!-------------标题------------------>
+	<header class="bar bar-nav">
+		<a class="button button-link button-nav pull-left back" href="javascript:;" onclick="history.back(-1)" data-transition='slide-out'>
+			<span class="icon icon-left"></span>
+		</a>
+		<h1 class="title">房源详情</h1>
+	</header>
+
+	<!---------------------底部导航----------->
+	<nav class="bar bar-tab" id="footer">
+		<div class="cellphone">
+			<span>联系电话：</span>
+			<span>{$house.mobile}</span>
+		</div>
+		<div class="content">
+			<a href="tel://{$house.mobile}" class="button button-fill">电话咨询 </a>
+			<a href="vip_yuyue.html" class="button button-fill button-warning">预约</a>
+		</div>
+
+	</nav>
+	<!--------------------------内容区域----------->
+	<div class="content">
+
+		<!-----------轮播图------->
+		<div class="swiper-container" data-space-between='10' id="swiper">
+			<div class="swiper-wrapper">
+				<div class="swiper-slide"><img src="https://pic1.ajkimg.com/display/hj/dedaeca2bcedd549f0e3ce7d97b9abfc/600x450.jpg?t=1" alt=""></div>
+				<div class="swiper-slide"><img src="https://pic1.ajkimg.com/display/hj/965f581d262f1ef59185038d303f48ed/600x450.jpg?t=1" alt=""></div>
+				<div class="swiper-slide"><img src="https://pic1.ajkimg.com/display/hj/03963db773428edbc90268c9217e2a37/600x450.jpg?t=1" alt=""></div>
+				<div class="swiper-slide"><img src="https://pic1.ajkimg.com/display/hj/dedaeca2bcedd549f0e3ce7d97b9abfc/600x450.jpg?t=1" alt=""></div>
+				<div class="swiper-slide"><img src="https://pic1.ajkimg.com/display/hj/965f581d262f1ef59185038d303f48ed/600x450.jpg?t=1" alt=""></div>
+				<div class="swiper-slide"><img src="https://pic1.ajkimg.com/display/hj/03963db773428edbc90268c9217e2a37/600x450.jpg?t=1" alt=""></div>
+			</div>
+			<div class="swiper-pagination"></div>
+		</div>
+		<!--详情信息-->
+		<div class="details">
+			<div class="details_title">
+				<!--标题-->
+				<b>写字楼名称：<span>{$house.title}</span></b>
+				<!--标签-->
+				<ul class="details_list">
+					<li>公园</li>
+					<li>湖景</li>
+					<li>低密度</li>
+					<li>核心办公区</li>
+					<!--<li>金融圈</li>-->
+				</ul>
+			</div>
+			<!--描述&价格&大小等信息describe-->
+			<div class="describe">
+				<p>区域：<span>{$house.area}</span></p>
+				<p>状态：
+					<span>
+						<switch name="$house.status">
+							<case value="1">在租</case>
+							<case value="2">已租</case>
+							<case value="3">在售</case>
+							<case value="4">已售</case>
+						</switch>
+					</span>
+				</p>
+				<p>用途 ：
+					<span>
+						<switch name="$house.type">
+							<case value="1">写字楼</case>
+							<case value="2">商铺</case>
+						</switch>
+					</span>
+				</p>
+				<p>商圈：<span>{$house.shangquan}</span></p>
+				<p>产权年限：<span>40年</span></p>
+			</div>
+			<!--楼盘详情-->
+			<div class="describe_more">
+				<div class="describe_more_content">
+					<h4>楼盘详情</h4>
+					<p>楼栋：<span>{$house.loudong}</span>号楼</p>
+					<p>单元：<span>{$house.danyuan}</span>单元</p>
+					<p>房间号：<span>{$house.fanghao}</span></p>
+					<p>面积：<span>{$house.range}</span> ㎡</p>
+					<p>交易类型：
+						<switch name="$house.pay_type">
+							<case value="1">出租</case>
+							<case value="2">出售</case>
+							<case value="3">租售</case>
+						</switch>
+					</p>
+					<p>业主备注：</p>
+
+				</div>
+			</div>
+			<textarea name="" id="remarks" cols="30" rows="10" disabled="disabled">{$house.remark}</textarea>
+		</div>
+
+		<script type="text/javascript">
+			$.init(
+				function() {
+					$(".swiper-container").swiper();
+				}
+			);
+
+		</script>
+
+	</div>
+</div>
+<include file="public@footer" />

@@ -1,0 +1,91 @@
+<include file="public@header" />
+<title>个人中心</title>
+<link rel="stylesheet" href="__TMPL__/public/assets/css/profile_index.css"/>
+</head>
+<body>
+<div class="page">
+    <div class="content">
+        <!-- 这里是页面内容区 -->
+        <div class="toubu">
+            <notempty name="Think.session.user">
+            <div class="yidenglu">
+                <div class="card facebook-card">
+                    <div class="card-header no-border">
+                        <div class="facebook-avatar">
+                            <notempty name="user.avatar">
+                            <img src="/upload/avatar/{$user.avatar}" width="90" height="90">
+                                <else/>
+                            <img src="__TMPL__/public/assets/images/weidenglu.jpg" width="90" height="90">
+                            </notempty>
+                        </div>
+                        <div class="facebook-name yh_yangshi" style="font-size: 1.7rem;">{$user.user_login}</div>
+                        <div class="facebook-date yh_yangshi">手机号:{$user.mobile|substr=0,3}****{$user.mobile|substr=7}</div>
+                    </div>
+                </div>
+            </div>
+            <else/>
+            <div class="weidenglu"  style="display: block;">
+                <div class="card facebook-card">
+                    <div class="card-header no-border">
+                        <div class="facebook-avatar">
+                            <img src="__TMPL__/public/assets/images/weidenglu.jpg" width="90" height="90">
+                        </div>
+                        <div class="facebook-date">
+                            <p class="button button-fill button-danger"><a href="{:url('user/login/index')}" style="color: white;">登录</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </notempty>
+        </div>
+
+        <!---------------列表------------->
+        <div class="liebiao">
+            <div class="list-block contacts-block">
+                <div class="list-group">
+                    <ul>
+                        <li>
+                            <a href="{:url('profile/edit')}">
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title">信息修改</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{:url('profile/binding')}">
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title">手机号验证</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{:url('profile/password')}">
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title">修改密码</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!---------------退出按钮------------->
+        <notempty name="Think.session.user">
+        <div class="anniu" onclick="location.href='{:url('user/index/logout')}'">
+            <div class="content-block">
+                <p class="button button-fill button-danger">退出登录</p>
+            </div>
+        </div>
+        </notempty>
+    </div>
+    <include file="public@nav" />
+</div>
+</body>
+</html>

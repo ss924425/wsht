@@ -1,0 +1,140 @@
+<include file="public@header" />
+</head>
+<style>
+    .fh{
+        display: inline-block;
+        max-width:350px;
+        word-wrap:break-word;
+        text-overflow:ellipsis;
+        white-space:nowrap;
+        overflow:hidden;
+    }
+    .fh1{
+        display: inline-block;
+        max-width:300px;
+        word-wrap:break-word;
+        text-overflow:ellipsis;
+        white-space:nowrap;
+        overflow:hidden;
+    }
+    /*.fh:hover{*/
+        /*white-space:normal;*/
+        /*overflow:auto;*/
+    /*}*/
+</style>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:url('notice/index')}">消息列表</a></li>
+        <li class=""><a href="{:url('notice/add')}">添加消息</a></li>
+    </ul>
+    <form class="well form-inline margin-top-20" method="post" action="">
+        <input type="text" class="form-control" name="title" style="width: 160px;" value="{:input('request.title','')}" placeholder="消息标题">
+        <input type="submit" class="btn btn-primary" value="搜索" />
+        <a class="btn btn-danger" href="{:url('notice/index')}">清空</a>
+    </form>
+    <form action="{:url('Rbac/listorders')}" method="post" class="margin-top-20">
+        <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <th width="40">ID</th>
+                <th width="120">消息标题</th>
+                <th width="120">消息内容</th>
+                <th width="160">创建时间</th>
+                <th width="160">创建人</th>
+                <th width="160">状态</th>
+                <th width="160">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <foreach name="list" item="vo">
+                <tr>
+                    <td>{$vo.id}</td>
+                    <td ><span class="fh1">{$vo.title}</span></td>
+                    <td ><span class="fh">{$vo.content}</span></td>
+                    <td>{$vo.create_time}</td>
+                    <td>{$vo.user_login}</td>
+                    <td>
+                        <if condition="$vo.issend eq 1">
+                            发送
+                            <else/>
+                            未发送
+                        </if>
+                    </td>
+                    <td>
+                        <if condition="$vo.issend eq 1">
+                            <else/>
+                            <a href="{:url('notice/edit',array('id'=>$vo['id']))}">编辑</a>
+                            <a href="#" onclick="msgsend({$vo['id']})">发送</a>
+                            <a href="#" onclick="adopt({$vo['id']})">删除</a>
+                        </if>
+                    </td>
+                </tr>
+            </foreach>
+            </tbody>
+        </table>
+        <div class="pagination">{$page}</div>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+<script>
+    //删除操作
+    function adopt(id)
+    {
+        var url = '{:url("notice/delete")}';
+        layer.confirm('确定执行该操作么？', {
+            btn: ['确定','取消'] //按钮
+        }, function(){
+            var layerMsg = layer.load(1,{ // 此处1没有意义，随便写个东西
+                icon: 0, // 0~2 ,0比较好看
+                shade: [0.5,'black'] // 黑色透明度0.5背景
+            });
+
+            $.ajax({
+                url:url,
+                data:{'id':id},
+                dataType:'json',
+                success:function(ret){
+                    layer.close(layerMsg); // 关闭单个
+                    if(ret.code){
+                        layer.msg(ret.msg,function () {
+                            location.reload();
+                        });
+                    }else{
+                        layer.msg(ret.msg);
+                    }
+                }
+            })
+        })
+    }
+    function msgsend(id)
+    {
+        var url = '{:url("notice/msgsend")}';
+        layer.confirm('确定执行该操作么？', {
+            btn: ['确定','取消'] //按钮
+        }, function(){
+            var layerMsg = layer.load(1,{ // 此处1没有意义，随便写个东西
+                icon: 0, // 0~2 ,0比较好看
+                shade: [0.5,'black'] // 黑色透明度0.5背景
+            });
+            $.ajax({
+                url:url,
+                data:{'id':id},
+                dataType:'json',
+                success:function(ret){
+                    layer.close(layerMsg); // 关闭单个
+                    if(ret.code){
+                        layer.msg(ret.msg,function () {
+                            location.reload();
+                        });
+                    }else{
+                        layer.msg(ret.msg);
+                    }
+                }
+            })
+        })
+    }
+
+</script>
+</body>
+</html>

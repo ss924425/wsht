@@ -1,0 +1,304 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>任务详情</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
+    <script type='text/javascript' src='http://g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+
+    <style>
+        body{
+            box-sizing: border-box;
+            background: #e6e6e6;
+        }
+        p{
+            margin: 0;
+        }
+        .font08{
+            font-size: 0.8rem;
+        }
+        .hong{
+            color: red;
+        }
+        .content{
+            margin-bottom: 2.3rem;
+        }
+        /*头信息*/
+        .touxinxi .card-content{
+            height: 105px;
+        }
+        .touxinxi .list-block.media-list .item-inner {
+            padding-top: 0.2rem;
+        }
+        .touxinxi .title{
+            text-align: left;
+            margin:0 0;
+            font-size: 1.1rem;
+            color:red;
+        }
+        /*中间介绍*/
+        .jieshao{
+            width: 100%;
+            height: auto;
+            background: white;
+        }
+        .jieshao .js_wid{
+            width: 95%;
+            height: 100%;
+            margin: 0 auto;
+        }
+        .jieshao .js_wid .bianhao{
+            color:grey;
+            padding-top: 0.75rem;
+            font-size: 1rem;
+        }
+        .jieshao .js_wid .yq_num{
+            color:grey;
+            margin-top: 0.35rem;
+            font-size: 1rem;
+            padding-bottom: 4px;
+            border-bottom: 2px solid #e6e6e6;
+        }
+        .jieshao .js_wid .lianjie{
+            display: inline-block;
+            margin: 0.5rem 0;
+        }
+        .jieshao .js_wid .shijian{
+            margin-top:0rem;
+            margin-bottom: 0.75rem;
+            text-align: right;
+            padding-right: 0.75rem;
+        }
+
+        /*回复内容*/
+        .cont{
+            width: 100%;
+            height: auto;
+            background: white;
+            margin-top: 0.75rem;
+            margin-bottom: .5rem;
+        }
+        .cont .cont_wid{
+            margin: 0 auto;
+            width: 92%;
+            height: 50px;
+            line-height: 50px;
+            color:grey;
+        }
+        .cont .card{
+            margin: 0;
+        }
+        .cont .card .list-block .item-content {
+            padding-left: .35rem;
+        }
+
+
+        .bar-tab{
+            width: 100%;
+            height: 2.2rem;background: white;
+        }
+        .bar-tab button{
+            margin-left:2.5%;
+            width: 95%;
+            height: 2rem;
+            line-height: 2rem;
+            background: red;
+            margin-top: 0.1rem;
+            border: 1px solid red;
+            color: #ffffff;
+            border-radius: 5px;
+        }
+
+
+    </style>
+</head>
+
+<body>
+<div class="page">
+    <div class="content">
+        <!-- 这里是页面内容区 -->
+        <!-- 头信息 -->
+        <div class="touxinxi">
+            <div class="card">
+                <div class="card-content">
+                    <div class="list-block media-list">
+                        <ul>
+                            <li class="item-content">
+                                <div class="item-media">
+                                    <if condition="$list.thumb eq ''">
+                                        <img src="" width="80" style="border-radius: 15px;">
+                                        <else/>
+                                        <img src="{:cmf_get_image_preview_url($list['thumb'])}" width="80" style="border-radius: 15px;">
+                                    </if>
+                                </div>
+                                <div class="item-inner">
+                                    <div class="item-title-row" style="margin-top: 1rem;">
+                                        <div class="item-title title" style="">{$list.title} {$list.b_title}</div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 具体信息 -->
+        <div class="jieshao">
+            <div class="js_wid">
+                <div>
+                    <div class="bianhao" style="">任务编号:{$list.gnum}</div>
+                    <div class="yq_num" style="">已抢 <span class="hong">{$list.com_num}</span>/{$list.rel_num}份,￥<span class="hong">{$list.b_money}</span>/份</div>
+                </div>
+                <div class="content-padded" style="margin: 0rem;">
+                    <p class="font08" style="padding-top: 0.75rem;"> 任务为长期任务 每天定时更新<br/>
+                        请用户下载后不要删除<br/>
+                        方便接下来的任务（受益会越来越高）<br/>
+                        ----------------------------------<br/>
+                        游戏平台 {$list.platform}<br/>
+                        选区 {$list.garea}<br/>
+                        {$list.b_remark}<br/>
+                        <!--回复是提交角色ID(注：进游戏时候取的昵称)-->
+                        {$list.b_validate}
+                    </p>
+                    <a href="#" id="download">点击下载游戏</a>
+                    <p class="font08 hong shijian">剩余<span id="hs">{$list.h}</span>小时<span id="ms">{$list.m}</span>分<span id="ss">{$list.s}</span>秒</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 回复内容 -->
+        <div class="cont" style="display:none;">
+            <div class="cont_wid">
+                回复内容
+            </div>
+                <div class="card">
+                    <div class="card-content">
+                        <div class="list-block media-list">
+                            <ul style="background: white;">
+                                <li class="item-content">
+                                    <div class="item-media">
+                                        <if condition="$rec.avatar eq ''">
+                                            <img src="__TMPL__/public/assets/images/user.png" width="80" style="border-radius: 20px;">
+                                            <else/>
+                                            <img src="{:cmf_get_image_preview_url($rec['avatar'])}" width="80" style="border-radius: 20px;">
+                                        </if>
+                                    </div>
+                                    <div class="item-inner">
+                                        <div class="item-title-row">
+                                            <div class="item-title" style="font-size: 1rem;color: blue;">{$rec.user_login}</div>
+                                        </div>
+                                        <div class="item-subtitle" style="font-size: 0.65rem;color: grey;">
+                                            回复的内容是:<span id="huifu">{$rec.submit}</span>
+                                        </div>
+                                        <div class="item-subtitle" style="font-size: 0.65rem;color: grey;">
+                                            {:date('Y-m-d H:i:s',$rec.submit_time)}
+                                            <span style="float: right;">
+                                                <switch name="$rec.receive_type">
+                                                    <case value="0">任务进行中</case>
+                                                    <case value="1">任务已失效</case>
+                                                    <case value="2">任务审核中</case>
+                                                    <case value="3">任务已完成</case>
+                                                </switch>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+    </div>
+    <nav class="bar bar-tab">
+        <if condition="$list.end < $list.now">
+            <button id="btn" class="renwu_q" style="background: gray;border: 1px solid gray">任务已结束</button>
+        <else/>
+            <switch name="$list.user_task">
+                <case value="-1"><button id="btn" class="renwu_q">抢任务</button></case>
+                <case value="0"><button id="btn" class="renwu_q">提交任务</button></case>
+                <case value="1"><button id="btn" class="renwu_q" style="background: gray;border: 1px solid gray">任务已失效</button></case>
+                <case value="2"><button id="btn" class="renwu_q" style="background: gray;border: 1px solid gray">任务待审核</button></case>
+                <case value="3"><button id="btn" class="renwu_q" style="background: gray;border: 1px solid gray">任务已完成</button></case>
+            </switch>
+        </if>
+    </nav>
+</div>
+
+
+<script type='text/javascript' src='http://g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
+<script type="text/javascript">
+    var ut_type = {$list.user_task};
+    if(ut_type > 1){
+        $(".cont").css('display','block');
+    }
+
+    var hs = $('#hs').text();
+    var ms = $('#ms').text();
+    var ss = $('#ss').text();
+    var daojishi = function() {
+        --ss;
+        $('#ss').text(ss);
+        if(ss == -1){
+            ms = ms-1;
+            $('#ms').text(ms);
+            ss=59;
+            $('#ss').text(ss);
+        }
+        if(ms == -1){
+            hs = hs -1;
+            $('#hs').text(hs);
+            ms = 59;
+            $('#ms').text(ms);
+            ss=59;
+            $('#ss').text(ss);
+        }
+        if(hs < 0 || ms < 0 || ss < 0) {
+            $('.jieshao .js_wid .shijian').text('结束');
+            $('#btn').css('background','gray');
+            $('#btn').css('color','white');
+            $('#btn').css('border','1px solid gray');
+            clearInterval(time);
+        }
+    }
+
+    $("#download").click(function(){
+        var url = "{$list.task_link}";
+        location.href = url;
+    })
+
+    $(function () {
+        time = setInterval('daojishi()',1000);
+
+        $('#btn').click(function () {
+            var user_task = {$list.user_task};
+            if (user_task == -1){
+                var id = {$list.id};
+                $.post("{:url('rob_task')}",{id:id},function(res){
+                    $.toast(res.msg);
+                    if(res.code == 1){
+                        window.location.reload();
+                    }
+                })
+            }
+
+            if(user_task == 0){
+                $.prompt('请输入游戏ID', function (value) {
+                    var id = {$list.ut_id};
+                    $.post("{:url('com_task')}",{id:id,value:value},function(res){
+                        $.toast(res.msg);
+                        if(res.code == 1){
+                            window.location.reload();
+                        }
+                    })
+                });
+            }
+        })
+    })
+
+</script>
+</body>
+</html>

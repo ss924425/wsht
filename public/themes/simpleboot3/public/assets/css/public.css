@@ -1,0 +1,246 @@
+
+*{
+    margin: 0;
+    padding: 0;
+}
+.header{
+    width: 100%;
+    height: 226px;
+    /*margin: 0 auto;*/
+}
+.header img{
+    width: 100%;
+    height: 226px;
+
+}
+.contents{
+    width: 95%;
+    padding-top: 1.4rem;
+    padding-bottom: 2.4rem;
+    margin-left: 2.5%;
+    background: #fff;
+    box-shadow: 0 2px 8px 2px rgba(5,45,255,.15);
+    border-radius: 10px;
+}
+/*手机号*/
+.mobile{
+    width: 90%;
+    height: 2.5rem;
+    position: relative;
+    margin-left: 5%;
+    margin-top: 1rem;
+    border: 1px solid #052dff;
+    border-radius: 5px;
+    background: url("../images/icon-aliyun-mobile.png") .8rem no-repeat;
+    background-size: 1.4rem;
+    z-index: 10;
+}
+input{
+    width: 100%;
+    height: 90%;
+    margin-left: 17%;
+    font-size: 0.8rem;
+    background: transparent;
+    color: #333;
+    font-family: PingFang Medium;
+    border: 0;
+    text-align: left;
+    /*-webkit-appearance: none;*/
+    outline: none;
+    -webkit-user-select: auto;
+}
+/*验证码*/
+.inp_ph{
+    width: 90%;
+    height: 2.5rem;
+    position: relative;
+    margin-left: 5%;
+    margin-top: 1rem;
+    border: 1px solid #052dff;
+    border-radius: 5px;
+    background: url("../images/icon-mqs.png") .8rem no-repeat;
+    background-size: 1.4rem;
+    z-index: 10;
+}
+/*获取验证码按钮*/
+.obtain{
+    width: 100%;
+    position: absolute;
+    line-height: 2.5rem;
+    width: 30%;
+    text-align: left;
+    right: 20%;
+    top: 0;
+    transform: translate(50%);
+    color: #052dff;
+    z-index: 10;
+    font-size: 12px;
+}
+/*下一步*/
+.btn_query{
+    width: 90%;
+    height: 2.5rem;
+    background-image: linear-gradient(90deg,#002bff,#af19f2);
+    border-radius: 25px;
+    margin: 2.4rem 0 0 5%;
+    font-family: PingFang Medium;
+    font-size: 1.2rem;
+    color: #fff;
+    text-align: center;
+    line-height: 2.5rem;
+}
+/*以上为登录页面样式*/
+
+/*账户数选择*/
+.select{
+    width: 100%;
+    height: 2rem;
+    margin: 0 auto;
+}
+.select h3{
+    width:100%;
+    line-height: 2rem;
+    text-decoration: underline;
+    margin: 0rem 1rem;
+}
+.select_list{
+    width: 90%;
+    height: 2.5rem;
+    position: relative;
+    margin-left: 5%;
+    margin-top: 1rem;
+    border: 1px solid #052dff;
+    border-radius: 5px;
+    background-size: 1.4rem;
+    z-index: 10;
+    color: #052dff;
+}
+
+.select_list p{
+    width: 100%;
+    height: 100%;
+}
+.select_list p b{
+    margin-left: 45%;
+    font-size: 30px;
+    text-align: center;
+    line-height: 2.5rem;
+    float: left;
+}
+
+.select_list p span{
+    float: left;
+    line-height: 2.5rem;
+}
+
+.contents .titles{
+    width: 100%;
+    height: 3rem;
+    text-align: center;
+    line-height: 3rem;
+    color: #052dff;
+}
+
+
+/*用户信息*/
+.name{
+    background: url("../images/name.png") .8rem no-repeat;
+}
+.psd{
+    background: url("../images/psd.png") .8rem no-repeat;
+}
+.sex{
+    background: url("../images/sex.png") .8rem no-repeat;
+}
+.mobile{
+    background: url("../images/icon-aliyun-mobile.png") .8rem no-repeat;
+}
+.idnumber{
+    background: url("../images/icon-id card.png") .8rem no-repeat;
+}
+.alipay{
+    background: url("../images/zhifubao0.png") .8rem no-repeat;
+}
+.bankcard{
+    background: url("../images/bank_card.png") .8rem no-repeat;
+}
+.bank{
+    background: url("../images/bank.png") .8rem no-repeat;
+}
+.add{
+    background: url("../images/add.png") .8rem no-repeat;
+
+}
+.banks{
+    background: url("../images/banks.png") .8rem no-repeat;
+}
+.anquanshuo{
+    background: url("../images/anquan01.png") .8rem no-repeat;
+
+}
+.anquan{
+    background: url("../images/anquan.png") .8rem no-repeat;
+
+}
+.user{
+    width: 90%;
+    height: 2.5rem;
+    position: relative;
+    margin-left: 5%;
+    margin-top: 1rem;
+    border: 1px solid #052dff;
+    border-radius: 5px;
+    background-size: 1.4rem;
+    z-index: 1;
+
+}
+/*用户协议*/
+#xieyi{
+    width: 100%;
+    height: 3rem;
+    margin: 0 auto;
+    /*text-align: center;*/
+    line-height: 3rem;
+}
+#xieyi #ty{
+    width: 1rem;
+    height: 1rem;
+    border: 1px solid blue;
+}
+
+
+
+#xieyi_content{
+    width: 100%;
+    height: 100%;
+    display: none;
+    overflow: scroll;
+    position: relative;
+    top: 0;
+    left: 0;
+}
+.text_content{
+    width: 95%;
+    margin: 2rem auto;
+}
+.footer{
+    width: 100%;
+    height: 3rem;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+}
+
+.other{
+    border: 1px solid #052dff;
+    width: 90%;
+    height: 2.5rem;
+    margin: 10% 5%;
+    border-radius: 5px;
+}
+
+.other input{
+    font-size: 25px;
+    line-height: 2.5rem;
+}

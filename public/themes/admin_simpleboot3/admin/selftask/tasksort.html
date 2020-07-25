@@ -1,0 +1,95 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:url('selftask/tasksort')}">任务分类</a></li>
+        <li><a href="{:url('selftask/tasksortAdd')}">新增分类</a></li>
+    </ul>
+    <form class="js-ajax-form" action="{:url('selftask/listOrder')}" method="post">
+        <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
+                data-action="{:url('selftask/tasksortPublish',array('yes'=>1))}" data-subcheck="true">发布
+        </button>
+        <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
+                data-action="{:url('selftask/tasksortPublish',array('no'=>1))}" data-subcheck="true">取消发布
+        </button>
+        <button class="btn btn-danger btn-sm js-ajax-submit" type="submit"
+                data-action="{:url('selftask/tasksortDelete')}" data-subcheck="true" data-msg="您确定删除吗？">
+            {:lang('DELETE')}
+        </button>
+        <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <th width="15">
+                    <label>
+                        <input type="checkbox" class="js-check-all" data-direction="x" data-checklist="js-check-x">
+                    </label>
+                </th>
+                <th width="60">ID</th>
+                <th width="80">上级ID</th>
+                <th>分类名称</th>
+                <th>上级分类名称</th>
+                <th>排序序号</th>
+                <th width="70">状态</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <volist name="list" id="v">
+                <tr>
+                    <td>
+                        <input type="checkbox" class="js-check" data-yid="js-check-y" data-xid="js-check-x" name="ids[]"
+                               value="{$v.id}" title="ID:{$v.id}">
+                    </td>
+                    <td>{$v.id}</td>
+                    <td>{$v.pid}</td>
+                    <td>
+                        <if condition="$v.pid eq 0">
+                            <span style="color: blue">{$v.name}</span>
+                            <else/>
+                            {$v.name}
+                        </if>
+                    </td>
+                    <td>
+                        <if condition="$v.pname eq '' ">
+                            <span style="color: blue">顶级分类</span>
+                            <else/>
+                            {$v.pname}
+                        </if>
+                    </td>
+                    <td><input name='list_orders[{$v.id}]' type='text' size='3' value='{$v.number}' class='input-order'>
+                    </td>
+                    <td>
+                        <notempty name="v.status">
+                            <a data-toggle="tooltip" title="已发布"><i class="fa fa-check"></i></a>
+                            <else/>
+                            <a data-toggle="tooltip" title="未发布"><i class="fa fa-close"></i></a>
+                        </notempty>
+                    </td>
+                    <td>
+                        <if condition="$v.pid gt 0">
+                            <a href="{:url('setting/doTaskExplain',['tasktype' => $v.id])}">任务步骤</a>
+                        </if>
+                        <if condition="$v.pid eq 0">
+                            <a href="{:url('setting/bindStep',['tasktype' => $v.id])}">账号绑定步骤</a>
+                        </if>
+                        <a href="{:url('selftask/tasksortEdit',['id' => $v.id])}" style="padding-left: 10px">{:lang('EDIT')}</a>
+                        <if condition="$v.pid gt 0">
+                            <a class="js-ajax-delete"
+                               href="{:url('selftask/tasksortDelete',['id' => $v.id])}" style="color: red; padding-left: 10px">{:lang('DELETE')}</a>
+                        </if>
+
+                    </td>
+                </tr>
+            </volist>
+            </tbody>
+        </table>
+        <div class="table-actions">
+            <button type="submit" class="btn btn-primary btn-sm js-ajax-submit">{:lang('SORT')}</button>
+        </div>
+        <ul class="pagination">{$page}</ul>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

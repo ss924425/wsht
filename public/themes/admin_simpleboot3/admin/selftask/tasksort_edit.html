@@ -1,0 +1,264 @@
+<include file="public@header"/>
+<style type="text/css">
+    .pic-list li {
+        margin-bottom: 5px;
+    }
+</style>
+<script type="text/html" id="photos-item-tpl">
+    <li id="saved-image{id}">
+        <input id="photo-{id}" type="hidden" name="taskimg[]" value="{filepath}">
+        <input class="form-control" id="photo-{id}-name" type="text" name="photo_names[]" value="{name}"
+               style="width: 200px;" title="图片名称">
+        <img id="photo-{id}-preview" src="{url}" style="height:36px;width: 36px;"
+             onclick="imagePreviewDialog(this.src);">
+        <a href="javascript:uploadOneImage('图片上传','#photo-{id}');">替换</a>
+        <a href="javascript:(function(){$('#saved-image{id}').remove();})();">移除</a>
+    </li>
+</script>
+</head>
+<body>
+<div class="wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:url('selftask/tasksort')}">任务分类</a></li>
+        <li class="active"><a href="{:url('selftask/tasksortEdit',array('id'=>$id))}">修改分类</a></li>
+    </ul>
+    <form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('selftask/tasksortEditPost')}">
+        <input type="hidden" name="id" value="{$id}">
+        <div class="form-group">
+            <label for="input-device_no" class="col-sm-2 control-label"><span
+                    class="form-required">*</span>分类名称</label>
+            <div class="col-md-6 col-sm-10">
+                <input class="form-control" type="text" name="name" value="{$info.name|default=''}"/>
+                <p class="help-block">建议在4个字内</p>
+            </div>
+        </div>
+        <if condition="$info.pid eq 0">
+            <div class="form-group">
+                <label for="input-device_no" class="col-sm-2 control-label"><span
+                        class="form-required">*</span>应用包名</label>
+                <div class="col-md-6 col-sm-10">
+                    <input type="text" name="appname" autocomplete="off" class="form-control"
+                           value="{$info.appname|default=''}">
+                    <p class="help-block">填入APP包名</p>
+                </div>
+            </div>
+        </if>
+        <div class="form-group">
+            <label for="input-device_no" class="col-sm-2 control-label"><span
+                    class="form-required"></span>图标</label>
+            <div class="col-md-6 col-sm-10">
+                <div style="text-align: center;">
+                    <input type="hidden" name="img" id="thumbnail" value="{$info.img|default=''}">
+                    <a href="javascript:uploadOneImage('图片上传','#thumbnail');">
+                        <if condition="empty($info.img)">
+                            <img src="__TMPL__/public/assets/images/default-thumbnail.png"
+                                 id="thumbnail-preview"
+                                 width="135" style="cursor: pointer"/>
+                            <else/>
+                            <img src="{:cmf_get_image_preview_url($info.img)}"
+                                 id="thumbnail-preview"
+                                 width="135" style="cursor: pointer"/>
+                        </if>
+                    </a>
+                    <input type="button" class="btn btn-sm btn-cancel-thumbnail" value="取消图片">
+                </div>
+                <p class="help-block">提示：若需要设置圆形导航图片，请将图片处理成圆形图片。也可全部不设置图片，那么前端只显示文字</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-device_no" class="col-sm-2 control-label"><span
+                    class="form-required"></span>排序序号</label>
+            <div class="col-md-6 col-sm-10">
+                <input class="form-control" type="number" name="number" value="{$info.number}"/>
+                <p class="help-block">填数字，数字越大越靠前</p>
+            </div>
+        </div>
+        <!--<div class="form-group">-->
+        <!--<label for="input-device_no" class="col-sm-2 control-label"><span-->
+        <!--class="form-required"></span>状态</label>-->
+        <!--<div class="col-md-6 col-sm-10">-->
+        <!--<label class="radio-inline"><input type="radio" name="status" value="1" <eq name="info.status" value="1">checked</eq>-->
+        <!--&gt;上架</label>-->
+        <!--<label class="radio-inline"><input type="radio" name="status" value="0" <eq name="info.status" value="0">checked</eq> >下架</label>-->
+        <!--</div>-->
+        <!--</div>-->
+
+        <if condition="$info.pid gt 0">
+
+            <div class="form-group">
+                <label for="input-device_no" class="col-sm-2 control-label"><span
+                        class="form-required"></span>发布任务模板标题</label>
+                <div class="col-md-6 col-sm-10">
+                <textarea class="form-control" name="title"
+                          rows="5">{$info.title|htmlspecialchars_decode|default=''}</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="input-device_no" class="col-sm-2 control-label"><span
+                        class="form-required"></span>发布价</label>
+                <div class="col-md-6 col-sm-10">
+                    <input type="number" class="form-control" name="dmoney" value="{$info.dmoney}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="input-device_no" class="col-sm-2 control-label"><span
+                        class="form-required"></span>APP价</label>
+                <div class="col-md-6 col-sm-10">
+                    <input type="number" class="form-control" name="falsemoney" value="{$info.falsemoney}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="input-device_no" class="col-sm-2 control-label"><span
+                        class="form-required"></span>发布任务任务总量
+                </label>
+                <div class="col-md-6 col-sm-10">
+                    <input type="text" class="form-control" name="other[num]" value="{$info.other.num|default=1}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="input-device_no" class="col-sm-2 control-label"><span
+                        class="form-required"></span>发布任务等待时间
+                </label>
+                <div class="col-md-6 col-sm-10">
+                    <input type="text" class="form-control" name="other[wait]" value="{$info.other.wait|default=0}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="input-device_no" class="col-sm-2 control-label"><span
+                        class="form-required"></span>发布任务可抢次数
+                </label>
+                <div class="col-md-6 col-sm-10">
+                    <input type="text" class="form-control" name="other[canget]" value="{$info.other.canget|default=1}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="input-device_no" class="col-sm-2 control-label"><span
+                        class="form-required"></span>发布任务任务图片
+                </label>
+                <div class="col-md-6 col-sm-10">
+                    <ul id="photos" class="pic-list list-unstyled form-inline">
+                        <notempty name="info.other.taskimg">
+                            <foreach name="info.other.taskimg" item="vo">
+                                <php>$img_url=cmf_get_image_preview_url($vo);</php>
+                                <li id="saved-image{$key}">
+                                    <input id="photo-{$key}" type="hidden" name="taskimg[]"
+                                           value="{$vo}">
+                                    <img id="photo-{$key}-preview"
+                                         src="{:cmf_get_image_preview_url($vo)}"
+                                         style="height:36px;width: 36px;"
+                                         onclick="parent.imagePreviewDialog(this.src);">
+                                    <a href="javascript:uploadOneImage('图片上传','#photo-{$key}');">替换</a>
+                                    <a href="javascript:(function(){$('#saved-image{$key}').remove();})();">移除</a>
+                                </li>
+                            </foreach>
+                        </notempty>
+                    </ul>
+                    <a href="javascript:uploadMultiImage('图片上传','#photos','photos-item-tpl');"
+                       class="btn btn-sm btn-default">选择图片</a>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="input-device_no" class="col-sm-2 control-label"><span
+                        class="form-required"></span>发布任务隐藏回复</label>
+                <div class="col-md-6 col-sm-10">
+                    <label class="radio-inline"><input type="radio" name="other[hide]" value="1"
+                        <eq name="info.other.hide" value="1">checked</eq>
+                        >隐藏</label>
+                    <label class="radio-inline"><input type="radio" name="other[hide]" value="0"
+                        <eq name="info.other.hide" value="0">checked</eq>
+                        >不隐藏</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="input-device_no" class="col-sm-2 control-label"><span
+                        class="form-required"></span>发布任务超链接</label>
+                <div class="col-md-6 col-sm-10">
+                    <div class="form-value">
+                        <div class="edit_right_list input_400 group_params_box">
+                            <span id="add_url" class="btn btn_primary btn_small edit_right_btn">添加一项</span>
+                            <notempty name="info.other.urlarr">
+                                <foreach name="info.other.urlarr" item="vo">
+                                    <div class="edit_right_item">
+                                        文字<span class="frm_input_box frm_input_box_100">
+                                    <input type="text" class="frm_input" name="urlname[]" value="{$vo.text}">
+                                </span>链接<span class="frm_input_box frm_input_box_300">
+                                    <input type="text" class="frm_input" name="urlurl[]" value="{$vo.url}">
+                                </span>
+                                        <a href="javascript:;" class="delete_params">删除</a>
+                                    </div>
+                                </foreach>
+                            </notempty>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="input-from_name" class="col-sm-2 control-label">
+                    <span class="form-required"></span>发布任务模板内容
+                </label>
+                <div class="col-md-6 col-sm-10">
+                <textarea name="content" class="form-control" cols="30"
+                          rows="10">{$info.other.content|default=''}</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="input-from_name" class="col-sm-2 control-label">
+                    <span class="form-required"></span>发布任务隐藏内容
+                </label>
+                <div class="col-md-6 col-sm-10">
+                <textarea name="hcontent" class="form-control" cols="30"
+                          rows="10">{$info.other.hcontent|default=''}</textarea>
+                </div>
+            </div>
+        </if>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('SAVE')}</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+<script type="text/javascript">
+    //编辑器路径定义
+    var editorURL = GV.WEB_ROOT;
+</script>
+<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+
+        // var editorcontent = new baidu.editor.ui.Editor();
+        // var editorcontent2 = new baidu.editor.ui.Editor();
+        // editorcontent.render('content');
+        // editorcontent2.render('content2');
+        // try {
+        //     editorcontent.sync();
+        //     editorcontent2.sync();
+        // } catch (err) {
+        // }
+
+        $('.btn-cancel-thumbnail').click(function () {
+            $('#thumbnail-preview').attr('src', '__TMPL__/public/assets/images/default-thumbnail.png');
+            $('#thumbnail').val('');
+        });
+    });
+    // 超链接add_url
+    $('#add_url').click(function () {
+        var html = '<div class="edit_right_item">'
+            + '文字<span class="frm_input_box frm_input_box_150">'
+            + '<input type="text" class="frm_input"  name="urlname[]" value="">'
+            + '</span>链接<span class="frm_input_box frm_input_box_300">'
+            + '<input type="text" class="frm_input"  name="urlurl[]" value="">'
+            + '</span>'
+            + '<a href="javascript:;" class="delete_params"> 删除</a>'
+            + '</div>';
+        $('.group_params_box').append(html);
+    });
+    // 删除属性
+    $('body').on('click', '.delete_params', function () {
+        $(this).parents('.edit_right_item').remove();
+    });
+</script>
+</body>
+</html>

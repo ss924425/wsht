@@ -1,0 +1,239 @@
+<include file="public@header" />
+</head>
+<style type="text/css">
+    #aa>p{
+        width: 200px;
+        align : center;
+        color: red;
+        word-wrap:break-word;
+    }
+</style>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="">退单中订单</a></li>
+
+    </ul>
+    <form class="well form-inline margin-top-20" method="post" action="{:url('Extask/backorder')}">
+        从林业务:
+        <select class="form-control" name="aid">
+            <option value="" <eq name="aid" value="">selected</eq> >选择业务</option>
+            <volist name="names" id="vo">
+                <option value="{$vo.id}" <eq name="sortid" value="$vo.id">selected</eq>>{$vo.account_name}</option>
+            </volist>
+        </select>
+        <input type="submit" class="btn btn-primary" value="搜索" />
+    </form>
+    <form class="js-ajax-form" action="" method="post" action="{:url('Extask/backorder')}" >
+        <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <th width="15">
+                    <label>
+                        <input type="checkbox" class="js-check-all" data-direction="x" data-checklist="js-check-x">
+                    </label>
+                </th>
+                <th width="15">订单号</th>
+                <!--<th>用户备注</th>-->
+                <th >下单账号</th>
+                <th>下单量：点</th>
+                <th>开始量</th>
+                <th>当前量</th>
+                <th>结束量</th>
+                <th>订单状态</th>
+                <th>订单账户/卡密</th>
+                <th>下单时间</th>
+                <th>订单消费</th>
+                <th>商品分类id</th>
+                <th>商品分类标题</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <volist name="list" id="v">
+                <tr>
+                    <td>
+                        <input type="checkbox" class="js-check" data-yid="js-check-y" data-xid="js-check-x" name="ids[]"
+                               value="{$v.id}" title="ID:{$v.id}">
+                    </td>
+                    <td>{$v.id}</td>
+                    <td id="aa"><p>{$v.aa}</p></td>
+                    <td>{$v.need_num_0}</td>
+                    <td>{$v.start_num}</td>
+                    <td>{$v.now_num}</td>
+                    <td>{$v.end_num}</td>
+                    <td>
+                        <if condition="$v['order_state'] == 1">
+                             未开始
+                            <elseif condition="$v['order_state'] == 0"}
+
+                            <else/>
+
+                        </if>
+                    </td>
+                    <td><p style="color: blue;">用户id：{$v.user_id}</p></td>
+                    <td>{$v.add_time}</td>
+                    <td>
+                        <p style="color:red;">{$v.order_amount}</p>
+                    </td>
+                    <td>{$v.goods_type}</td>
+                    <td>{$v.goods_type_title}</td>
+                    <td>
+                        <button style="background-color:royalblue"><a
+                                href='{:url("Extask/receivetaskinfo",array("id"=>$v["id"],"order_aa"=>$v["aa"]))}'
+                                style="color: white;text-decoration:none;">执行图</a></button>
+                        <!--<a href="javascript:;" onclick="ShowCreateModal('退单数量',{$v.id},'{$v.aa}')">按量退单</a>-->
+                        <!--<a href="javascript:;" onclick="ShowCreateModal1('退单金额',{$v.id},{$v.order_amount},'{$v.aa}')">按rmb退单</a>-->
+                        <a href="javascript:;" onclick='over({$v.id},"{$v.aa}",{$sortid})'>完成订单</a>
+                    </td>
+                </tr>
+            </volist>
+            </tbody>
+        </table>
+        <ul class="pagination">{$page|default=''}</ul>
+    </form>
+    <div class="modal fade" id="createFileMModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createFileTitle" data-id="">退单数量</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <p><span>输入你要退多少点给用户？(退单会结算此任务)</span></p>
+                            <label for="refund_num" class="col-form-label">数量:</label>
+                            <input type="number" autofocus class="form-control" id="refund_num">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="createFileSureBut">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="createFileMModal1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createFileTitle1" data-id1="" data-order_amount="">退单金额</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">x</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <p><span>输入你要退多少元给用户？本订单最多可以退单<span id="yuan"></span>元</span>(退单会结算此任务)</p>
+                            <label for="refund_rmb" class="col-form-label">金额:</label>
+                            <input type="number" autofocus class="form-control" id="refund_rmb">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="createFileSureBut1">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+<script>
+    // 修改弹出框的title, 显示弹框
+    function ShowCreateModal(title, id,order_aa) {
+        $("#createFileTitle").text(title);
+        $("#createFileTitle").attr('data-id', id);
+        $("#createFileTitle").attr('data-order_aa', order_aa);
+        $('#createFileMModal').modal('show');
+    }
+
+    function ShowCreateModal1(title, id, order_amount,order_aa1) {
+        $("#createFileTitle1").text(title);
+        $("#yuan").text(order_amount);
+        $("#createFileTitle1").attr('data-id1', id);
+        $("#createFileTitle1").attr('data-order_aa1', order_aa1);
+        $('#createFileMModal1').modal('show');
+    }
+
+    // 关闭弹框， 获取输入值，然后执行逻辑
+    $("#createFileSureBut").click(function () {
+        $("#createFileMModal").modal("hide");
+        var refund_num = $("#refund_num").val();
+        if (refund_num) {
+            var id = $("#createFileTitle").attr('data-id');
+            var order_aa = $("#createFileTitle").attr('data-order_aa');
+            var url = '{:url("Extask/refundorder")}';
+            $.ajax({
+                url: url,
+                data: {'id': id, 'refund_num': refund_num, 'type': 1,'order_aa':order_aa},
+                dataType: 'json',
+                success: function (ret) {
+                    if (ret.code) {
+                        alert(ret.msg);
+                        location.reload();
+                    } else {
+                        alert(ret.msg);
+                    }
+                }
+            })
+        } else {
+            alert('请填写数量');
+        }
+    });
+    $("#createFileSureBut1").click(function () {
+        $("#createFileMModal1").modal("hide");
+        var refund_rmb = $("#refund_rmb").val();
+        if (refund_rmb) {
+            var id = $("#createFileTitle1").attr('data-id1');
+            var order_aa1 = $("#createFileTitle1").attr('data-order_aa1');
+            var url = '{:url("Extask/refundrmborder")}';
+            $.ajax({
+                url: url,
+                data: {'id': id, 'refund_rmb': refund_rmb, 'type': 2,'order_aa1':order_aa1},
+                dataType: 'json',
+                success: function (ret) {
+                    if (ret.code) {
+                        alert(ret.msg);
+                        location.reload();
+                    } else {
+                        alert(ret.msg);
+                    }
+                }
+            })
+        } else {
+            alert('请填写退单金额');
+        }
+    });
+
+    function over(id, aa, sortid) {
+        var id = id;
+        var aa = aa;
+        var sortid = sortid;
+        layer.confirm('确定完成此订单吗?(完成订单会结算此任务)', function (index) {
+            $.ajax({
+                url: '{:url("extask/editorder1")}',
+                data: {'id': id, 'order_aa': aa , 'sortid' : sortid},
+                type: 'post',
+                dataType: 'json',
+                success: function (res) {
+                    if (res.code == 1) {
+                        layer.msg(res.msg, {
+                            icon: 6,
+                            time: 1000
+                        }, function () {
+                            location.reload();
+                        });
+                    } else {
+                        layer.msg(res.msg, {icon: 5});
+                    }
+                }
+            })
+        })
+    }
+</script>
+</body>
+</html>

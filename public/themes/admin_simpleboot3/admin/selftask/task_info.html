@@ -1,0 +1,493 @@
+<include file="public@header"/>
+<link href="__TMPL__/public/assets/css/taskinfo.css" rel="stylesheet">
+<link href="__TMPL__/public/assets/css/taskinfo_2.css" rel="stylesheet">
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:url('selftask/index')}">任务列表</a></li>
+        <li><a href="{:url('selftask/taskReply')}">回复列表</a></li>
+        <li class="active"><a href="{:url('selftask/taskInfo',array('id'=>$id))}">任务详情</a></li>
+    </ul>
+    <form action="" method="post" class="ui-table">
+        <div class="create-content left taskinfo_l"
+             style="width: 100%; float: left;margin-bottom: 100px;padding-bottom: 100px;">
+            <div class="create-main" style="padding: 20px;">
+                <h4 class="borderl">任务详情</h4>
+                <div class="info_item">标题：{$info['title']}</div>
+                <div class="info_item">内容：{$info['content']|htmlspecialchars_decode}</div>
+                <volist name="info.images" id="item">
+                    <a target="_blank" href="{:cmf_get_image_url($item)}" style="float: left">
+                        <img class="media-object" src="{:cmf_get_image_url($item)}"
+                             style="width: 70px;height: 70px;margin: 0 10px 10px 0px;">
+                    </a>
+                </volist>
+                <div style="clear: both"></div>
+                <div class="info_item task_head_bottom font_ff5f27">
+                    <if condition="$info.status == 0">
+                        <if condition="$info['iscount'] == 1">
+                            已结算
+                            <else/>
+                            <if condition="$info['isstart'] == 1">
+                                未开始
+                                <else/>
+                                <span>距离自动结束：<?php echo \TbUtil::lastTime($info['end']);?></span>
+                            </if>
+                        </if>
+                        <elseif condition="$info['status'] == 1">
+                            <if condition="$info['iscount'] == 1">
+                                已结算
+                                <else/>
+                                <p class="font_ff5f27">审核中</p>
+                            </if>
+                            <elseif condition="$info['status'] == 2">
+                                被下架
+                    </if>
+                </div>
+                <div class="info_item">
+                    <span>总计花费:<?php echo $info['num']*$info['falsemoney']+$info['costserver']+$info['costka']+$info['costtop'];?>
+                        元，</span>
+                    <span>任务总量:{$info['num']}，</span>
+                    <span>每项赏金:{$info['falsemoney']}元，</span>
+                    <if condition="$adminuser eq 3">
+                        <span>实际赏金:{$info['money']}元</span>
+                    </if>
+                </div>
+                <div class="info_item">
+                    <span>服务费:{$info['costserver']}元，</span>
+                    <if condition="$info['continue'] == 1">
+                        <span>额外奖励费:{$continue['totalmoney']}元(未算在总计花费内)，</span>
+                    </if>
+                    <span><if condition="$info['istop'] == 0">未置顶<else/>置顶(置顶费{$info['costtop']}元)</if></span>
+                    <gt name="info.giveparent" value="0"><span>，上级提成:{$info['giveparent']}元</span></gt>
+                </div>
+                <if condition="$info['iscount'] == 1">
+                    <div class="info_item">
+                        <span>退回资金:{$info['backmoney']}元</span>
+                        <if condition="$info['continue'] == 1 && $continue['isback'] == 1">
+                            <span>退回额外奖励:{$continue['backmoney']}元</span>
+                        </if>
+                    </div>
+                </if>
+                <if condition="$info['isread'] == 1">
+                    <div class="info_item">
+                        <span>查看答案价格:{$info['readprice']}元</span>
+                    </div>
+                </if>
+                <h4 class="borderl">操作任务</h4>
+
+                <div class="info_item item_cell_box" style="align-items: center;">
+                    <div class="reply_number inlineblock">{$reply}待采纳</div>
+                    <div class="reply_number inlineblock">{$agree}采纳</div>
+                    <div class="reply_number inlineblock">{$refuse}拒绝</div>
+
+                    <div class="ui-table-cell-text-last edit_table_item inlineblock">
+                        <a href="javascript:sendRemind('{$id}');" class="edit_bot ui-button">提醒商家</a>
+                    </div>
+
+                    <div class="ui-table-cell-text-last edit_table_item inlineblock">
+                        <select name="status" id="status" style="color: #108cee;">
+                            <option value=""
+                            <eq name="status" value="">selected</eq>
+                            >筛选回复</option>
+                            <option value="1"
+                            <eq name="status" value="1">selected</eq>
+                            >待采纳</option>
+                            <option value="2"
+                            <eq name="status" value="2">selected</eq>
+                            >已采纳</option>
+                            <option value="3"
+                            <eq name="status" value="3">selected</eq>
+                            >已拒绝</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="btn btn-warning" type="button" onclick="counttask('{$id}')"
+                        style="border-radius:25px;color: red">
+                    结算任务
+                </button>
+                <h4 class="borderl">提交内容</h4>
+
+                <div style="display: flex;flex-wrap: wrap;width: 100%;">
+
+                    <volist name="replyinfo" id="item">
+                        <div style="display: flex;margin-bottom: 15px">
+                            <div style="margin-right: 10px">
+                                <a href="#">
+                                    <if condition="$item['user']['avatar'] eq ''">
+                                        <img class="media-object img-rounded" src="/upload/avatar/moren.jpg" alt="" style="width: 60px; height: 60px;">
+                                        <else>
+                                            <img class="media-object img-rounded"
+                                                 src="{:cmf_get_image_url($item['user']['avatar'])}"
+                                                 style="width: 60px; height: 60px;"onclick="parent.imagePreviewDialog(this.src);">
+                                    </if>
+
+                                </a>
+                            </div>
+                            <div>
+                                <div >
+                                    <p style="height: 24px;">
+                                        {$item['user']['user_nickname']}(会员编号:{$item['user']['id']})
+                                    <p class="media-heading">绑定ID：{$bind}</p>
+                                    <p class="media-heading">APP昵称：{$item['app_nickname']}</p>
+                                    <div class=" ">
+                                        <volist name="item.images" id="img">
+                                <span class="good_qrcode_box">
+					    		<a target="_blank" href="javascript:;" class="show_good_qrcode" style="float: left;margin-right: 10px;">
+					    			<img class="media-object" src="{:cmf_get_image_url($img)}"
+                                         style="width: 185px; height: 280px;" onclick="parent.imagePreviewDialog(this.src);">
+					    		</a>
+					    	</span>
+                                        </volist>
+                                        <div class="fc" style="clear: both"></div>
+                                    </div>
+                                    <div style="margin-top: 10px">
+                                        <if condition="$item['dealstatus'] == 1">
+                                            <p style="color: green">任务发布者已采纳</p>
+                                            <elseif condition="$item['status'] == 3">
+                                                <p style="color: red">任务发布者未采纳,拒绝理由:"{$item['reason']}"</p>
+                                                <else/>
+                                                <p style="color: blue">任务发布者未审核</p>
+                                        </if>
+                                    </div>
+                                    <notempty name="item.addlist">
+                                        <div class="task_addcontent">
+                                            <volist name="item.addlist" id="in">
+                                                <div class="item_cell_box font_mini">
+                                                    <div style="width: 80px">补充内容：</div>
+                                                    <div class="item_cell_flex">
+                                                        <li class="">{$in.content} <span> —— {:date('Y-m-d H:i:s',$in['createtime'])}</span>
+                                                        </li>
+                                                        <li>
+                                                            <volist name="in.images" id="inn">
+                                            <span class="good_qrcode_box">
+										    		<a target="_blank" href="javascript:;" class="show_good_qrcode">
+										    			<img class="media-object" src="{:cmf_get_image_url($inn)}"
+                                                             style="width: 64px; height: 64px;">
+										    		</a>
+										    		<img class="actimg" src="{:cmf_get_image_url($inn)}"
+                                                         style="width: 300px;height: auto;">
+										    	</span>
+                                                            </volist>
+                                                        </li>
+                                                    </div>
+                                                </div>
+                                            </volist>
+                                        </div>
+                                    </notempty>
+                                    <if condition="!empty( $item['remind'] )">
+                                        <div class="task_remind">
+                                            <volist name="item.remind" id="in">
+                                                <div class="item_cell_box font_mini">
+                                                    <li style="width: 80px;list-style: none;">提醒内容：</li>
+                                                    <li class="item_cell_flex remind_content" style="list-style: none;">
+                                                        {$in['content']}<span
+                                                            class="remind_time"> —— {:date('Y-m-d H:i:s',$in['createtime'])}</span>
+                                                    </li>
+                                                </div>
+                                            </volist>
+                                        </div>
+                                    </if>
+                                    <if condition="$item['adminadd']*1 != 0 ">
+                                        <div class="task_remind">
+                                            <div class="item_cell_box font_mini">
+                                                管理员为提交者增加 {$item['adminadd']}元
+                                            </div>
+                                        </div>
+                                    </if>
+                                    <div class="task_reply_icon margin_top20 info_item">
+                                        <span>回复时间:{:date('Y-m-d H:i:s',$item['replytime'])} </span>
+                                        <span class="reply_status">
+						<if condition="$item['isscan'] == 0">
+							<if condition="$item['status'] == 1">等待采纳<elseif condition="$item['status'] == 2">已采纳<elseif
+                                    condition="$item['status'] == 3">被拒绝</if>，
+						<elseif condition="$item['isscan'] == 1">
+							已禁止浏览，
+						</if>
+						</span>
+                                        <if condition="$item['status'] == 2">
+                                            <span>赏金:{$item['money']} <gt name="item.ewai" value="0">+{$item['ewai']}</gt> 元</span>，
+                                            <gt name="item.giveparent" value="0">
+                                                <span>上级提成:{$item['giveparent']}</span>,
+                                                <if condition="$item['giveparentup'] eq 0">
+                                                    <span></span>
+                                                    <else/>
+                                                    <span>上上级提成:{$item['giveparentup']}</span>
+                                                </if>
+                                            </gt>
+                                        </if>
+                                    </div>
+                                </div>
+                                <div class="reply_bottom text-left task_status_acceptrefuse" style="margin-top: 5px" data-replyid="{$item['id']}"
+                                     data-taskid="{$item['taskid']}">
+                                    <if condition="$item['status'] == 1">
+                                        <div class=" inlineblock" style="height: 15px;">
+                                            <input type="checkbox" name="checkall[]" class="ui-table-multi-select"
+                                                   value="{$item['id']}"/>
+                                        </div>
+                                    </if>
+                                    <if condition="$item['status'] == 1">
+                                        <a href="javascript:;" class="btn-danger" onclick="jujue({$item['id']},1,'refuse')" style="font-size: 16px;border-radius:2px;margin-left: 8px">乱截图</a>
+                                        <a href="javascript:;" class="btn-danger" onclick="jujue({$item['id']},2,'refuse')" style="font-size: 16px;border-radius:2px;margin-left: 8px">没关注</a>
+                                        <a href="javascript:;" class="btn-danger" onclick="jujue({$item['id']},3,'refuse')" style="font-size: 16px;border-radius:2px;margin-left: 8px">没点赞</a>
+                                        <a href="javascript:;" class="btn-danger" onclick="jujue({$item['id']},4,'refuse')" style="font-size: 16px;border-radius:2px;margin-left: 8px">评论未显示</a>
+
+                                        <a href="javascript:;" class="dealreply" data-replyid="{$item['id']}"
+                                           data-type="accept" data-alert="确定要采纳此回复吗？" style="font-size: 16px;background-color: green;border-radius:2px;color: white;margin-left: 8px">采纳</a>
+
+                                        <elseif condition="$item['status'] == 2">
+                                            <font class="font_mini">采纳时间：{:date('Y-m-d H:i:s',$item['dealtime'])}</font>
+                                            <elseif condition="$item['status'] == 3">
+                                                <font class="font_mini">拒绝时间：{:date('Y-m-d H:i:s',$item['dealtime'])}</font>
+                                    </if>
+                                </div>
+                            </div>
+
+                        </div>
+                    </volist>
+                </div>
+
+                <div class="inlineblock fl" style="line-height: 30px;margin-right: 10px;">
+                    <input type="checkbox" class="ui-table-select-all" id="selectAll"/>全选
+                </div>
+
+                <div class="ui-table-cell-text-last edit_table_item inlineblock fl"
+                     style="line-height: 30px;margin-right: 10px;">
+                    <a href="javascript:;" class="edit_bot ui-button agreeall">批量采纳</a>
+                </div>
+
+                <div class="ui-table-cell-text-last edit_table_item inlineblock fl"
+                     style="line-height: 30px;margin-right: 10px;">
+                    <a href="javascript:;" class="edit_bot ui-button refuseall">批量拒绝</a>
+                </div>
+
+            </div>
+
+            <div class="pagination" style="display: block;margin-top: 30px;padding-left: 10px;">
+                {$page}
+            </div>
+        </div>
+    </form>
+    <div id="test123" style="display: none;">
+        <div class="wrap" style="width: 200px;height: 220px; margin-left: 40px">
+            <form method="post" class="form-horizontal js-ajax-form margin-top-20" action="">
+                <div>
+                    <div class="col-md-6 col-sm-10" style="width: 150px;height: 80px">
+                        <input type="radio" name="reason" value="1" checked style="margin-top: 5px">乱截图<br/>
+                        <input type="radio"  name="reason" value="2" style="margin-top: 5px">没关注<br/>
+                        <input type="radio"  name="reason" value="3" style="margin-top: 5px">没点赞<br/>
+                        <input type="radio" name="reason"  value="4" style="margin-top: 5px">评论未显示<br/>
+                    </div>
+                </div>
+                <div class="col-sm-offset-2 col-sm-10" style="margin-top: 15px;margin-left: 8px;">
+                    <button onclick="jujue123()" type="submit" class="btn btn-primary" style="border-radius: 2px">提交</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="__STATIC__/js/admin.js"></script>
+    <script>
+        $('#status').change(function () {
+            location.href = '{:url("selftask/taskInfo")}' + "?id=" + '{$id}' + "&status=" + $(this).val()
+        })
+
+        function sendRemind(taskid) {
+            layer.prompt({title: '提醒内容', formType: 2}, function (text, index) {
+                layer.close(index);
+                $.ajax({
+                    url: '{:url("sendRemind")}',
+                    dataType: 'json',
+                    type: 'POST',
+                    data: {id: taskid, content: text},
+                    success: function (ret) {
+                        layer.msg(ret.msg)
+                    }
+                })
+            });
+        }
+
+        $('.dealreply').each(function () {
+            $(this).click(function () {
+                var replyid = $(this).data("replyid");
+                var type = $(this).data("type");
+                var alert = $(this).data("alert");
+                layer.confirm(alert, {
+                    skin: 'layui-layer-lan' //样式类名
+                    , closeBtn: 0,
+                }, function () {
+                    if (type == 'refuse' || type == 'remind') {
+                        layer.prompt({title: alert, formType: 2}, function (reason, index) {
+                            layer.close(index);
+                            $.ajax({
+                                url: '{:url("dealReply")}',
+                                dataType: 'json',
+                                type: 'POST',
+                                data: {replyid, type, reason},
+                                success: function (ret) {
+                                    layer.msg(ret.msg, function () {
+                                        location.reload()
+                                    })
+                                }
+                            })
+                        });
+                        return;
+                    }
+                    $.ajax({
+                        url: '{:url("dealReply")}',
+                        dataType: 'json',
+                        type: 'POST',
+                        data: {replyid, type},
+                        success: function (ret) {
+                            layer.msg(ret.msg, function () {
+                                location.reload()
+                            })
+                        }
+                    })
+                });
+            })
+        });
+        var checkall = $('#selectAll');
+        var checks = $('.inlineblock .ui-table-multi-select');
+        $(checkall).on('click', function () {
+            if ($(this).is(":checked")) {
+                $(checks).prop("checked", "checked");
+            } else {
+                $(checks).removeAttr("checked");
+            }
+        });
+        $('.addmoneyall_box').click(function () {
+            var checks = $(".ui-table-multi-select:checked");
+            var ids = [];
+            $(checks).each(function () {
+                ids.push($(this).val());
+            });
+            if (ids.length == 0) {
+                layer.msg('请选择要操作的回复！');
+                return false;
+            }
+            layer.prompt({title: '增减值(数字前加-是减)', formType: 0}, function (money, index) {
+                layer.close(index);
+                $.ajax({
+                    url: '{:url("sendmoneyall")}',
+                    dataType: 'json',
+                    type: 'POST',
+                    data: {ids, money},
+                    success: function (ret) {
+                        layer.msg(ret.msg, function () {
+                            location.reload()
+                        })
+                    }
+                })
+            });
+        })
+        $('.agreeall').click(function () {
+            var checks = $(".ui-table-multi-select:checked");
+            var ids = [];
+            $(checks).each(function () {
+                ids.push($(this).val());
+            });
+            if (ids.length == 0) {
+                layer.msg('请选择要操作的回复！');
+                return false;
+            }
+            layer.confirm('确定批量采纳吗?', function (index) {
+                layer.close(index);
+                $.ajax({
+                    url: '{:url("agreeall")}',
+                    dataType: 'json',
+                    type: 'POST',
+                    data: {ids},
+                    success: function (ret) {
+                        layer.msg(ret.msg, function () {
+                            location.reload()
+                        })
+                    }
+                })
+            });
+        })
+        $('.refuseall').click(function () {
+            var checks = $(".ui-table-multi-select:checked");
+            var ids = [];
+            $(checks).each(function () {
+                ids.push($(this).val());
+            });
+            if (ids.length == 0) {
+                layer.msg('请选择要操作的回复！');
+                return false;
+            }
+            layer.confirm('确定批量拒绝吗?', function (index) {
+                layer.close(index);
+                layer.open({
+                        type: 1,
+                        title: '请选择拒绝理由',
+                        shadeClose: true,
+                        shade: 0.8,
+                        area: ['262px','262px'],
+                    content: $("#test123").html()
+                })
+            });
+        })
+        function jujue123()
+        {
+            var checks = $(".ui-table-multi-select:checked");
+            var ids = [];
+
+            $(checks).each(function () {
+                ids.push($(this).val());
+            });
+            var reason = $('input:radio[name="reason"]:checked').val();
+            $.ajax({
+                url: '{:url("refuseall")}',
+                dataType: 'json',
+                type: 'POST',
+                data: {ids,reason},
+                success: function (ret) {
+                    layer.msg(ret.msg, function () {
+                        location.reload()
+                    })
+                }
+            })
+        }
+
+        function counttask(taskid) {
+            layer.confirm('确认结算此任务吗？', {
+                btn: ['确认', '取消'] //按钮
+            }, function () {
+                $.ajax({
+                    url: '{:url("counttask")}',
+                    dataType: 'json',
+                    type: 'POST',
+                    data: {taskid},
+                    success: function (ret) {
+                        layer.msg(ret.msg, function () {
+                            location.reload()
+                        })
+                    }
+                })
+            }, function () {
+
+            });
+        }
+
+        function jujue(replyid,liyou,type) {
+            layer.confirm('确认拒绝此任务吗？', {
+                btn: ['确认', '取消'] //按钮
+            }, function () {
+                $.ajax({
+                    url: '{:url("dealReply")}',
+                    dataType: 'json',
+                    type: 'POST',
+                    data: {replyid,liyou,type},
+                    success: function (ret) {
+                        layer.msg(ret.msg, function () {
+                            location.reload()
+                        })
+                    }
+                })
+            }, function () {
+
+            });
+        }
+    </script>
+</body>
+</html>

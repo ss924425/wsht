@@ -1,0 +1,82 @@
+<div class="quyu">
+    <div class="row">
+        <div class="col-25">
+            <div class="qy_wid">
+                <select id="shangquan">
+                    <option selected="selected" style="display: none;" value="">商圈</option>
+                    <option selected="selected" value="">全部</option>
+                    <foreach name="shangquan" item="v">
+                        <option value="{$v.shangquanid}" <eq name="shangid" value="$v.shangquanid">selected</eq>>{$v.shangquan}</option>
+                    </foreach>
+                </select>
+            </div>
+        </div>
+        <div class="col-25">
+            <div class="qy_wid">
+                <select id="range">
+                    <option selected="selected" style="display: none;">面积</option>
+                    <option selected="selected">全部</option>
+                    <option value="0,1" <eq name="range" value="0,1">selected</eq>>0-100㎡</option>
+                    <option value="1,2" <eq name="range" value="1,2">selected</eq>>100-200㎡</option>
+                    <option value="2,3" <eq name="range" value="2,3">selected</eq>>200-300㎡</option>
+                    <option value="3,4" <eq name="range" value="3,4">selected</eq>>300-400㎡</option>
+                    <option value="4,5" <eq name="range" value="4,5">selected</eq>>400-500㎡</option>
+                    <option value="5," <eq name="range" value="5,">selected</eq>>500㎡-</option>,
+                </select>
+            </div>
+        </div>
+        <div class="col-25">
+            <div class="qy_wid">
+                <select id="money">
+                    <option selected="selected" style="display: none;" value="">价格</option>
+                    <option value="">全部</option>
+                    <option value="2," <eq name="money" value="2,">selected</eq>>2万以上</option>
+                    <option value="1,2" <eq name="money" value="1,2">selected</eq>>1-2万</option>
+                    <option value="5,10" <eq name="money" value="5,10">selected</eq>>5K-1万</option>
+                    <option value="2,5" <eq name="money" value="2,5">selected</eq>>2000-5000</option>
+                    <option value="0,2" <eq name="money" value="0,2">selected</eq>>2000以下</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-25">
+            <div class="qy_wid">
+                <select id="type">
+                    <option selected="selected" style="display: none;" value="">房屋类型</option>
+                    <option value="">全部</option>
+                    <option value="2" <eq name="type" value="2">selected</eq>>商铺</option>
+                    <option value="1" <eq name="type" value="1">selected</eq>>写字楼</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    //获取房源类型
+    $("select#type").change(function(){
+        para()
+     })
+
+    //获取房源价格
+    $("select#money").change(function(){
+        para()
+    })
+
+    //获取商圈
+    $("select#shangquan").change(function(){
+        para()
+    })
+
+    //获取房源面积
+    $("select#range").change(function(){
+        para()
+    })
+    //根据搜索条件发送请求
+    function para(){
+        var type = $("#type").val();
+        var money = $("#money").val();
+        var shangquanid = $("#shangquan").val();
+        var range = $("#range").val();
+        window.location.href="{:url('index')}?type="+type+"&money="+money+"&shangquanid="+shangquanid+"&range="+range;
+    }
+
+</script>

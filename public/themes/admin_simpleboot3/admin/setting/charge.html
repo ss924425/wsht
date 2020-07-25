@@ -1,0 +1,82 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#A" data-toggle="tab">充值配置</a></li>
+    </ul>
+    <form class="form-horizontal js-ajax-form margin-top-20" role="form" action="{:url('setting/chargePost')}"
+          method="post">
+        <fieldset>
+            <div class="tabbable">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="A">
+                        <div class="form-group">
+                            <label for="input-site-name" class="col-sm-2 control-label"><span
+                                    class="form-required">*</span>充值选项</label>
+                            <div class="col-md-6 col-sm-10">
+                                <div class="form-inline row">
+                                    <input type="text" class="form-control"
+                                           name="options[]" value="{$setting['options'][0]|default=5}" placeholder="选项1">
+                                    <input type="text" class="form-control"
+                                           name="options[]" value="{$setting['options'][1]|default=10}" placeholder="选项2">
+                                    <input type="text" class="form-control"
+                                           name="options[]" value="{$setting['options'][2]|default=20}" placeholder="选项3">
+                                </div>
+                                <div class="form-inline row">
+                                    <input type="text" class="form-control"
+                                           name="options[]" value="{$setting['options'][3]|default=50}" placeholder="选项4">
+                                    <input type="text" class="form-control"
+                                           name="options[]" value="{$setting['options'][4]|default=100}" placeholder="选项5">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="input-site-name" class="col-sm-2 control-label"><span
+                                    class="form-required">*</span>余额充值说明</label>
+                            <div class="col-md-6 col-sm-10">
+                                <script type="text/plain" id="content" name="yue_desc">{$setting.yue_desc|htmlspecialchars_decode|default=''}</script>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="input-site-name" class="col-sm-2 control-label"><span
+                                    class="form-required">*</span>保证金充值说明</label>
+                            <div class="col-md-6 col-sm-10">
+                                <script type="text/plain" id="content2" name="deposit_desc">{$setting.deposit_desc|htmlspecialchars_decode|default=''}</script>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-primary js-ajax-submit" data-refresh="1">
+                                    {:lang('SAVE')}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>
+<script type="text/javascript" src="__STATIC__/js/admin.js"></script>
+<script type="text/javascript">
+    //编辑器路径定义
+    var editorURL = GV.WEB_ROOT;
+</script>
+<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        editorcontent1 = new baidu.editor.ui.Editor();
+        editorcontent1.render('content');
+        editorcontent2 = new baidu.editor.ui.Editor();
+        editorcontent2.render('content2');
+        try {
+            editorcontent1.sync();
+            editorcontent2.sync();
+        } catch (err) {
+        }
+    });
+</script>
+</body>
+</html>
